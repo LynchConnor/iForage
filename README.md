@@ -1,4 +1,4 @@
 # ForageNearMe
 ## Introduction
-- Locate places to forage, as well as to help local foragers find foraging spots.
+- Share forraging spots, as well as to find local foraging spots.
 - Help and interact with local and newbie/experienced foragers.
