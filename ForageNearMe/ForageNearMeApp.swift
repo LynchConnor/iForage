@@ -11,7 +11,11 @@ import SwiftUI
 struct ForageNearMeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                ContentView()
+            }
+            .navigationTitle("")
+            .navigationBarHidden(true)
         }
     }
 }
