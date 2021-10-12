@@ -13,6 +13,11 @@ struct ForageNearMeApp: App {
     
     init(){
         FirebaseApp.configure()
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        if #available(iOS 15.0, *) {
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
     }
     
     var body: some Scene {

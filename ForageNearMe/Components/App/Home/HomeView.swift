@@ -17,23 +17,24 @@ struct HomeView: View {
     @StateObject var locationManager = LocationManager()
     
     var body: some View {
-        
-        
-        // - Map
-        if #available(iOS 15.0, *) {
-            Map(coordinateRegion: $locationManager.region, interactionModes: .all, showsUserLocation: true, annotationItems: $posts) { $post in
-                MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: 51.876735, longitude: 0.523035)) {
-                    NavigationLink {
-                        PostDetailView(post: $post)
-                    } label: {
-                        MapAnnotationCell()
+        VStack {
+            // - Map
+            if #available(iOS 15.0, *) {
+                Map(coordinateRegion: $locationManager.region, interactionModes: .all, showsUserLocation: true, annotationItems: $posts) { $post in
+                    MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: 51.876735, longitude: 0.523035)) {
+                        NavigationLink {
+                            PostDetailView(post: $post)
+                        } label: {
+                            MapAnnotationCell()
+                        }
                     }
                 }
+                .edgesIgnoringSafeArea(.all)
+            } else {
+                // Fallback on earlier versions
             }
-            .edgesIgnoringSafeArea(.all)
-        } else {
-            // Fallback on earlier versions
         }
+        // - VStack
     }
 }
 

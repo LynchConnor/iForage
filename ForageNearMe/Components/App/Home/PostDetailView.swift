@@ -10,7 +10,20 @@ import Firebase
 
 struct PostDetailView: View {
     
+    init(post: Binding<Post>) {
+        _post = post
+        UITextView.appearance().backgroundColor = .clear
+        UITextView.appearance().textContainerInset =
+                 UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 5)
+    }
+    
     @Environment(\.presentationMode) var presentationMode
+    
+    @State var isEditing: Bool = false
+    
+    @State var text: String = """
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    """
     
     @Binding var post: Post
     
@@ -37,27 +50,32 @@ struct PostDetailView: View {
                         
                         StretchingHeader(height: 275) {
                             
-                            ZStack {
-                                
-                                Image("plant")
-                                    .resizable()
-                                    .aspectRatio(1, contentMode: .fill)
-                                    .clipped()
-                                
-                                LinearGradient(colors: [.clear, .black.opacity(0.65)], startPoint: .top, endPoint: .bottom)
-                                    .clipped()
-                            }
-                            .clipped()
+                            Image("plant")
+                                .resizable()
+                                .aspectRatio(1, contentMode: .fill)
+                                .clipped()
                         }
-
+                        .overlay(
+                            
+                            LinearGradient(colors: [.clear, .black.opacity(0.65)], startPoint: .top, endPoint: .bottom)
+                                .clipped()
+                            
+                            ,alignment: .bottom
+                            
+                        )// - Overlay
+                        
                         
                         HStack {
                             VStack(alignment: .leading) {
+                                //MARK: Latin Name
                                 Text("Sambucus Nigras")
                                     .italic()
                                     .kerning(1)
-                                    .font(.system(size: 15, weight: .semibold))
+                                    .font(.system(size: 14, weight: .semibold))
                                     .foregroundColor(Color.init(red: 255/255, green: 96/255, blue: 96/255))
+                                    .shadow(color: .black.opacity(0.75), radius: 2, x: 0, y: 0)
+                                
+                                //MARK: Name
                                 Text("Elderflower")
                                     .kerning(1)
                                     .font(.system(size: 32, weight: .bold))
@@ -65,85 +83,146 @@ struct PostDetailView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Button {
-                                isLiked ? unLikePost() : likePost()
-                            } label: {
-                                ZStack {
-                                    
-                                    Circle()
-                                        .foregroundColor(.white)
-                                    Image(systemName: isLiked ? "heart.fill" : "heart")
-                                        .resizable()
-                                        .font(.system(size: 18, weight: .medium))
-                                        .scaledToFit()
-                                        .foregroundColor(isLiked ? .red : .black)
-                                        .padding(13)
-                                }
-                                .frame(width: 50, height: 50)
-                            }
-
-                        }
+                        }// - HStack
                         .padding(.horizontal, 15)
                         .padding(.vertical, 10)
                         .frame(maxWidth: .infinity)
                         
                     }// - ZStack
                     
-                    VStack(alignment: .leading, spacing: 15) {
-                        HStack(spacing: 5) {
+                    VStack(alignment: .leading, spacing: 5) {
+                        HStack(alignment: .top, spacing: 5) {
+                            
                             Text("Notes")
                                 .kerning(2)
                                 .font(.system(size: 18, weight: .semibold))
-                            Button {
-                                //
-                            } label: {
-                                Image(systemName: "square.and.pencil")
-                                    .resizable()
-                                    .frame(width: 15, height: 15)
-                                    .aspectRatio(1, contentMode: .fill)
-                                    .foregroundColor(.black)
-                            }
+                            
+                            HStack {
+                                
+                                if !isEditing {
+                                    //MARK: Edit
+                                    Button {
+                                        DispatchQueue.main.async {
+                                            isEditing.toggle()
+                                        }
+                                    } label: {
+                                        Image(systemName: "square.and.pencil")
+                                            .resizable()
+                                            .frame(width: 15, height: 15)
+                                            .aspectRatio(1, contentMode: .fill)
+                                            .foregroundColor(.black)
+                                        
+                                    }// - Button
+                                    
+                                }else{
+                                    
+                                    Spacer()
+                                    
+                                    //MARK: Save
+                                    Button {
+                                        DispatchQueue.main.async {
+                                            isEditing.toggle()
+                                        }
+                                    } label: {
+                                        Text("Save")
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundColor(.black)
+                                    }
 
-                        }
+                                }
+                            }
+                            
+                        }// - HStack
+                        .padding(.horizontal, 10)
                         
-                        Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
-                            .foregroundColor(Color.black.opacity(0.8))
-                            .font(.system(size: 15, weight: .light))
-                            .lineSpacing(8)
+                        //MARK: Notes
+                        
+                        if !isEditing {
+                            
+                            Text("\(text)")
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .foregroundColor(Color.black.opacity(0.8))
+                                .font(.system(size: 15, weight: .light))
+                                .lineSpacing(8)
+                                .padding(10)
+                        }else{
+                            ZStack {
+                                TextEditor(text: $text)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .foregroundColor(Color.black.opacity(0.8))
+                                    .font(.system(size: 15, weight: .light))
+                                    .lineSpacing(8)
+                                    .background(Color.gray.opacity(0.1))
+                                    .cornerRadius(3)
+                                
+                                Text(text).opacity(0).padding(.all, 8)
+                            }
+                        }
                         
                     }// - VStack
                     .padding(.vertical, 20)
-                    .padding(.horizontal, 15)
+                    .padding(.horizontal, 10)
                 }
                 // - VStack
             }
             // - ScrollView
             .overlay(
                 
-                ZStack {
+                HStack {
                     
-                    Circle()
-                        .opacity(0.75)
+                    ZStack {
+                        
+                        Circle()
+                            .opacity(0.5)
+                        
+                        Button {
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            Image(systemName: "arrow.left")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .font(.system(size: 18, weight: .medium))
+                                .scaledToFit()
+                                .foregroundColor(.white)
+                                .padding(13)
+                        }// - Button
+                        
+                    }
+                    // - ZStack
+                    .frame(width: 45, height: 45)
+                    
+                    Spacer()
+                    
                     
                     Button {
-                        presentationMode.wrappedValue.dismiss()
+                        isLiked ? unLikePost() : likePost()
                     } label: {
-                        Image(systemName: "arrow.turn.up.left")
-                            .resizable()
-                            .font(.system(size: 18, weight: .medium))
-                            .scaledToFit()
-                            .foregroundColor(.white)
-                            .padding(13)
-                    }
-
+                        ZStack {
+                            
+                            Circle()
+                                .foregroundColor(Color.black.opacity(0.5))
+                            
+                            Image(systemName: isLiked ? "heart.fill" : "heart")
+                                .resizable()
+                                .font(.system(size: 16, weight: .medium))
+                                .scaledToFit()
+                                .padding(13)
+                                .foregroundColor(isLiked ? .red : .white)
+                            
+                        }// - ZStack
+                        .frame(width: 50, height: 50)
+                        
+                    }// - Button
+                    .buttonStyle(LikeButtonStyle())
+                    
                 }
-                .frame(width: 45, height: 45)
-                .padding(.top, 50)
-                .padding(.horizontal, 15)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                // - HStack
+                    .padding(.top, 40)
+                    .padding(.horizontal, 15)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 
                 ,alignment: .top
-            )
+            )// - Overlay
         }
         .frame(maxHeight: .infinity, alignment: .top)
         .edgesIgnoringSafeArea(.top)

@@ -43,10 +43,13 @@
 		E02BD66E2713958B006BD62D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02BD66D2713958B006BD62D /* LocationManager.swift */; };
 		E02BD6702713AFE3006BD62D /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02BD66F2713AFE3006BD62D /* PostDetailView.swift */; };
 		E02BD6722713B5DC006BD62D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02BD6712713B5DC006BD62D /* Constants.swift */; };
+		E03304082714DF55001D4CBF /* FavouriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03304072714DF55001D4CBF /* FavouriteView.swift */; };
+		E033040C2714DF96001D4CBF /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E033040B2714DF96001D4CBF /* CreatePostView.swift */; };
 		E06D9905270E4FBE00F7FE0E /* ForageNearMeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06D9904270E4FBE00F7FE0E /* ForageNearMeApp.swift */; };
 		E06D9907270E4FBE00F7FE0E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06D9906270E4FBE00F7FE0E /* ContentView.swift */; };
 		E06D9909270E4FBE00F7FE0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E06D9908270E4FBE00F7FE0E /* Assets.xcassets */; };
 		E06D990C270E4FBE00F7FE0E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E06D990B270E4FBE00F7FE0E /* Preview Assets.xcassets */; };
+		E0AAA5B22714BB5C002C9996 /* MainTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AAA5B12714BB5C002C9996 /* MainTabBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,11 +80,14 @@
 		E02BD66D2713958B006BD62D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		E02BD66F2713AFE3006BD62D /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
 		E02BD6712713B5DC006BD62D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		E03304072714DF55001D4CBF /* FavouriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteView.swift; sourceTree = "<group>"; };
+		E033040B2714DF96001D4CBF /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		E06D9901270E4FBE00F7FE0E /* ForageNearMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForageNearMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E06D9904270E4FBE00F7FE0E /* ForageNearMeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForageNearMeApp.swift; sourceTree = "<group>"; };
 		E06D9906270E4FBE00F7FE0E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E06D9908270E4FBE00F7FE0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E06D990B270E4FBE00F7FE0E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E0AAA5B12714BB5C002C9996 /* MainTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,8 +122,11 @@
 		E0273A022711F2FE00C88885 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				E0AAA5B12714BB5C002C9996 /* MainTabBarView.swift */,
+				E033040A2714DF85001D4CBF /* Create */,
 				E0273A0927124DCC00C88885 /* Authentication */,
 				E0273A032711F30500C88885 /* Home */,
+				E03304092714DF66001D4CBF /* Favourite */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -188,6 +197,22 @@
 				E02BD66D2713958B006BD62D /* LocationManager.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		E03304092714DF66001D4CBF /* Favourite */ = {
+			isa = PBXGroup;
+			children = (
+				E03304072714DF55001D4CBF /* FavouriteView.swift */,
+			);
+			path = Favourite;
+			sourceTree = "<group>";
+		};
+		E033040A2714DF85001D4CBF /* Create */ = {
+			isa = PBXGroup;
+			children = (
+				E033040B2714DF96001D4CBF /* CreatePostView.swift */,
+			);
+			path = Create;
 			sourceTree = "<group>";
 		};
 		E06D98F8270E4FBE00F7FE0E = {
@@ -340,7 +365,10 @@
 				E0273A0B27124DDC00C88885 /* LoginView.swift in Sources */,
 				E02BD6702713AFE3006BD62D /* PostDetailView.swift in Sources */,
 				E02BD66E2713958B006BD62D /* LocationManager.swift in Sources */,
+				E0AAA5B22714BB5C002C9996 /* MainTabBarView.swift in Sources */,
 				E06D9905270E4FBE00F7FE0E /* ForageNearMeApp.swift in Sources */,
+				E03304082714DF55001D4CBF /* FavouriteView.swift in Sources */,
+				E033040C2714DF96001D4CBF /* CreatePostView.swift in Sources */,
 				E0273A35271269FC00C88885 /* Post.swift in Sources */,
 				E02BD66927138F60006BD62D /* MapAnnotationCell.swift in Sources */,
 				E02BD6722713B5DC006BD62D /* Constants.swift in Sources */,
