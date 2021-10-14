@@ -25,21 +25,28 @@ struct LikeButtonStyle: ButtonStyle {
 
 struct MainTabBarView: View {
     
+    // - Public
+    @StateObject var locationManager = LocationManager()
+    
     var body: some View {
-        TabView {
-            HomeView()
-                .tabItem {
-                    Label("Home", systemImage: "house")
-                }
-            CreatePostView()
-                .tabItem {
-                    Label("Create", systemImage: "plus")
-                }
-            FavouriteView()
-                .tabItem {
-                    Label("My Finds", systemImage: "heart")
-                }
+        if locationManager.lastLocation != nil {
+            TabView {
+                HomeView()
+                    .environmentObject(locationManager)
+                    .tabItem {
+                        Label("Home", systemImage: "house")
+                    }
+                CreatePostView()
+                    .environmentObject(locationManager)
+                    .tabItem {
+                        Label("Create", systemImage: "plus.square")
+                    }
+                FavouriteView()
+                    .tabItem {
+                        Label("My Finds", systemImage: "heart")
+                    }
 
+            }
         }
     }
 }

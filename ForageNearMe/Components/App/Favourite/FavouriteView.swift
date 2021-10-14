@@ -9,9 +9,24 @@ import SwiftUI
 
 struct FavouriteView: View {
     var body: some View {
-        VStack {
-            Text("Favourite page")
+        ScrollView(.vertical, showsIndicators: false){
+            VStack {
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())]) {
+                    ForEach(1...5, id: \.self) { post in
+                        Rectangle()
+                            .frame(height: 200)
+                            .frame(maxWidth: .infinity)
+                        
+                    }//ForEach
+                    
+                }// - LazyVGrid
+                
+            }// - VStack
+            .padding(.horizontal, 15)
         }
+        // - ScrollView
+        .navigationTitle("")
+        .navigationBarHidden(true)
     }
 }
 

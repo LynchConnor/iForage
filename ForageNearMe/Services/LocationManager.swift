@@ -19,9 +19,11 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var locationStatus: CLAuthorizationStatus?
     @Published var lastLocation: CLLocation? = nil
     
-    @Published var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 250, longitudinalMeters: 250)
+    @Published var mainMapRegion: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 250, longitudinalMeters: 250)
     
-    private var locationIsEnabled: Bool {
+    @Published var createAnnotationRegion: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 250, longitudinalMeters: 250)
+    
+    private var locationIsDisabled: Bool {
         switch locationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
             return false
@@ -36,9 +38,13 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         super.init()
         self.manager.delegate = self
         self.manager.desiredAccuracy = kCLLocationAccuracyBest
-        self.manager.requestLocation()
+        self.requestLocation()
         
-        if locationIsEnabled { self.manager.requestAlwaysAuthorization() }
+        if locationIsDisabled { self.manager.requestAlwaysAuthorization() }
+    }
+    
+    func requestLocation(){
+        self.manager.requestLocation()
     }
     
     // - Delegate
@@ -49,8 +55,11 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        self.lastLocation = location
-        self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), latitudinalMeters: 500, longitudinalMeters: 500)
+        print("DEBUG: Location \(location)")
+        
+        DispatchQueue.main.async {
+            self.lastLocation = location
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

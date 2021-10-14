@@ -13,8 +13,8 @@ import Foundation
 struct Post: Identifiable, Decodable {
     @DocumentID var id: String?
     
+    var latinName: String?
     let name: String
-    let title: String
     let imageURL: String
     
     var isLiked: Bool?

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E02739EA27119F2300C88885 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E02739E927119F2300C88885 /* GoogleService-Info.plist */; };
 		E02739ED2711B3F100C88885 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E02739EC2711B3F100C88885 /* FirebaseAuth */; };
 		E02739EF2711B3F100C88885 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = E02739EE2711B3F100C88885 /* FirebaseDatabase */; };
 		E02739F12711B3F100C88885 /* FirebaseDatabaseSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = E02739F02711B3F100C88885 /* FirebaseDatabaseSwift-Beta */; };
@@ -50,10 +49,12 @@
 		E06D9909270E4FBE00F7FE0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E06D9908270E4FBE00F7FE0E /* Assets.xcassets */; };
 		E06D990C270E4FBE00F7FE0E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E06D990B270E4FBE00F7FE0E /* Preview Assets.xcassets */; };
 		E0AAA5B22714BB5C002C9996 /* MainTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AAA5B12714BB5C002C9996 /* MainTabBarView.swift */; };
+		E0AE79B027179A8A00E32803 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AE79AF27179A8A00E32803 /* ImagePicker.swift */; };
+		E0AE79B42717A4C300E32803 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AE79B32717A4C300E32803 /* MapKit.framework */; };
+		E0AE79B62717AFF200E32803 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0AE79B52717AFF200E32803 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E02739E927119F2300C88885 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E0273A042711F31700C88885 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		E0273A0A27124DDC00C88885 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		E0273A0D27124E2400C88885 /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
@@ -88,6 +89,10 @@
 		E06D9908270E4FBE00F7FE0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E06D990B270E4FBE00F7FE0E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E0AAA5B12714BB5C002C9996 /* MainTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarView.swift; sourceTree = "<group>"; };
+		E0AE79AF27179A8A00E32803 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		E0AE79B12717A4C300E32803 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E0AE79B32717A4C300E32803 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		E0AE79B52717AFF200E32803 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +102,7 @@
 			files = (
 				E02739FC2711B43600C88885 /* GeoFire in Frameworks */,
 				E02739FE2711B43600C88885 /* GeoFireUtils in Frameworks */,
+				E0AE79B42717A4C300E32803 /* MapKit.framework in Frameworks */,
 				E02739F12711B3F100C88885 /* FirebaseDatabaseSwift-Beta in Frameworks */,
 				E02739F32711B3F100C88885 /* FirebaseFirestore in Frameworks */,
 				E02739F52711B3F100C88885 /* FirebaseFirestoreSwift-Beta in Frameworks */,
@@ -123,9 +129,9 @@
 			isa = PBXGroup;
 			children = (
 				E0AAA5B12714BB5C002C9996 /* MainTabBarView.swift */,
-				E033040A2714DF85001D4CBF /* Create */,
 				E0273A0927124DCC00C88885 /* Authentication */,
 				E0273A032711F30500C88885 /* Home */,
+				E033040A2714DF85001D4CBF /* Create */,
 				E03304092714DF66001D4CBF /* Favourite */,
 			);
 			path = App;
@@ -220,6 +226,7 @@
 			children = (
 				E06D9903270E4FBE00F7FE0E /* ForageNearMe */,
 				E06D9902270E4FBE00F7FE0E /* Products */,
+				E0AE79B22717A4C300E32803 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -234,10 +241,12 @@
 		E06D9903270E4FBE00F7FE0E /* ForageNearMe */ = {
 			isa = PBXGroup;
 			children = (
+				E0AE79B52717AFF200E32803 /* GoogleService-Info.plist */,
+				E0AE79B12717A4C300E32803 /* Info.plist */,
 				E0273A0C27124E2400C88885 /* Poppins */,
-				E02739E927119F2300C88885 /* GoogleService-Info.plist */,
 				E06D9904270E4FBE00F7FE0E /* ForageNearMeApp.swift */,
 				E02BD6712713B5DC006BD62D /* Constants.swift */,
+				E0AE79AE27179A7D00E32803 /* Misc */,
 				E02BD66C27139580006BD62D /* Services */,
 				E0273A33271269F500C88885 /* Model */,
 				E0273A012711F2F500C88885 /* Components */,
@@ -253,6 +262,22 @@
 				E06D990B270E4FBE00F7FE0E /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E0AE79AE27179A7D00E32803 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				E0AE79AF27179A8A00E32803 /* ImagePicker.swift */,
+			);
+			path = Misc;
+			sourceTree = "<group>";
+		};
+		E0AE79B22717A4C300E32803 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E0AE79B32717A4C300E32803 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,8 +373,8 @@
 				E0273A2D27124E2400C88885 /* Poppins-Bold.ttf in Resources */,
 				E0273A2127124E2400C88885 /* Poppins-ThinItalic.ttf in Resources */,
 				E0273A2527124E2400C88885 /* Poppins-Medium.ttf in Resources */,
+				E0AE79B62717AFF200E32803 /* GoogleService-Info.plist in Resources */,
 				E06D9909270E4FBE00F7FE0E /* Assets.xcassets in Resources */,
-				E02739EA27119F2300C88885 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +385,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0AE79B027179A8A00E32803 /* ImagePicker.swift in Sources */,
 				E0273A052711F31700C88885 /* HomeView.swift in Sources */,
 				E06D9907270E4FBE00F7FE0E /* ContentView.swift in Sources */,
 				E0273A0B27124DDC00C88885 /* LoginView.swift in Sources */,
@@ -505,6 +531,8 @@
 				DEVELOPMENT_TEAM = 2775XVJ3MG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ForageNearMe/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location pls";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location pls";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location pls";
@@ -539,6 +567,8 @@
 				DEVELOPMENT_TEAM = 2775XVJ3MG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ForageNearMe/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location pls";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location pls";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location pls";

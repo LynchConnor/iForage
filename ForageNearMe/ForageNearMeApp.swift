@@ -12,7 +12,6 @@ import Firebase
 struct ForageNearMeApp: App {
     
     init(){
-        FirebaseApp.configure()
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         if #available(iOS 15.0, *) {

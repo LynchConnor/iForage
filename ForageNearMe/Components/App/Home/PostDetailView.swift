@@ -68,12 +68,16 @@ struct PostDetailView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 //MARK: Latin Name
-                                Text("Sambucus Nigras")
-                                    .italic()
-                                    .kerning(1)
-                                    .font(.system(size: 14, weight: .semibold))
-                                    .foregroundColor(Color.init(red: 255/255, green: 96/255, blue: 96/255))
-                                    .shadow(color: .black.opacity(0.75), radius: 2, x: 0, y: 0)
+                                
+                                if let name = post.latinName {
+                                    
+                                    Text(name)
+                                        .italic()
+                                        .kerning(1)
+                                        .font(.system(size: 14, weight: .semibold))
+                                        .foregroundColor(Color.init(red: 255/255, green: 96/255, blue: 96/255))
+                                        .shadow(color: .black.opacity(0.75), radius: 2, x: 0, y: 0)
+                                }
                                 
                                 //MARK: Name
                                 Text("Elderflower")
@@ -235,6 +239,6 @@ struct PostDetailView: View {
 
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView(post: .constant(Post(id: UUID().uuidString, name: "", title: "", imageURL: "", isLiked: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0))))
+        PostDetailView(post: .constant(Post(id: UUID().uuidString, latinName: "Sambucus Nigras", name: "", imageURL: "", isLiked: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0))))
     }
 }

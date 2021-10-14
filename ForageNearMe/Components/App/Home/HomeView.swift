@@ -11,16 +11,17 @@ import Firebase
 
 struct HomeView: View {
     
-    @State var posts: [Post] = [Post(id: UUID().uuidString, name: "", title: "", imageURL: "", isLiked: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0))]
+    @State var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 250, longitudinalMeters: 250)
     
-    // - Public
-    @StateObject var locationManager = LocationManager()
+    @EnvironmentObject var locationManager: LocationManager
+    
+    @State var posts: [Post] = [Post(id: UUID().uuidString, latinName: "Sambucus Nigras", name: "", imageURL: "", isLiked: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0))]
     
     var body: some View {
         VStack {
             // - Map
             if #available(iOS 15.0, *) {
-                Map(coordinateRegion: $locationManager.region, interactionModes: .all, showsUserLocation: true, annotationItems: $posts) { $post in
+                Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, annotationItems: $posts) { $post in
                     MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: 51.876735, longitude: 0.523035)) {
                         NavigationLink {
                             PostDetailView(post: $post)
@@ -35,6 +36,10 @@ struct HomeView: View {
             }
         }
         // - VStack
+        .onAppear {
+            locationManager.requestLocation()
+            self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationManager.lastLocation?.coordinate.latitude ?? 0, longitude: locationManager.lastLocation?.coordinate.longitude ?? 0), latitudinalMeters: 250, longitudinalMeters: 250)
+        }
     }
 }
 
