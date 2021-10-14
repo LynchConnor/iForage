@@ -8,7 +8,15 @@
 import SwiftUI
 import Firebase
 
+extension PostDetailView {
+    class ViewModel: ObservableObject {
+        
+    }
+}
+
 struct PostDetailView: View {
+    
+    @StateObject var viewModel = PostDetailView.ViewModel()
     
     init(post: Binding<Post>) {
         _post = post
