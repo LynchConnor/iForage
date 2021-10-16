@@ -16,7 +16,7 @@ struct ContentView: View {
         case .signedIn:
             MainTabBarView()
         case .signedOut:
-            LoginView()
+            OnboardingView()
         case .none:
             ProgressView()
         }

@@ -7,10 +7,23 @@
 
 import SwiftUI
 
+extension CreateAccountView {
+    class ViewModel: ObservableObject {
+        
+        @Published var email: String = ""
+        @Published var password: String = ""
+        
+        func createAccount(){
+            AuthViewModel.shared.createAccount(email: email, password: password) {
+                //
+            }
+        }
+    }
+}
+
 struct CreateAccountView: View {
     
-    @State var email: String = ""
-    @State var password: String = ""
+    @StateObject var viewModel: CreateAccountView.ViewModel = CreateAccountView.ViewModel()
     
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
@@ -21,12 +34,12 @@ struct CreateAccountView: View {
             .frame(height: 100, alignment: .leading)
             .frame(maxWidth: .infinity, alignment: .leading)
             
-            CustomTextField(text: "Email", placeholder: "E.g. john.smith@mail.com", binding: email)
+            CustomTextField(text: "Email", placeholder: "E.g. john.smith@mail.com", binding: $viewModel.email)
             
-            CustomTextField(text: "Password", placeholder: "Min 6 characters", binding: email, isSecure: true)
+            CustomTextField(text: "Password", placeholder: "Min 6 characters", binding: $viewModel.password, isSecure: true)
             
             Button {
-                //
+                viewModel.createAccount()
             } label: {
                 Text("Create Account")
                     .font(.system(size: 17, weight: .bold))
@@ -40,13 +53,15 @@ struct CreateAccountView: View {
             
             Spacer()
             
-            HStack {
+            HStack(spacing: 0) {
                 Text("Already have an account?")
+                    .font(.system(size: 15, weight: .medium))
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 NavigationLink {
                     LoginView()
                 } label: {
                     Text("Log In")
-                        .font(.system(size: 18, weight: .bold))
+                        .font(.system(size: 17, weight: .bold))
                 }
             }
             
@@ -66,7 +81,7 @@ struct CreateAccountView: View {
         
         let text: String
         let placeholder: String
-        @State var binding: String
+        @Binding var binding: String
         @State var isSecure: Bool = false
         
         @State private var isActive: Bool = false

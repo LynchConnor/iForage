@@ -37,7 +37,7 @@ class AuthViewModel: ObservableObject {
         return Auth.auth().currentUser != nil
     }
     
-    func signIn(email: String, password: String, completion: @escaping (Bool) -> ()) {
+    func signIn(email: String, password: String, completion: @escaping () -> ()) {
         Auth.auth().signIn(withEmail: email, password: password) { dataResult, error in
             if let error = error {
                 print("DEBUG: \(error.localizedDescription)")
@@ -46,10 +46,12 @@ class AuthViewModel: ObservableObject {
             
             guard let id = dataResult?.user.uid else { return }
             self.currentUserId = id
+            self.authStatus = .signedIn
         }
     }
     
     func createAccount(email: String, password: String, completion: @escaping () -> ()){
+        print("DEBUG: Password \(password)")
         Auth.auth().createUser(withEmail: email, password: password) { dataResult, error in
             if let error = error {
                 print("DEBUG: \(error.localizedDescription)")
@@ -58,7 +60,14 @@ class AuthViewModel: ObservableObject {
             
             guard let id = dataResult?.user.uid else { return }
             self.currentUserId = id
+            self.authStatus = .signedIn
         }
+    }
+    
+    func signOut(){
+        try? Auth.auth().signOut()
+        currentUserId = nil
+        authStatus = .signedOut
     }
     
 }

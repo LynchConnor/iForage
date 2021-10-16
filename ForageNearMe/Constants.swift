@@ -7,6 +7,10 @@
 
 import SwiftUI
 import Foundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+
+let COLLECTION_USERS = Firestore.firestore().collection("users")
 
 //MARK:- StrechingHeader
 struct StretchingHeader<Content: View>: View {

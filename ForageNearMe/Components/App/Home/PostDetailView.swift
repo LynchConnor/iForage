@@ -8,6 +8,12 @@
 import SwiftUI
 import Firebase
 
+class PostDataService {
+    static func likePost(){
+        
+    }
+}
+
 extension PostDetailView {
     class ViewModel: ObservableObject {
         
