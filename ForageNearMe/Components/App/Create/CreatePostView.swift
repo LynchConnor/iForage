@@ -10,6 +10,7 @@ import MapKit
 
 struct CreatePostView: View {
     
+    
     @State var selectedImage: UIImage?
     
     @State var isShowPhotoLibrary: Bool = false
@@ -38,7 +39,9 @@ struct CreatePostView: View {
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFill()
+                            .frame(height: 200)
                             .clipped()
+                            .cornerRadius(0)
                     }else{
                         
                         ZStack {
@@ -54,18 +57,19 @@ struct CreatePostView: View {
                                     .foregroundColor(.white)
                                     .scaledToFit()
                                     .frame(width: 30, height: 30)
+                                    .clipped()
                             }// - ZStack
+                            .frame(height: 200)
                             .clipShape(Circle())
                             
                         }// - ZStack
                     }
                     
                 }// - Button
-                .frame(height: 200)
                 .frame(maxWidth: .infinity)
-                .clipped()
                 .cornerRadius(5)
                 .padding(.top, 25)
+                .clipped()
                 
                 VStack(spacing: 5) {
                     

@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 import Firebase
+import FirebaseFirestore
 
 struct HomeView: View {
     
@@ -15,25 +16,21 @@ struct HomeView: View {
     
     @EnvironmentObject var locationManager: LocationManager
     
-    @State var posts: [Post] = [Post(id: UUID().uuidString, latinName: "Sambucus Nigras", name: "", imageURL: "", isLiked: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0))]
+    @State var posts: [Post] = [Post(id: UUID().uuidString, latinName: "Sambucus Nigras", name: "", imageURL: "", notes: "", location: GeoPoint(latitude: 0, longitude: 0))]
     
     var body: some View {
         VStack {
             // - Map
-            if #available(iOS 15.0, *) {
-                Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, annotationItems: $posts) { $post in
-                    MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: 51.876735, longitude: 0.523035)) {
-                        NavigationLink {
-                            PostDetailView(post: $post)
-                        } label: {
-                            MapAnnotationCell()
-                        }
+            Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, annotationItems: $posts) { $post in
+                MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: 51.876735, longitude: 0.523035)) {
+                    NavigationLink {
+                        PostDetailView(PostDetailView.ViewModel(post))
+                    } label: {
+                        MapAnnotationCell()
                     }
                 }
-                .edgesIgnoringSafeArea(.all)
-            } else {
-                // Fallback on earlier versions
             }
+            .edgesIgnoringSafeArea(.all)
         }
         // - VStack
         .onAppear {

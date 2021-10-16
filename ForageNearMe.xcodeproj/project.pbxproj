@@ -44,6 +44,8 @@
 		E02BD6722713B5DC006BD62D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02BD6712713B5DC006BD62D /* Constants.swift */; };
 		E03304082714DF55001D4CBF /* FavouriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03304072714DF55001D4CBF /* FavouriteView.swift */; };
 		E033040C2714DF96001D4CBF /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E033040B2714DF96001D4CBF /* CreatePostView.swift */; };
+		E04A1773271A2CA000608254 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04A1772271A2CA000608254 /* CreateAccountView.swift */; };
+		E04A1775271A360500608254 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04A1774271A360500608254 /* AuthViewModel.swift */; };
 		E06D9905270E4FBE00F7FE0E /* ForageNearMeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06D9904270E4FBE00F7FE0E /* ForageNearMeApp.swift */; };
 		E06D9907270E4FBE00F7FE0E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06D9906270E4FBE00F7FE0E /* ContentView.swift */; };
 		E06D9909270E4FBE00F7FE0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E06D9908270E4FBE00F7FE0E /* Assets.xcassets */; };
@@ -83,6 +85,8 @@
 		E02BD6712713B5DC006BD62D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E03304072714DF55001D4CBF /* FavouriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteView.swift; sourceTree = "<group>"; };
 		E033040B2714DF96001D4CBF /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
+		E04A1772271A2CA000608254 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
+		E04A1774271A360500608254 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		E06D9901270E4FBE00F7FE0E /* ForageNearMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForageNearMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E06D9904270E4FBE00F7FE0E /* ForageNearMeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForageNearMeApp.swift; sourceTree = "<group>"; };
 		E06D9906270E4FBE00F7FE0E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				E0273A0A27124DDC00C88885 /* LoginView.swift */,
+				E04A1772271A2CA000608254 /* CreateAccountView.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -201,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				E02BD66D2713958B006BD62D /* LocationManager.swift */,
+				E04A1774271A360500608254 /* AuthViewModel.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -390,11 +396,13 @@
 				E06D9907270E4FBE00F7FE0E /* ContentView.swift in Sources */,
 				E0273A0B27124DDC00C88885 /* LoginView.swift in Sources */,
 				E02BD6702713AFE3006BD62D /* PostDetailView.swift in Sources */,
+				E04A1775271A360500608254 /* AuthViewModel.swift in Sources */,
 				E02BD66E2713958B006BD62D /* LocationManager.swift in Sources */,
 				E0AAA5B22714BB5C002C9996 /* MainTabBarView.swift in Sources */,
 				E06D9905270E4FBE00F7FE0E /* ForageNearMeApp.swift in Sources */,
 				E03304082714DF55001D4CBF /* FavouriteView.swift in Sources */,
 				E033040C2714DF96001D4CBF /* CreatePostView.swift in Sources */,
+				E04A1773271A2CA000608254 /* CreateAccountView.swift in Sources */,
 				E0273A35271269FC00C88885 /* Post.swift in Sources */,
 				E02BD66927138F60006BD62D /* MapAnnotationCell.swift in Sources */,
 				E02BD6722713B5DC006BD62D /* Constants.swift in Sources */,

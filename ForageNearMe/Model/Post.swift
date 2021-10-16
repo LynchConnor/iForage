@@ -17,9 +17,9 @@ struct Post: Identifiable, Decodable {
     let name: String
     let imageURL: String
     
-    var isLiked: Bool?
+    var didLike: Bool?
     
     let notes: String
     
-    let location: GeoPoint
+    var location: GeoPoint?
 }

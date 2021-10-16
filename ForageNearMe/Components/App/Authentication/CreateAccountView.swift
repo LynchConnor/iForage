@@ -1,13 +1,13 @@
 //
-//  LoginView.swift
+//  CreateAccountView.swift
 //  ForageNearMe
 //
-//  Created by Connor A Lynch on 09/10/2021.
+//  Created by Connor A Lynch on 15/10/2021.
 //
 
 import SwiftUI
 
-struct LoginView: View {
+struct CreateAccountView: View {
     
     @State var email: String = ""
     @State var password: String = ""
@@ -15,7 +15,7 @@ struct LoginView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             VStack(alignment: .leading) {
-                Text("Welcome Back")
+                Text("Create Account")
                     .font(.system(size: 32, weight: .semibold))
             }
             .frame(height: 100, alignment: .leading)
@@ -41,16 +41,14 @@ struct LoginView: View {
             Spacer()
             
             HStack {
-                Text("Don't have an account yet?")
-                    .frame(maxWidth: .infinity)
+                Text("Already have an account?")
                 NavigationLink {
-                    CreateAccountView()
+                    LoginView()
                 } label: {
-                    Text("Create Account")
+                    Text("Log In")
                         .font(.system(size: 18, weight: .bold))
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
             
         }
         
@@ -113,8 +111,10 @@ struct LoginView: View {
     }
 }
 
-struct LoginView_Previews: PreviewProvider {
+struct CreateAccountView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        NavigationView {
+            CreateAccountView()
+        }
     }
 }

@@ -12,6 +12,7 @@ import Firebase
 struct ForageNearMeApp: App {
     
     init(){
+        FirebaseApp.configure()
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         if #available(iOS 15.0, *) {
@@ -23,6 +24,7 @@ struct ForageNearMeApp: App {
         WindowGroup {
             NavigationView {
                 ContentView()
+                    .environmentObject(AuthViewModel.shared)
             }
             .navigationTitle("")
             .navigationBarHidden(true)

@@ -11,15 +11,37 @@ import Firebase
 extension PostDetailView {
     class ViewModel: ObservableObject {
         
+        @Published var post: Post
+        
+        init(_ post: Post) {
+            self.post = post
+        }
+        
+        var didLike: Bool {
+            guard let didLike = post.didLike else { return false }
+            return didLike
+        }
+        
+        func likePost(){
+            post.didLike = true
+        }
+        
+        func unLikePost(){
+            post.didLike = false
+        }
+        
+        func checkIfUserDidLike(){
+            //
+        }
     }
 }
 
 struct PostDetailView: View {
     
-    @StateObject var viewModel = PostDetailView.ViewModel()
+    @StateObject var viewModel: PostDetailView.ViewModel
     
-    init(post: Binding<Post>) {
-        _post = post
+    init(_ viewModel: PostDetailView.ViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
         UITextView.appearance().backgroundColor = .clear
         UITextView.appearance().textContainerInset =
                  UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 5)
@@ -32,21 +54,6 @@ struct PostDetailView: View {
     @State var text: String = """
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
     """
-    
-    @Binding var post: Post
-    
-    private var isLiked: Bool {
-        guard let isLiked = post.isLiked else { return false }
-        return isLiked
-    }
-    
-    private func likePost(){
-        post.isLiked = true
-    }
-    
-    private func unLikePost(){
-        post.isLiked = false
-    }
     
     var body: some View {
         VStack {
@@ -77,7 +84,7 @@ struct PostDetailView: View {
                             VStack(alignment: .leading) {
                                 //MARK: Latin Name
                                 
-                                if let name = post.latinName {
+                                if let name = viewModel.post.latinName {
                                     
                                     Text(name)
                                         .italic()
@@ -192,9 +199,9 @@ struct PostDetailView: View {
                         } label: {
                             Image(systemName: "arrow.left")
                                 .resizable()
-                                .frame(width: 20, height: 20)
-                                .font(.system(size: 18, weight: .medium))
                                 .scaledToFit()
+                                .frame(width: 17, height: 17)
+                                .font(.system(size: 1, weight: .medium))
                                 .foregroundColor(.white)
                                 .padding(13)
                         }// - Button
@@ -205,24 +212,24 @@ struct PostDetailView: View {
                     
                     Spacer()
                     
-                    
                     Button {
-                        isLiked ? unLikePost() : likePost()
+                        viewModel.didLike ? viewModel.unLikePost() : viewModel.likePost()
                     } label: {
                         ZStack {
                             
                             Circle()
                                 .foregroundColor(Color.black.opacity(0.5))
                             
-                            Image(systemName: isLiked ? "heart.fill" : "heart")
+                            Image(systemName: viewModel.didLike ? "heart.fill" : "heart")
                                 .resizable()
-                                .font(.system(size: 16, weight: .medium))
                                 .scaledToFit()
+                                .frame(width: 20, height: 20)
+                                .font(.system(size: 16, weight: .medium))
                                 .padding(13)
-                                .foregroundColor(isLiked ? .red : .white)
+                                .foregroundColor(viewModel.didLike ? .red : .white)
                             
                         }// - ZStack
-                        .frame(width: 50, height: 50)
+                        .frame(width: 45, height: 45)
                         
                     }// - Button
                     .buttonStyle(LikeButtonStyle())
@@ -247,6 +254,8 @@ struct PostDetailView: View {
 
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView(post: .constant(Post(id: UUID().uuidString, latinName: "Sambucus Nigras", name: "", imageURL: "", isLiked: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0))))
+        PostDetailView(PostDetailView.ViewModel(DEFAULT_POST))
     }
 }
+
+let DEFAULT_POST = Post(id: UUID().uuidString, latinName: "Sambucus Nigras", name: "", imageURL: "", didLike: true, notes: "")
