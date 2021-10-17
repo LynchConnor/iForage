@@ -15,3 +15,4 @@
 - By discussing this on a foraging forum, I found that this can be problematic as it can provoke reckless individuals destroying greenland.
 - Individuals on this forum also identified that they preferred a private account where they could mark a foraging spot on a map and only they can see it.
 - This would be beneficial as greenland doesn't get destroyed and the forager can keep track of all their foraging spots.
+![Uploading IMG_5874.PNG…](Screenshot of iNaturalist iOS)
