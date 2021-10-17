@@ -11,7 +11,7 @@
 
 ### Existing Products
 #### iNaturalist
-<img src="https://user-images.githubusercontent.com/91622555/137644818-bec5c761-a3cd-425f-bc4d-a33dc415ce50.PNG" width="300" />
+<img src="https://user-images.githubusercontent.com/91622555/137644818-bec5c761-a3cd-425f-bc4d-a33dc415ce50.PNG" width="200" />
 
 - iNaturalist allows users to create an account and mark on a map a plant/foraging spot they've discovered, allowing all users to visit and view the spot.
 - By discussing this on a foraging forum, I found that this can be problematic as it can provoke reckless individuals destroying greenland.
