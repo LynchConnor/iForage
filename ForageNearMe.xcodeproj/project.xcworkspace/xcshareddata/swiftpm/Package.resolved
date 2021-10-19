@@ -24,7 +24,7 @@
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk",
         "state": {
           "branch": "master",
-          "revision": "1b5640e380078d8633b91ea70e693a04a7d75815",
+          "revision": "9a4220661988bc7d50a90dcb637e1923cdd24ded",
           "version": null
         }
       },
@@ -107,6 +107,24 @@
           "branch": null,
           "revision": "611337c330350c9c1823ad6d671e7f936af5ee13",
           "version": "2.0.0"
+        }
+      },
+      {
+        "package": "SDWebImage",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImage.git",
+        "state": {
+          "branch": null,
+          "revision": "a72df4849408da7e5d3c1b586797b7c601c41d1b",
+          "version": "5.12.1"
+        }
+      },
+      {
+        "package": "SDWebImageSwiftUI",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImageSwiftUI.git",
+        "state": {
+          "branch": "master",
+          "revision": "336d3f6d3b53729c1f274bf6b75f4532ada116eb",
+          "version": null
         }
       },
       {

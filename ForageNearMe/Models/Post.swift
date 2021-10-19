@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Foundation
 
-struct Post: Identifiable, Decodable {
+struct Post: Identifiable, Codable {
     @DocumentID var id: String?
     
     var latinName: String?
@@ -19,7 +19,7 @@ struct Post: Identifiable, Decodable {
     
     var didLike: Bool?
     
-    let notes: String
+    var notes: String
     
-    var location: GeoPoint?
+    var location: GeoPoint
 }

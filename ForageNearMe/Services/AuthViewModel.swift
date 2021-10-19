@@ -59,8 +59,16 @@ class AuthViewModel: ObservableObject {
             }
             
             guard let id = dataResult?.user.uid else { return }
-            self.currentUserId = id
-            self.authStatus = .signedIn
+            
+            COLLECTION_USERS.document(id).setData([:]) { error in
+                if let error = error {
+                    print("DEBUG: \(error.localizedDescription)")
+                    return
+                }
+                
+                self.currentUserId = id
+                self.authStatus = .signedIn
+            }
         }
     }
     

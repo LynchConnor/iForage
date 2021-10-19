@@ -45,6 +45,10 @@ struct MainTabBarView: View {
                     .tabItem {
                         Label("My Finds", systemImage: "heart")
                     }
+                SettingsView()
+                    .tabItem {
+                        Label("Settings", systemImage: "gear")
+                    }
 
             }
         }

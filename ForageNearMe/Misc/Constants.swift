@@ -10,6 +10,10 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+func fetchUserId() -> String {
+    return AuthViewModel.shared.currentUserId ?? ""
+}
+
 let COLLECTION_USERS = Firestore.firestore().collection("users")
 
 //MARK:- StrechingHeader

@@ -7,19 +7,65 @@
 
 import SwiftUI
 import MapKit
+import FirebaseFirestore
+
+extension CreatePostView {
+    
+    enum PostStatus {
+        case processing
+        case complete
+        case error
+    }
+    
+    class ViewModel: ObservableObject {
+        
+        @Published var postStatus: PostStatus = .complete
+        
+        @Published var name: String = ""
+        
+        @Published var notes: String = "What do you want to say about your find? Tap to write..."
+        
+        @Published var selectedImage: UIImage?
+        
+        func uploadPost(){
+            guard let id = AuthViewModel.shared.currentUserId else { return }
+            
+            guard let image = selectedImage else { return }
+            
+            ImageUploader.uploadImage(image: image) { imageURL in
+                
+                let post = Post(latinName: "", name: self.name, imageURL: imageURL, notes: self.notes, location: GeoPoint(latitude: 51.877330, longitude: 0.528380))
+                
+                do {
+                    
+                    _ = try COLLECTION_USERS.document(id).collection("userPosts").addDocument(from: post)
+                }catch {
+                    print("DEBUG: \(error.localizedDescription)")
+                    return
+                }
+                
+                print("DEBUG: Sucessfully uploaded!")
+            }
+        }
+        
+        private func resetValues(){
+            self.name = ""
+            self.notes = ""
+            self.selectedImage = nil
+        }
+        
+    }
+}
 
 struct CreatePostView: View {
     
-    
-    @State var selectedImage: UIImage?
+    @StateObject var viewModel = CreatePostView.ViewModel()
     
     @State var isShowPhotoLibrary: Bool = false
     
+    @FocusState private var editorIsFocused: Bool
+    
     @EnvironmentObject var locationManager: LocationManager
-    
-    @State var name: String = "Name your plant here..."
-    
-    @State var notes: String = "What do you want to say about your find? Tap to write..."
     
     init() {
         UITextView.appearance().backgroundColor = .clear
@@ -35,7 +81,7 @@ struct CreatePostView: View {
                     isShowPhotoLibrary = true
                 } label: {
                     
-                    if let image = selectedImage {
+                    if let image = viewModel.selectedImage {
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFill()
@@ -73,21 +119,22 @@ struct CreatePostView: View {
                 
                 VStack(spacing: 5) {
                     
-                    TextField("Name your plant here...", text: $name)
+                    TextField("Name your plant here...", text: $viewModel.name)
                         .font(.system(size: 21, weight: .semibold))
                         .padding(.vertical, 15)
                     
-                    TextEditor(text: $notes)
-                        .font(.system(size: 15, weight: .regular))
+                    TextEditor(text: $viewModel.notes)
+                        .font(.system(size: 16, weight: .regular))
                         .lineSpacing(2)
                         .frame(height: 150)
                         .background(Color.init(red: 239/255, green: 239/255, blue: 239/255))
                         .cornerRadius(5)
+                        .focused($editorIsFocused)
                     
                 }// - VStack
                 
                 Button {
-                    
+                    viewModel.uploadPost()
                 } label: {
                     Text("Create Post")
                         .frame(maxWidth: .infinity)
@@ -102,8 +149,19 @@ struct CreatePostView: View {
                 
             }// - VStack
             .sheet(isPresented: $isShowPhotoLibrary, content: {
-                ImagePicker(selectedImage: $selectedImage)
+                ImagePicker(selectedImage: $viewModel.selectedImage)
             })
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button {
+                        editorIsFocused.toggle()
+                    } label: {
+                        Text("Done")
+                    }
+                    
+                }
+            }
             
             
         }// - ScrollView

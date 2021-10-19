@@ -7,22 +7,21 @@
 
 import Foundation
 import SwiftUI
+import Firebase
 import FirebaseStorage
 
-class ImageUploader {
+struct ImageUploader {
     
-    static func uploadImage(image: UIImage, completion: @escaping (String) -> ()){
+    static func uploadImage(image: UIImage, completion: @escaping (String) -> Void){
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
-        let URL = NSUUID().uuidString
-        let ref = Storage.storage().reference(forURL: "/images/\(URL)")
+        let filename = NSUUID().uuidString
+        let ref = Storage.storage().reference(withPath: "/post_images/\(filename)")
         
         ref.putData(imageData, metadata: nil) { _, error in
             if let error = error {
                 print("DEBUG: \(error.localizedDescription)")
                 return
             }
-            
-            print("DEBUG: Image Uploaded")
             
             ref.downloadURL { url, error in
                 if let error = error {
@@ -31,8 +30,10 @@ class ImageUploader {
                 }
                 
                 guard let imageURL = url?.absoluteString else { return }
+                
                 completion(imageURL)
             }
+            
         }
     }
     

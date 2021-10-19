@@ -7,10 +7,22 @@
 
 import SwiftUI
 import Firebase
+import SDWebImageSwiftUI
 
-class PostDataService {
-    static func likePost(){
+extension PostDetailView {
+    class DataService {
         
+        static func likePost(id postId: String, completion: @escaping () -> ()){
+        }
+        
+        static func unLikePost(){
+            
+            //
+        }
+        
+        static func checkIfUserDidLike(){
+            //
+        }
     }
 }
 
@@ -30,6 +42,7 @@ extension PostDetailView {
         
         func likePost(){
             post.didLike = true
+            
         }
         
         func unLikePost(){
@@ -57,10 +70,6 @@ struct PostDetailView: View {
     
     @State var isEditing: Bool = false
     
-    @State var text: String = """
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    """
-    
     var body: some View {
         VStack {
             
@@ -71,7 +80,7 @@ struct PostDetailView: View {
                         
                         StretchingHeader(height: 275) {
                             
-                            Image("plant")
+                            AnimatedImage(url: URL(string: viewModel.post.imageURL))
                                 .resizable()
                                 .aspectRatio(1, contentMode: .fill)
                                 .clipped()
@@ -101,7 +110,7 @@ struct PostDetailView: View {
                                 }
                                 
                                 //MARK: Name
-                                Text("Elderflower")
+                                Text(viewModel.post.name)
                                     .kerning(1)
                                     .font(.system(size: 32, weight: .bold))
                                     .foregroundColor(.white)
@@ -164,23 +173,25 @@ struct PostDetailView: View {
                         
                         if !isEditing {
                             
-                            Text("\(text)")
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            Text(viewModel.post.notes)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                                 .foregroundColor(Color.black.opacity(0.8))
-                                .font(.system(size: 15, weight: .light))
+                                .font(.system(size: 17, weight: .light))
                                 .lineSpacing(8)
                                 .padding(10)
+                                .multilineTextAlignment(.leading)
                         }else{
                             ZStack {
-                                TextEditor(text: $text)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                TextEditor(text: $viewModel.post.notes)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                                     .foregroundColor(Color.black.opacity(0.8))
-                                    .font(.system(size: 15, weight: .light))
+                                    .font(.system(size: 17, weight: .light))
                                     .lineSpacing(8)
                                     .background(Color.gray.opacity(0.1))
                                     .cornerRadius(3)
+                                    .multilineTextAlignment(.leading)
                                 
-                                Text(text).opacity(0).padding(.all, 8)
+                                Text(viewModel.post.notes).opacity(0).padding(.all, 8)
                             }
                         }
                         
@@ -264,4 +275,4 @@ struct PostDetailView_Previews: PreviewProvider {
     }
 }
 
-let DEFAULT_POST = Post(id: UUID().uuidString, latinName: "Sambucus Nigras", name: "", imageURL: "", didLike: true, notes: "")
+let DEFAULT_POST = Post(id: UUID().uuidString, latinName: "Sambucus Nigras", name: "", imageURL: "", didLike: true, notes: "", location: GeoPoint(latitude: 0, longitude: 0))

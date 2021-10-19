@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct MapAnnotationCell: View {
+    
+    let post: Post
+    
     var body: some View {
         VStack(spacing: 0) {
-            Image("plant")
+            AnimatedImage(url: URL(string: post.imageURL))
                 .resizable()
                 .frame(width: 45, height: 45)
                 .scaledToFill()
@@ -22,7 +26,7 @@ struct MapAnnotationCell: View {
                         .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 0)
                 )
             
-            Text("Elderflower")
+            Text(post.name)
                 .foregroundColor(.black)
                 .font(.system(size: 12, weight: .semibold))
                 .padding(.horizontal, 10)
@@ -35,7 +39,7 @@ struct MapAnnotationCell: View {
 
 struct MapAnnotationCell_Previews: PreviewProvider {
     static var previews: some View {
-        MapAnnotationCell()
+        MapAnnotationCell(post: DEFAULT_POST)
             .padding()
             .previewLayout(.sizeThatFits)
     }
