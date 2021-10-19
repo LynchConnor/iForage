@@ -1,4 +1,4 @@
-# ForageNearMe
+# iForage
 ## Introduction
 ### Problem Domain
 - Limited apps assisting foragers track local foraging spots.
