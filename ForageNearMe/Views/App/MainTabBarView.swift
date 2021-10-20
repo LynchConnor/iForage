@@ -30,27 +30,11 @@ struct MainTabBarView: View {
     
     var body: some View {
         if locationManager.lastLocation != nil {
-            TabView {
-                HomeView()
-                    .environmentObject(locationManager)
-                    .tabItem {
-                        Label("Home", systemImage: "house")
-                    }
-                CreatePostView()
-                    .environmentObject(locationManager)
-                    .tabItem {
-                        Label("Create", systemImage: "plus.square")
-                    }
-                FavouriteView()
-                    .tabItem {
-                        Label("My Finds", systemImage: "heart")
-                    }
-                SettingsView()
-                    .tabItem {
-                        Label("Settings", systemImage: "gear")
-                    }
-
-            }
+            HomeView()
+                .environmentObject(locationManager)
+                .tabItem {
+                    Label("Home", systemImage: "house")
+                }
         }
     }
 }

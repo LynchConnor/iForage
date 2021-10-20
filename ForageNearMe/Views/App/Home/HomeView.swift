@@ -10,13 +10,14 @@ import MapKit
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-    
+
+
+enum DataError: Error {
+    case noDocuments
+    case error
+}
+
 extension HomeView {
-    
-    enum DataError: Error {
-        case noDocuments
-        case error
-    }
     
     class DataService {
         static func fetchPosts(completion: @escaping (Result<[Post], DataError>) -> ()){
@@ -49,31 +50,32 @@ extension HomeView {
 
 extension HomeView {
     class ViewModel: ObservableObject {
-        @Published var posts: [Post] = []
+        @Published var posts: [Post]
         
-        init(){
+        init(posts: [Post] = []){
+            self.posts = posts
             self.fetchPosts()
         }
         
-        func fetchPosts(){
-            HomeView.DataService.fetchPosts { result in
+        private func fetchPosts(){
+            HomeView.DataService.fetchPosts { [weak self] result in
                 switch result {
                     
-                //Was I able to return posts?
+                    //Was I able to return posts?
                 case .success(let posts):
                     print("DEBUG: Posts fetched")
-                    self.posts = posts
+                    self?.posts = posts
                     break
                     
-                //Was I an error?
+                    //Was I an error?
                 case .failure(let error):
                     switch error {
                     case .noDocuments:
                         print("DEBUG: No documents")
-                        self.posts = []
+                        self?.posts = []
                     case .error:
                         print("DEBUG: Error")
-                        self.posts = []
+                        self?.posts = []
                     }
                 }
             }
@@ -83,30 +85,19 @@ extension HomeView {
 
 struct HomeView: View {
     
-    @StateObject var viewModel: HomeView.ViewModel = HomeView.ViewModel()
+    @State private var isPresented: Bool = false
     
-    @State var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 250, longitudinalMeters: 250)
+    @StateObject private var viewModel: HomeView.ViewModel = HomeView.ViewModel()
     
     @EnvironmentObject var locationManager: LocationManager
     
     var body: some View {
         
-        VStack {
-            //Navigation
-            HStack {
-                Button {
-                    //
-                } label: {
-                    Image(systemName: "line.3.horizontal")
-                }
-
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.white)
+        ZStack(alignment: .top) {
             
             // - Map
-            Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, annotationItems: $viewModel.posts) { $post in
-                
+            Map(coordinateRegion: $locationManager.region, interactionModes: .all, showsUserLocation: true, annotationItems: $viewModel.posts) { $post in
+
                 MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: post.location.latitude, longitude: post.location.longitude)) {
                     NavigationLink {
                         PostDetailView(PostDetailView.ViewModel(post))
@@ -116,16 +107,61 @@ struct HomeView: View {
                 }
             }
             .edgesIgnoringSafeArea(.all)
+            
+            
+            //Navigation
+            HStack(spacing: 25) {
+                Button {
+                    //
+                } label: {
+                    Image(systemName: "line.3.horizontal")
+                        .resizable()
+                        .font(.system(size: 18, weight: .light))
+                        .aspectRatio(1, contentMode: .fit)
+                        .frame(width: 20, height: 20)
+                }
+                .foregroundColor(Color.black.opacity(0.75))
+                
+                Spacer()
+                
+                Button {
+                    //
+                } label: {
+                    Image(systemName: "heart")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 25, height: 25)
+                }
+                .foregroundColor(Color.black.opacity(0.75))
+                
+                Button {
+                    isPresented.toggle()
+                } label: {
+                    Image(systemName: "plus.square")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 25, height: 25)
+                }
+                .foregroundColor(Color.black.opacity(0.75))
+                
+            }
+            .padding(.vertical, 15)
+            .padding(.horizontal, 20)
+            .background(Color.white)
         }
-        .onAppear {
-            locationManager.requestLocation()
-            self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationManager.lastLocation?.coordinate.latitude ?? 0, longitude: locationManager.lastLocation?.coordinate.longitude ?? 0), latitudinalMeters: 250, longitudinalMeters: 250)
+        .navigationBarHidden(true)
+        .navigationTitle("")
+        .sheet(isPresented: $isPresented){
+            CreatePostView()
+                .environmentObject(locationManager)
         }
+        
     }
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .environmentObject(LocationManager())
     }
 }

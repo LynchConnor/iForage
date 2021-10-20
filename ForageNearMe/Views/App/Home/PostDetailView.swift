@@ -12,16 +12,38 @@ import SDWebImageSwiftUI
 extension PostDetailView {
     class DataService {
         
-        static func likePost(id postId: String, completion: @escaping () -> ()){
+        static func likePost(id postId: String, completion: @escaping (Error?) -> ()){
+            
+            guard let userId = AuthViewModel.shared.currentUserId else { return }
+            
+            COLLECTION_USERS.document(userId).collection("userPosts").document(postId).setData(["didLike": true], merge: true) { error in
+                if let error = error {
+                    print("DEBUG: \(error.localizedDescription)")
+                    completion(error)
+                    return
+                }
+            }
         }
         
-        static func unLikePost(){
+        static func unlikePost(id postId: String, completion: @escaping (Error?) -> ()){
             
-            //
+            guard let userId = AuthViewModel.shared.currentUserId else { return }
+            
+            COLLECTION_USERS.document(userId).collection("userPosts").document(postId).setData(["didLike": false], merge: true) { error in
+                if let error = error {
+                    print("DEBUG: \(error.localizedDescription)")
+                    completion(error)
+                    return
+                }
+            }
         }
         
         static func checkIfUserDidLike(){
             //
+        }
+        
+        static func updateNotes(){
+            
         }
     }
 }
@@ -29,10 +51,16 @@ extension PostDetailView {
 extension PostDetailView {
     class ViewModel: ObservableObject {
         
+        // - Public
+        
         @Published var post: Post
+        
+        @Published var isEditing: Bool = false
         
         init(_ post: Post) {
             self.post = post
+            checkIfUserDidLike()
+            updateNotes()
         }
         
         var didLike: Bool {
@@ -41,16 +69,93 @@ extension PostDetailView {
         }
         
         func likePost(){
+            
+            guard let postId = post.id else { return }
+            
             post.didLike = true
             
+            PostDetailView.DataService.likePost(id: postId) { [weak self] error in
+                if let _ = error {
+                    self?.post.didLike = false
+                }
+            }
         }
         
         func unLikePost(){
+            
+            guard let postId = post.id else { return }
+            
             post.didLike = false
+            
+            PostDetailView.DataService.unlikePost(id: postId) { [weak self] error in
+                if let _ = error {
+                    self?.post.didLike = true
+                }
+            }
+            
         }
         
-        func checkIfUserDidLike(){
-            //
+        private func checkIfUserDidLike(){
+            
+            guard let userId = AuthViewModel.shared.currentUserId else { return }
+            
+            guard let postId = post.id else { return }
+            
+            COLLECTION_USERS.document(userId).collection("userPosts").document(postId).getDocument { snapshot, error in
+                if let error = error {
+                    print("DEBUG: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let document = snapshot, document.exists else { return }
+                
+                self.post.didLike = try? document.data(as: Post.self)?.didLike ?? false
+            }
+        }
+        
+        private func updateNotes(){
+            
+            guard let userId = AuthViewModel.shared.currentUserId else { return }
+            
+            guard let postId = post.id else { return }
+            
+            COLLECTION_USERS.document(userId).collection("userPosts").document(postId).addSnapshotListener { snapshot, error in
+                if let error = error {
+                    print("DEBUG: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let document = snapshot, document.exists else { return }
+                
+                do {
+                    self.post.notes = try document.data(as: Post.self)?.notes ?? ""
+                }catch {
+                    print("DEBUG: \(error.localizedDescription)")
+                    return
+                }
+            }
+        }
+        
+        func saveNotes(){
+            
+            guard let userId = AuthViewModel.shared.currentUserId else { return }
+            
+            guard let postId = post.id else { return }
+            
+            let data = [
+                "notes": post.notes
+            ]
+            
+            COLLECTION_USERS.document(userId).collection("userPosts").document(postId).setData(data, merge: true) { error in
+                if let error = error {
+                    print("DEBUG: \(error.localizedDescription)")
+                    return
+                }
+                
+                self.isEditing.toggle()
+                
+                print("DEBUG: Updated notes")
+            }
         }
     }
 }
@@ -67,8 +172,6 @@ struct PostDetailView: View {
     }
     
     @Environment(\.presentationMode) var presentationMode
-    
-    @State var isEditing: Bool = false
     
     var body: some View {
         VStack {
@@ -125,7 +228,7 @@ struct PostDetailView: View {
                     }// - ZStack
                     
                     VStack(alignment: .leading, spacing: 5) {
-                        HStack(alignment: .top, spacing: 5) {
+                        HStack(alignment: .center, spacing: 5) {
                             
                             Text("Notes")
                                 .kerning(2)
@@ -133,11 +236,11 @@ struct PostDetailView: View {
                             
                             HStack {
                                 
-                                if !isEditing {
+                                if !viewModel.isEditing {
                                     //MARK: Edit
                                     Button {
                                         DispatchQueue.main.async {
-                                            isEditing.toggle()
+                                            viewModel.isEditing.toggle()
                                         }
                                     } label: {
                                         Image(systemName: "square.and.pencil")
@@ -145,6 +248,7 @@ struct PostDetailView: View {
                                             .frame(width: 15, height: 15)
                                             .aspectRatio(1, contentMode: .fill)
                                             .foregroundColor(.black)
+                                            .padding(5)
                                         
                                     }// - Button
                                     
@@ -154,9 +258,7 @@ struct PostDetailView: View {
                                     
                                     //MARK: Save
                                     Button {
-                                        DispatchQueue.main.async {
-                                            isEditing.toggle()
-                                        }
+                                        viewModel.saveNotes()
                                     } label: {
                                         Text("Save")
                                             .font(.system(size: 14, weight: .bold))
@@ -171,7 +273,7 @@ struct PostDetailView: View {
                         
                         //MARK: Notes
                         
-                        if !isEditing {
+                        if !viewModel.isEditing {
                             
                             Text(viewModel.post.notes)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)

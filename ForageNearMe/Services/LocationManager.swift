@@ -19,9 +19,9 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var locationStatus: CLAuthorizationStatus?
     @Published var lastLocation: CLLocation? = nil
     
-    @Published var mainMapRegion: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 250, longitudinalMeters: 250)
+    @Published var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 250, longitudinalMeters: 250)
     
-    @Published var createAnnotationRegion: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 250, longitudinalMeters: 250)
+    @Published var region2: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 250, longitudinalMeters: 250)
     
     private var locationIsDisabled: Bool {
         switch locationStatus {
@@ -59,13 +59,12 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         DispatchQueue.main.async {
             self.lastLocation = location
+            self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), latitudinalMeters: 250, longitudinalMeters: 250)
+            self.region2 = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), latitudinalMeters: 250, longitudinalMeters: 250)
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("DEBUG: \(error.localizedDescription)")
     }
-}
-
-extension LocationManager {
 }
