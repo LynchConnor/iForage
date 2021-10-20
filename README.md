@@ -17,3 +17,4 @@
 - I found through discussing Foraging Apps with a reddit forum that this can be problematic as it can provoke reckless individuals destroying greenland.
 - Individuals on this forum also identified that they preferred a private account where they could mark a foraging spot on a map that only they can see.
 - This would be beneficial as greenland doesn't get destroyed and the forager can keep track of all their foraging spots.
+- In addition to this, the UI is not aestically pleasing, providing no useful information to the user besides a marker.
