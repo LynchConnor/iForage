@@ -14,6 +14,6 @@
 <img src="https://user-images.githubusercontent.com/91622555/137644818-bec5c761-a3cd-425f-bc4d-a33dc415ce50.PNG" width="200" />
 
 - iNaturalist allows users to create an account and mark on a map a plant/foraging spot they've discovered, allowing all users to visit and view the spot.
-- By discussing this on a foraging forum, I found that this can be problematic as it can provoke reckless individuals destroying greenland.
-- Individuals on this forum also identified that they preferred a private account where they could mark a foraging spot on a map and only they can see it.
+- I found through discussing Foraging Apps with a reddit forum that this can be problematic as it can provoke reckless individuals destroying greenland.
+- Individuals on this forum also identified that they preferred a private account where they could mark a foraging spot on a map that only they can see.
 - This would be beneficial as greenland doesn't get destroyed and the forager can keep track of all their foraging spots.
