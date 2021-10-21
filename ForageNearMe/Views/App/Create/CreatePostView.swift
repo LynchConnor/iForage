@@ -68,6 +68,8 @@ extension CreatePostView {
 
 struct CreatePostView: View {
     
+    @Binding var isPresented: Bool
+    
     @StateObject var viewModel = CreatePostView.ViewModel()
     
     @State var isShowPhotoLibrary: Bool = false
@@ -78,7 +80,8 @@ struct CreatePostView: View {
     
     @EnvironmentObject var locationManager: LocationManager
     
-    init() {
+    init(isPresented: Binding<Bool>) {
+        self._isPresented = isPresented
         UITextView.appearance().backgroundColor = .clear
         UITextView.appearance().textContainerInset =
         UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 5)
@@ -92,13 +95,31 @@ struct CreatePostView: View {
                 VStack(spacing: 5) {
                     
                     HStack {
-                        Spacer()
                         Button {
-                            presentationMode.wrappedValue.dismiss()
+                            isPresented.toggle()
                         } label: {
-                            Text("Done")
+                            Text("Cancel")
+                                .font(.system(size: 17, weight: .semibold))
                         }
                         .padding(.vertical, 15)
+                        Spacer()
+                        
+                        Button {
+                            viewModel.uploadPost() {
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        } label: {
+                            Text("Create Post")
+                                .font(.system(size: 14, weight: .black))
+                                .foregroundColor(.white)
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 20)
+                                .background(Color.blue)
+                        }
+                        .cornerRadius(10)
+                        .disabled(viewModel.selectedImage == nil)
+                        .opacity(viewModel.selectedImage != nil ? 1 : 0.8)
+
                     }
                     
                     Button {
@@ -156,26 +177,6 @@ struct CreatePostView: View {
                         
                     }// - VStack
                     
-                    Map(coordinateRegion: $locationManager.region2, showsUserLocation: true)
-                        .disabled(true)
-                        .frame(height: 150)
-                        .padding(.vertical, 10)
-                    
-                    Button {
-                        viewModel.uploadPost() {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    } label: {
-                        Text("Create Post")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                    }
-                    .background(Color.init(red: 44/255, green: 108/255, blue: 100/255))
-                    .foregroundColor(.white)
-                    .font(.system(size: 18, weight: .semibold))
-                    .cornerRadius(5)
-                    .padding(.vertical, 10)
-                    
                 }// - VStack
                 .disabled(viewModel.postStatus == .processing)
                 .opacity((viewModel.postStatus == .processing) ? 0.5 : 1)
@@ -186,17 +187,6 @@ struct CreatePostView: View {
                 }
                 
             }// - VStack
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button {
-                        editorIsFocused.toggle()
-                    } label: {
-                        Text("Done")
-                    }
-                    
-                }
-            }
             
             
         }// - ScrollView
@@ -208,12 +198,13 @@ struct CreatePostView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .navigationBarHidden(true)
         .navigationTitle("")
+        .background(Color.white)
     }
 }
 
 struct CreatePostView_Previews: PreviewProvider {
     static var previews: some View {
-        CreatePostView()
+        CreatePostView(isPresented: .constant(true))
             .environmentObject(LocationManager())
     }
 }
