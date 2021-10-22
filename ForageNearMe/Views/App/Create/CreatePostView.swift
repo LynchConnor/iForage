@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import Firebase
 import FirebaseFirestore
 
 extension CreatePostView {
@@ -18,6 +19,8 @@ extension CreatePostView {
     }
     
     class ViewModel: ObservableObject {
+        
+        @ObservedObject var locationManager = LocationManager()
         
         @Published var postStatus: PostStatus = .complete
         
@@ -31,15 +34,18 @@ extension CreatePostView {
             
             DispatchQueue.main.async {
                 self.postStatus = .processing
+                self.locationManager.requestLocation()
             }
             
             guard let id = AuthViewModel.shared.currentUserId else { return }
             
             guard let image = selectedImage else { return }
             
+            guard let location = locationManager.lastLocation?.coordinate else { return }
+            
             ImageUploader.uploadImage(image: image) { imageURL in
                 
-                let post = Post(latinName: "", name: self.name, imageURL: imageURL, notes: self.notes, location: GeoPoint(latitude: 51.877330, longitude: 0.528380))
+                let post = Post(latinName: "", name: self.name, imageURL: imageURL, notes: self.notes, location: GeoPoint(latitude: location.latitude, longitude: location.longitude))
                 
                 do {
                     
@@ -50,6 +56,8 @@ extension CreatePostView {
                 }
                 
                 print("DEBUG: Sucessfully uploaded!")
+                
+                self.postStatus = .complete
                 
                 self.resetValues()
                 
@@ -78,13 +86,11 @@ struct CreatePostView: View {
     
     @FocusState private var editorIsFocused: Bool
     
-    @EnvironmentObject var locationManager: LocationManager
-    
     init(isPresented: Binding<Bool>) {
         self._isPresented = isPresented
         UITextView.appearance().backgroundColor = .clear
         UITextView.appearance().textContainerInset =
-        UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 5)
+        UIEdgeInsets(top: -5, left: -5, bottom: 0, right: 0)
     }
     
     var body: some View {
@@ -106,20 +112,17 @@ struct CreatePostView: View {
                         
                         Button {
                             viewModel.uploadPost() {
-                                presentationMode.wrappedValue.dismiss()
+                                isPresented.toggle()
                             }
                         } label: {
                             Text("Create Post")
-                                .font(.system(size: 14, weight: .black))
+                                .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                                 .padding(.vertical, 8)
-                                .padding(.horizontal, 20)
+                                .padding(.horizontal, 18)
                                 .background(Color.blue)
                         }
-                        .cornerRadius(10)
-                        .disabled(viewModel.selectedImage == nil)
-                        .opacity(viewModel.selectedImage != nil ? 1 : 0.8)
-
+                        .cornerRadius(5)
                     }
                     
                     Button {
@@ -168,12 +171,11 @@ struct CreatePostView: View {
                             .padding(.vertical, 15)
                         
                         TextEditor(text: $viewModel.notes)
-                            .font(.system(size: 16, weight: .regular))
-                            .lineSpacing(2)
+                            .font(.system(size: 18, weight: .regular))
+                            .lineSpacing(8)
                             .frame(height: 150)
-                            .background(Color.init(red: 239/255, green: 239/255, blue: 239/255))
                             .cornerRadius(5)
-                            .focused($editorIsFocused)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         
                     }// - VStack
                     

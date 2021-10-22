@@ -23,7 +23,6 @@
 		E02BD66E2713958B006BD62D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02BD66D2713958B006BD62D /* LocationManager.swift */; };
 		E02BD6702713AFE3006BD62D /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02BD66F2713AFE3006BD62D /* PostDetailView.swift */; };
 		E02BD6722713B5DC006BD62D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02BD6712713B5DC006BD62D /* Constants.swift */; };
-		E03304082714DF55001D4CBF /* FavouriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03304072714DF55001D4CBF /* FavouriteView.swift */; };
 		E033040C2714DF96001D4CBF /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E033040B2714DF96001D4CBF /* CreatePostView.swift */; };
 		E0477F31271B57A70023146B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0477F30271B57A70023146B /* OnboardingView.swift */; };
 		E0477F33271B59B20023146B /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0477F32271B59B20023146B /* ImageUploader.swift */; };
@@ -48,7 +47,6 @@
 		E02BD66D2713958B006BD62D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		E02BD66F2713AFE3006BD62D /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
 		E02BD6712713B5DC006BD62D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		E03304072714DF55001D4CBF /* FavouriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteView.swift; sourceTree = "<group>"; };
 		E033040B2714DF96001D4CBF /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		E0477F30271B57A70023146B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		E0477F32271B59B20023146B /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 				E0273A0927124DCC00C88885 /* Authentication */,
 				E0273A032711F30500C88885 /* Home */,
 				E033040A2714DF85001D4CBF /* Create */,
-				E03304092714DF66001D4CBF /* Favourite */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -162,14 +159,6 @@
 				E0AE79B52717AFF200E32803 /* GoogleService-Info.plist */,
 			);
 			path = Google;
-			sourceTree = "<group>";
-		};
-		E03304092714DF66001D4CBF /* Favourite */ = {
-			isa = PBXGroup;
-			children = (
-				E03304072714DF55001D4CBF /* FavouriteView.swift */,
-			);
-			path = Favourite;
 			sourceTree = "<group>";
 		};
 		E033040A2714DF85001D4CBF /* Create */ = {
@@ -335,7 +324,6 @@
 				E02BD66E2713958B006BD62D /* LocationManager.swift in Sources */,
 				E0AAA5B22714BB5C002C9996 /* MainTabBarView.swift in Sources */,
 				E06D9905270E4FBE00F7FE0E /* ForageNearMeApp.swift in Sources */,
-				E03304082714DF55001D4CBF /* FavouriteView.swift in Sources */,
 				E033040C2714DF96001D4CBF /* CreatePostView.swift in Sources */,
 				E04A1773271A2CA000608254 /* CreateAccountView.swift in Sources */,
 				E0273A35271269FC00C88885 /* Post.swift in Sources */,

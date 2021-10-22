@@ -10,15 +10,15 @@ import MapKit
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import SDWebImageSwiftUI
 
 extension AnyTransition {
-  static var customTransition: AnyTransition {
-    let transition = AnyTransition.move(edge: .bottom)
-      .combined(with: .opacity)
-    return transition
-  }
+    static var customTransition: AnyTransition {
+        let transition = AnyTransition.move(edge: .bottom)
+            .combined(with: .opacity)
+        return transition
+    }
 }
-
 
 enum DataError: Error {
     case noDocuments
@@ -33,16 +33,17 @@ extension HomeView {
             //Fetch all posts by the currently signed in user
             guard let id = AuthViewModel.shared.currentUserId else { return }
             
-            COLLECTION_USERS.document(id).collection("userPosts").getDocuments { snapshot, error in
+            COLLECTION_USERS.document(id).collection("userPosts").addSnapshotListener { snapshot, error in
                 if let error = error {
                     print("DEBUG: \(error.localizedDescription)")
                     return
                 }
                 
-                //Any documents returned?
-                guard let documents = snapshot?.documents, !(documents.isEmpty) else { completion(.failure(.noDocuments)); return }
+                guard let documents = snapshot?.documents, !(documents.isEmpty) else {
+                    completion(.failure(.noDocuments))
+                    return
+                }
                 
-                //Able to convert document to a post?
                 do {
                     let posts = try documents.compactMap({ try $0.data(as: Post.self) })
                     completion(.success(posts))
@@ -50,7 +51,6 @@ extension HomeView {
                     print("DEBUG: \(error.localizedDescription)")
                     completion(.failure(.error))
                 }
-                
             }
         }
     }
@@ -58,6 +58,8 @@ extension HomeView {
 
 extension HomeView {
     class ViewModel: ObservableObject {
+        
+        @Published var searchText: String = ""
         @Published var posts: [Post]
         
         init(posts: [Post] = []){
@@ -95,13 +97,11 @@ struct HomeView: View {
     
     @State private var isPresented: Bool = false
     
-    @StateObject private var viewModel: HomeView.ViewModel = HomeView.ViewModel()
+    @StateObject var viewModel: HomeView.ViewModel = HomeView.ViewModel()
     
     @EnvironmentObject var locationManager: LocationManager
     
-    @State var searchValue: CGFloat = .zero
     @State var searchIsActive: Bool = false
-    @Binding var menuIsActive: Bool
     
     var body: some View {
         
@@ -119,6 +119,7 @@ struct HomeView: View {
                 }
             }
             .edgesIgnoringSafeArea(.all)
+            //Create Post View
             .overlay (
                 Button {
                     isPresented.toggle()
@@ -133,33 +134,43 @@ struct HomeView: View {
                         .background(Color.blue)
                 }
                     .clipShape(Circle())
-                    .padding(10)
+                    .padding(15)
                 ,alignment: .bottomTrailing
             )
             
+            VStack {
                 if searchIsActive {
-                    VStack {
-                        Text("Search")
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                    .background(Color.white)
+                    SearchView()
+                        .environmentObject(viewModel)
+                        .transition(.fade(duration: 0.25))
+                        .animation(.easeInOut, value: searchIsActive)
                 }
+            }
             
             
             //Navigation
             HStack(spacing: 25) {
-                
-                Button {
-                    searchIsActive.toggle()
-                } label: {
-                    Image(systemName: "magnifyingglass")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 25, height: 25)
+                HStack {
+                    Button {
+                        withAnimation {
+                            searchIsActive.toggle()
+                        }
+                    } label: {
+                        Image(systemName: "magnifyingglass")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                    }
+                    .foregroundColor(Color.black.opacity(0.75))
+                    
+                    TextField("howdy", text: $viewModel.searchText)
+                        .font(.system(size: 19))
+                        .frame(width: searchIsActive ? 250 : 0 )
+                        .transition(.fade)
+                        .animation(.easeInOut, value: searchIsActive)
+                    
                 }
-                .foregroundColor(Color.black.opacity(0.75))
-                
-                Spacer()
+                .frame(maxWidth: .infinity, alignment: .leading)
                 
                 NavigationLink {
                     Text("")
@@ -177,19 +188,16 @@ struct HomeView: View {
             .padding(.horizontal, 20)
             .background(Color.white)
         }
-        .onAppear {
-            menuIsActive = false
-        }
         .navigationBarHidden(true)
         .navigationTitle("")
+        .onDisappear { searchIsActive = false }
         .overlay(
             VStack {
                 if isPresented {
                     CreatePostView(isPresented: $isPresented)
                         .edgesIgnoringSafeArea(.bottom)
-                        .environmentObject(locationManager)
                         .transition(.customTransition)
-                        .animation(.easeInOut, value: isPresented)
+                        .animation(.easeInOut(duration: 0.25), value: isPresented)
                 }
             }
                 .animation(.easeInOut, value: isPresented)
@@ -199,7 +207,50 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(menuIsActive: .constant(false))
+        HomeView(viewModel: HomeView.ViewModel(posts: [Post(id: UUID().uuidString, latinName: "", name: "Elderflower", imageURL: "https://firebasestorage.googleapis.com:443/v0/b/foragenearme.appspot.com/o/post_images%2FF2A86825-BE3F-42D7-B631-1685D1795E74?alt=media&token=592b9723-be4a-44fc-a8d0-2ecfbb99b979", didLike: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0)), Post(id: UUID().uuidString, latinName: "", name: "Elderflower", imageURL: "https://firebasestorage.googleapis.com:443/v0/b/foragenearme.appspot.com/o/post_images%2FF2A86825-BE3F-42D7-B631-1685D1795E74?alt=media&token=592b9723-be4a-44fc-a8d0-2ecfbb99b979", didLike: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0))]), searchIsActive: false)
             .environmentObject(LocationManager())
+    }
+}
+
+struct SearchView: View {
+    
+    @EnvironmentObject var viewModel: HomeView.ViewModel
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            ScrollView(.vertical) {
+                LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]) {
+                    ForEach(viewModel.posts){ post in
+                        ZStack(alignment: .bottomTrailing) {
+                            WebImage(url: URL(string: post.imageURL))
+                                .resizable()
+                                .scaledToFill()
+                                .clipped()
+                            
+                            Button {
+                                //
+                            } label: {
+                                Image(systemName: "heart")
+                                    .resizable()
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .foregroundColor(.white)
+                                    .scaledToFill()
+                                    .frame(width: 20, height: 20)
+                                    .padding(12)
+                                    .background(Color.black.opacity(0.5))
+                            }
+                            .clipShape(Circle())
+                            .padding(5)
+                            
+                        }
+                        .cornerRadius(10)
+                    }
+                }
+                .padding(.top, 65)
+                .padding(.horizontal, 20)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        }
+        .background(Color.white)
     }
 }
