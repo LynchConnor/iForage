@@ -28,3 +28,6 @@
 
 ![Simulator Screen Recording - iPhone 11 Pro - 2021-10-26 at 22 59 22](https://user-images.githubusercontent.com/91622555/138967121-707be8f5-9a32-4d83-9903-01fa2d10d62b.gif)
 - The user can search for posts they've posted, with all actions the user performing occuring live, for example, if the user likes the post from the explore page, the like is visible on the post. Therefore, all actions are in real-time.
+
+### Conclusion
+In comparison to iNaturalist, the home page provides a user enriched experience, showing the user an image and name of the plant. Providing the user with a modern design which they would be more familiar with than a map pin.
