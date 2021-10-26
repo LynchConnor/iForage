@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>791407602065-n9vjba1os5jtqv5ch56tc0mshbohuga0.apps.googleusercontent.com</string>
+	<string>791407602065-urbg4i2oec9fe0vo4nkitudtg639fgqa.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.791407602065-n9vjba1os5jtqv5ch56tc0mshbohuga0</string>
+	<string>com.googleusercontent.apps.791407602065-urbg4i2oec9fe0vo4nkitudtg639fgqa</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBLmUh490OsE2X9whsWa_ugPw59uP-Woe4</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.connorlynch.ForageNearMe</string>
+	<string>com.connorlynch.iForage</string>
 	<key>PROJECT_ID</key>
 	<string>foragenearme</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:791407602065:ios:b977dc957d23531439d230</string>
+	<string>1:791407602065:ios:975f1fe927844aab39d230</string>
 </dict>
 </plist>

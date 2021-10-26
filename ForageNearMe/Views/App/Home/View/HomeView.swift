@@ -61,6 +61,7 @@ struct HomeView: View {
                 }
                     .background(Color.white)
                     .clipShape(Circle())
+                    .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
                     .padding(15)
                 ,alignment: .bottomTrailing
             )

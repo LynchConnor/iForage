@@ -99,6 +99,8 @@ struct ExploreView: View {
                             LazyView(PostDetailView(PostDetailView.ViewModel(post)))
                         } label: {
                             ExplorePostCell(viewModel: ExplorePostCell.ViewModel(post: post, location: locationManager.lastLocation))
+                                .cornerRadius(5)
+                                .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 0)
                                 .padding(.horizontal, 20)
                         }
                         .isDetailLink(false)
@@ -110,7 +112,7 @@ struct ExploreView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         }
-        .background(Color.white)
+        .background(Color.gray.opacity(0.075))
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .onDisappear(perform: {
