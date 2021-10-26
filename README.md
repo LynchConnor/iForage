@@ -11,6 +11,10 @@
 - Create an app which helps foragers track and manage foraging spots around them, with a clean and easy to use interface.
 - Develop a forum for local foragers to interact with eachother, sharing tips and tricks.
 
+### Dependencies
+- Firebase
+- SDWebImageSwiftUI
+
 ### Existing Products
 #### iNaturalist
 <img src="https://user-images.githubusercontent.com/91622555/137644818-bec5c761-a3cd-425f-bc4d-a33dc415ce50.PNG" width="200" />
