@@ -18,3 +18,13 @@
 - Individuals on this forum also identified that they preferred a private account where they could mark a foraging spot on a map that only they can see.
 - This would be beneficial as greenland doesn't get destroyed and the forager can keep track of all their foraging spots.
 - In addition to this, the UI is not aestically pleasing, providing no useful information to the user besides a marker.
+
+### Screenshots
+![Simulator Screen Recording - iPhone 11 Pro - 2021-10-26 at 22 55 02](https://user-images.githubusercontent.com/91622555/138966668-f4e4c43e-d3b0-4b96-8ac6-f54eeb25fa24.gif)
+- The user can create posts which are linked with their current location.
+
+![Simulator Screen Recording - iPhone 11 Pro - 2021-10-26 at 22 54 15](https://user-images.githubusercontent.com/91622555/138966679-22e60e8c-8c41-448a-8584-28d7868c387a.gif)
+- The post can be liked, edited and deleted completely from the database.
+
+![Simulator Screen Recording - iPhone 11 Pro - 2021-10-26 at 22 59 22](https://user-images.githubusercontent.com/91622555/138967121-707be8f5-9a32-4d83-9903-01fa2d10d62b.gif)
+- The user can search for posts they've posted, with all actions the user performing occuring live, for example, if the user likes the post from the explore page, the like is visible on the post. Therefore, all actions are in real-time.
