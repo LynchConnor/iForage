@@ -132,6 +132,22 @@ extension PostDetailView {
             }
         }
         
+        func deletePost(completion: @escaping () -> ()){
+            
+            guard let userId = AuthViewModel.shared.currentUserId else { return }
+            
+            guard let postId = post?.id else { return }
+            
+            COLLECTION_USERS.document(userId).collection("userPosts").document(postId).delete { error in
+                if let error = error {
+                    print("DEBUG: \(error.localizedDescription)")
+                    return
+                }
+                
+                completion()
+            }
+        }
+        
         func saveNotes(){
             
             guard let userId = AuthViewModel.shared.currentUserId else { return }
@@ -159,6 +175,8 @@ extension PostDetailView {
 struct PostDetailView: View {
     
     @StateObject var viewModel: PostDetailView.ViewModel
+    
+    @State var confirmationShown: Bool = false
     
     init(_ viewModel: PostDetailView.ViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -189,7 +207,7 @@ struct PostDetailView: View {
                             }
                             .overlay(
                                 
-                                LinearGradient(colors: [.clear, .black.opacity(0.65)], startPoint: .top, endPoint: .bottom)
+                                LinearGradient(colors: [.clear, .clear, .black.opacity(0.15), .black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
                                     .clipped()
                                 
                                 ,alignment: .bottom
@@ -224,23 +242,7 @@ struct PostDetailView: View {
                                 
                                 HStack {
                                     
-                                    if !viewModel.isEditing {
-                                        //MARK: Edit
-                                        Button {
-                                            DispatchQueue.main.async {
-                                                viewModel.isEditing.toggle()
-                                            }
-                                        } label: {
-                                            Image(systemName: "square.and.pencil")
-                                                .resizable()
-                                                .frame(width: 15, height: 15)
-                                                .aspectRatio(1, contentMode: .fill)
-                                                .foregroundColor(.black)
-                                                .padding(5)
-                                            
-                                        }// - Button
-                                        
-                                    }else{
+                                    if viewModel.isEditing {
                                         
                                         Spacer()
                                         
@@ -294,7 +296,7 @@ struct PostDetailView: View {
                 // - ScrollView
                 .overlay(
                     
-                    HStack {
+                    HStack(alignment: .top) {
                         
                         ZStack {
                             
@@ -341,6 +343,50 @@ struct PostDetailView: View {
                         }// - Button
                         .buttonStyle(LikeButtonStyle())
                         
+                        Menu {
+                            
+                            Button {
+                                viewModel.isEditing.toggle()
+                            } label: {
+                                HStack {
+                                    Image(systemName: "square.and.pencil")
+                                    Text("Edit Notes")
+                                }
+                            }
+                            
+                            Button(role: .destructive) {
+                                
+                                confirmationShown = true
+                                
+                            } label: {
+                                HStack {
+                                    Image(systemName: "xmark")
+                                    Text("Delete")
+                                }
+                            }
+
+                            
+                        } label: {
+                            
+                                ZStack {
+                                    
+                                    Circle()
+                                        .foregroundColor(Color.black.opacity(0.5))
+                                    
+                                    Image(systemName: "ellipsis")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 20, height: 20)
+                                        .font(.system(size: 16, weight: .medium))
+                                        .padding(13)
+                                        .foregroundColor(.white)
+                                    
+                                }// - ZStack
+                                .frame(width: 45, height: 45)
+                        }
+                        .frame(width: 45, height: 45)
+
+                        
                     }
                     // - HStack
                         .padding(.top, 40)
@@ -349,6 +395,16 @@ struct PostDetailView: View {
                     
                     ,alignment: .top
                 )// - Overlay
+                
+                .confirmationDialog("Are you sure?", isPresented: $confirmationShown, titleVisibility: .visible) {
+                    Button("Yes") {
+                        viewModel.deletePost {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    }
+                }
+                
+                
             }//IF LET POST
             else{
                 ProgressView()

@@ -74,8 +74,8 @@ class AuthViewModel: ObservableObject {
     
     func signOut(){
         try? Auth.auth().signOut()
-        currentUserId = nil
-        authStatus = .signedOut
+        self.currentUserId = nil
+        self.authStatus = .signedOut
     }
     
 }

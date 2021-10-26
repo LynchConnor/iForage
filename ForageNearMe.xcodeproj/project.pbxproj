@@ -28,6 +28,7 @@
 		E0477F33271B59B20023146B /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0477F32271B59B20023146B /* ImageUploader.swift */; };
 		E04A1773271A2CA000608254 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04A1772271A2CA000608254 /* CreateAccountView.swift */; };
 		E04A1775271A360500608254 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04A1774271A360500608254 /* AuthViewModel.swift */; };
+		E04A3629272894C200E0D634 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04A3628272894C200E0D634 /* HomeViewModel.swift */; };
 		E06D9905270E4FBE00F7FE0E /* ForageNearMeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06D9904270E4FBE00F7FE0E /* ForageNearMeApp.swift */; };
 		E06D9907270E4FBE00F7FE0E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06D9906270E4FBE00F7FE0E /* ContentView.swift */; };
 		E06D9909270E4FBE00F7FE0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E06D9908270E4FBE00F7FE0E /* Assets.xcassets */; };
@@ -55,6 +56,7 @@
 		E0477F32271B59B20023146B /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
 		E04A1772271A2CA000608254 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		E04A1774271A360500608254 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		E04A3628272894C200E0D634 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E06D9901270E4FBE00F7FE0E /* ForageNearMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForageNearMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E06D9904270E4FBE00F7FE0E /* ForageNearMeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForageNearMeApp.swift; sourceTree = "<group>"; };
 		E06D9906270E4FBE00F7FE0E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -105,11 +107,11 @@
 		E0273A022711F2FE00C88885 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				E0CD638627288E29002F5065 /* Settings */,
 				E0AAA5B12714BB5C002C9996 /* MainTabBarView.swift */,
 				E0273A0927124DCC00C88885 /* Authentication */,
 				E0273A032711F30500C88885 /* Home */,
 				E0BA3FBF2727548100AC7663 /* Explore */,
+				E0CD638627288E29002F5065 /* Settings */,
 				E033040A2714DF85001D4CBF /* Create */,
 			);
 			path = App;
@@ -118,8 +120,8 @@
 		E0273A032711F30500C88885 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				E0273A042711F31700C88885 /* HomeView.swift */,
-				E02BD66F2713AFE3006BD62D /* PostDetailView.swift */,
+				E04A362A272894F000E0D634 /* View */,
+				E04A3627272894B700E0D634 /* ViewModel */,
 				E02BD66727138F50006BD62D /* MapAnnotation */,
 			);
 			path = Home;
@@ -128,9 +130,8 @@
 		E0273A0927124DCC00C88885 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				E0273A0A27124DDC00C88885 /* LoginView.swift */,
-				E04A1772271A2CA000608254 /* CreateAccountView.swift */,
-				E0477F30271B57A70023146B /* OnboardingView.swift */,
+				E04A1774271A360500608254 /* AuthViewModel.swift */,
+				E04A36262728948500E0D634 /* View */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -155,7 +156,6 @@
 			isa = PBXGroup;
 			children = (
 				E02BD66D2713958B006BD62D /* LocationManager.swift */,
-				E04A1774271A360500608254 /* AuthViewModel.swift */,
 				E0477F32271B59B20023146B /* ImageUploader.swift */,
 			);
 			path = Services;
@@ -175,6 +175,33 @@
 				E033040B2714DF96001D4CBF /* CreatePostView.swift */,
 			);
 			path = Create;
+			sourceTree = "<group>";
+		};
+		E04A36262728948500E0D634 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E0273A0A27124DDC00C88885 /* LoginView.swift */,
+				E04A1772271A2CA000608254 /* CreateAccountView.swift */,
+				E0477F30271B57A70023146B /* OnboardingView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E04A3627272894B700E0D634 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E04A3628272894C200E0D634 /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E04A362A272894F000E0D634 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E0273A042711F31700C88885 /* HomeView.swift */,
+				E02BD66F2713AFE3006BD62D /* PostDetailView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		E06D98F8270E4FBE00F7FE0E = {
@@ -349,6 +376,7 @@
 				E04A1775271A360500608254 /* AuthViewModel.swift in Sources */,
 				E02BD66E2713958B006BD62D /* LocationManager.swift in Sources */,
 				E0AAA5B22714BB5C002C9996 /* MainTabBarView.swift in Sources */,
+				E04A3629272894C200E0D634 /* HomeViewModel.swift in Sources */,
 				E06D9905270E4FBE00F7FE0E /* ForageNearMeApp.swift in Sources */,
 				E033040C2714DF96001D4CBF /* CreatePostView.swift in Sources */,
 				E04A1773271A2CA000608254 /* CreateAccountView.swift in Sources */,

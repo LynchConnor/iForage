@@ -10,8 +10,6 @@ import FirebaseFirestore
 
 struct ExploreView: View {
     
-    @FocusState var searchIsFocused: Bool
-    
     @EnvironmentObject var viewModel: HomeView.ViewModel
     
     @EnvironmentObject var locationManager: LocationManager
@@ -44,7 +42,6 @@ struct ExploreView: View {
                 HStack(spacing: 8) {
                     
                     TextField("Search", text: $viewModel.searchText)
-                        .focused($searchIsFocused)
                         .font(.system(size: 20))
                         .frame(maxWidth: .infinity)
                         .overlay(
@@ -65,7 +62,6 @@ struct ExploreView: View {
                             
                             Button {
                                 searchIsTapped = false
-                                searchIsFocused = false
                                 viewModel.searchText = ""
                             } label: {
                                 Text("Cancel")
@@ -114,15 +110,12 @@ struct ExploreView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         }
-        .onAppear(perform: {
-            searchIsFocused = true
-        })
-        .onDisappear(perform: {
-            viewModel.searchText = ""
-        })
         .background(Color.white)
         .navigationBarTitle("")
         .navigationBarHidden(true)
+        .onDisappear(perform: {
+            viewModel.searchText = ""
+        })
     }
 }
 

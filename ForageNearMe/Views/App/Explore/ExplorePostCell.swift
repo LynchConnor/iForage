@@ -42,13 +42,13 @@ struct ExplorePostCell: View {
                                 Image(systemName: viewModel.didLike ? "heart.fill" : "heart")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 15, height: 15)
+                                    .frame(width: 20, height: 20)
                                     .font(.system(size: 16, weight: .medium))
                                     .padding(8)
                                     .foregroundColor(viewModel.didLike ? .red : .white)
                                 
                             }// - ZStack
-                            .frame(width: 30, height: 30)
+                            .frame(width: 35, height: 35)
                             
                         }// - Button
                             .buttonStyle(LikeButtonStyle())
@@ -110,7 +110,7 @@ extension ExplorePostCell {
             self.distance = fetchDistance()
         }
         
-        private let suffix = ["mi", "km", "mi"]
+        private let suffix = ["mi", "km", "mm", "gm"]
         
         private func formatNumber(_ number: Double) -> String{
             var index = 0
