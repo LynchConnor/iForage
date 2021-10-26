@@ -45,10 +45,9 @@ extension CreatePostView {
             
             ImageUploader.uploadImage(image: image) { imageURL in
                 
-                let post = Post(latinName: "", name: self.name, imageURL: imageURL, notes: self.notes, location: GeoPoint(latitude: location.latitude, longitude: location.longitude))
+                let post = Post(name: self.name, imageURL: imageURL, notes: self.notes, location: GeoPoint(latitude: location.latitude, longitude: location.longitude))
                 
                 do {
-                    
                     _ = try COLLECTION_USERS.document(id).collection("userPosts").addDocument(from: post)
                 }catch {
                     print("DEBUG: \(error.localizedDescription)")

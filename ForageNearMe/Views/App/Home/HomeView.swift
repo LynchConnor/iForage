@@ -20,6 +20,14 @@ extension AnyTransition {
     }
 }
 
+extension AnyTransition {
+    static var customCancelTransition: AnyTransition {
+        let transition = AnyTransition.move(edge: .trailing)
+            .combined(with: .opacity)
+        return transition
+    }
+}
+
 enum DataError: Error {
     case noDocuments
     case error
@@ -46,6 +54,7 @@ extension HomeView {
                 
                 do {
                     let posts = try documents.compactMap({ try $0.data(as: Post.self) })
+                    
                     completion(.success(posts))
                 }catch {
                     print("DEBUG: \(error.localizedDescription)")
@@ -59,15 +68,19 @@ extension HomeView {
 extension HomeView {
     class ViewModel: ObservableObject {
         
+        // -  PUBLIC
+        @Published var searchIsActive: Bool
         @Published var searchText: String = ""
         @Published var posts: [Post]
         
-        init(posts: [Post] = []){
+        init(posts: [Post] = [], searchIsActive: Bool = false){
             self.posts = posts
+            self.searchIsActive = searchIsActive
             self.fetchPosts()
         }
         
         private func fetchPosts(){
+            
             HomeView.DataService.fetchPosts { [weak self] result in
                 switch result {
                     
@@ -90,18 +103,23 @@ extension HomeView {
                 }
             }
         }
+        
+        var filteredPosts: [Post] {
+            let query = searchText.lowercased()
+            return searchText.isEmpty ? posts : posts.filter( { $0.name.lowercased().contains(query) })
+        }
     }
 }
 
 struct HomeView: View {
+    
+    @State var isActive: Bool = false
     
     @State private var isPresented: Bool = false
     
     @StateObject var viewModel: HomeView.ViewModel = HomeView.ViewModel()
     
     @EnvironmentObject var locationManager: LocationManager
-    
-    @State var searchIsActive: Bool = false
     
     var body: some View {
         
@@ -111,14 +129,19 @@ struct HomeView: View {
             Map(coordinateRegion: $locationManager.region, interactionModes: .all, showsUserLocation: true, annotationItems: $viewModel.posts) { $post in
                 
                 MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: post.location.latitude, longitude: post.location.longitude)) {
-                    NavigationLink {
-                        PostDetailView(PostDetailView.ViewModel(post))
+                    
+                    NavigationLink{
+                        LazyView(PostDetailView(PostDetailView.ViewModel(post)))
                     } label: {
                         MapAnnotationCell(post: post)
                     }
+                    .isDetailLink(false)
+                    
+                    
                 }
             }
             .edgesIgnoringSafeArea(.all)
+            
             //Create Post View
             .overlay (
                 Button {
@@ -138,42 +161,29 @@ struct HomeView: View {
                 ,alignment: .bottomTrailing
             )
             
-            VStack {
-                if searchIsActive {
-                    SearchView()
-                        .environmentObject(viewModel)
-                        .transition(.fade(duration: 0.25))
-                        .animation(.easeInOut, value: searchIsActive)
-                }
-            }
-            
             
             //Navigation
             HStack(spacing: 25) {
-                HStack {
-                    Button {
-                        withAnimation {
-                            searchIsActive.toggle()
-                        }
-                    } label: {
-                        Image(systemName: "magnifyingglass")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                    }
-                    .foregroundColor(Color.black.opacity(0.75))
-                    
-                    TextField("howdy", text: $viewModel.searchText)
-                        .font(.system(size: 19))
-                        .frame(width: searchIsActive ? 250 : 0 )
-                        .transition(.fade)
-                        .animation(.easeInOut, value: searchIsActive)
-                    
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
                 
                 NavigationLink {
-                    Text("")
+                    ExploreView()
+                        .environmentObject(viewModel)
+                        .environmentObject(locationManager)
+                        .transition(.fade(duration: 0.25))
+                        .animation(.easeInOut, value: viewModel.searchIsActive)
+                } label: {
+                    Image(systemName: "magnifyingglass")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 25, height: 25)
+                }
+                .isDetailLink(false)
+                .foregroundColor(Color.black.opacity(0.75))
+                
+                Spacer()
+                
+                NavigationLink {
+                    SettingsView()
                 } label: {
                     Image(systemName: "line.3.horizontal")
                         .resizable()
@@ -181,16 +191,18 @@ struct HomeView: View {
                         .aspectRatio(1, contentMode: .fit)
                         .frame(width: 20, height: 20)
                 }
+                .isDetailLink(false)
                 .foregroundColor(Color.black.opacity(0.75))
                 
             }
+            .frame(maxWidth: .infinity)
             .padding(.vertical, 15)
             .padding(.horizontal, 20)
             .background(Color.white)
         }
         .navigationBarHidden(true)
         .navigationTitle("")
-        .onDisappear { searchIsActive = false }
+        .onDisappear { viewModel.searchIsActive = false }
         .overlay(
             VStack {
                 if isPresented {
@@ -207,50 +219,7 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(viewModel: HomeView.ViewModel(posts: [Post(id: UUID().uuidString, latinName: "", name: "Elderflower", imageURL: "https://firebasestorage.googleapis.com:443/v0/b/foragenearme.appspot.com/o/post_images%2FF2A86825-BE3F-42D7-B631-1685D1795E74?alt=media&token=592b9723-be4a-44fc-a8d0-2ecfbb99b979", didLike: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0)), Post(id: UUID().uuidString, latinName: "", name: "Elderflower", imageURL: "https://firebasestorage.googleapis.com:443/v0/b/foragenearme.appspot.com/o/post_images%2FF2A86825-BE3F-42D7-B631-1685D1795E74?alt=media&token=592b9723-be4a-44fc-a8d0-2ecfbb99b979", didLike: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0))]), searchIsActive: false)
+        HomeView(viewModel: HomeView.ViewModel(posts: [Post(id: UUID().uuidString, name: "Elderflower", imageURL: "https://firebasestorage.googleapis.com:443/v0/b/foragenearme.appspot.com/o/post_images%2FF2A86825-BE3F-42D7-B631-1685D1795E74?alt=media&token=592b9723-be4a-44fc-a8d0-2ecfbb99b979", didLike: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0)), Post(id: UUID().uuidString, name: "Elderflower", imageURL: "https://firebasestorage.googleapis.com:443/v0/b/foragenearme.appspot.com/o/post_images%2FF2A86825-BE3F-42D7-B631-1685D1795E74?alt=media&token=592b9723-be4a-44fc-a8d0-2ecfbb99b979", didLike: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0))], searchIsActive: true))
             .environmentObject(LocationManager())
-    }
-}
-
-struct SearchView: View {
-    
-    @EnvironmentObject var viewModel: HomeView.ViewModel
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            ScrollView(.vertical) {
-                LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]) {
-                    ForEach(viewModel.posts){ post in
-                        ZStack(alignment: .bottomTrailing) {
-                            WebImage(url: URL(string: post.imageURL))
-                                .resizable()
-                                .scaledToFill()
-                                .clipped()
-                            
-                            Button {
-                                //
-                            } label: {
-                                Image(systemName: "heart")
-                                    .resizable()
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundColor(.white)
-                                    .scaledToFill()
-                                    .frame(width: 20, height: 20)
-                                    .padding(12)
-                                    .background(Color.black.opacity(0.5))
-                            }
-                            .clipShape(Circle())
-                            .padding(5)
-                            
-                        }
-                        .cornerRadius(10)
-                    }
-                }
-                .padding(.top, 65)
-                .padding(.horizontal, 20)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        }
-        .background(Color.white)
     }
 }

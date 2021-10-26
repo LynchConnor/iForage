@@ -12,6 +12,8 @@ import SDWebImageSwiftUI
 extension PostDetailView {
     class DataService {
         
+        static let shared = DataService()
+        
         static func likePost(id postId: String, completion: @escaping (Error?) -> ()){
             
             guard let userId = AuthViewModel.shared.currentUserId else { return }
@@ -37,14 +39,6 @@ extension PostDetailView {
                 }
             }
         }
-        
-        static func checkIfUserDidLike(){
-            //
-        }
-        
-        static func updateNotes(){
-            
-        }
     }
 }
 
@@ -53,7 +47,9 @@ extension PostDetailView {
         
         // - Public
         
-        @Published var post: Post
+        @Published var notes: String = ""
+        
+        @Published var post: Post?
         
         @Published var isEditing: Bool = false
         
@@ -64,32 +60,32 @@ extension PostDetailView {
         }
         
         var didLike: Bool {
-            guard let didLike = post.didLike else { return false }
+            guard let didLike = post?.didLike else { return false }
             return didLike
         }
         
         func likePost(){
             
-            guard let postId = post.id else { return }
+            guard let postId = post?.id else { return }
             
-            post.didLike = true
+            post?.didLike = true
             
             PostDetailView.DataService.likePost(id: postId) { [weak self] error in
                 if let _ = error {
-                    self?.post.didLike = false
+                    self?.post?.didLike = false
                 }
             }
         }
         
         func unLikePost(){
             
-            guard let postId = post.id else { return }
+            guard let postId = post?.id else { return }
             
-            post.didLike = false
+            post?.didLike = false
             
             PostDetailView.DataService.unlikePost(id: postId) { [weak self] error in
                 if let _ = error {
-                    self?.post.didLike = true
+                    self?.post?.didLike = true
                 }
             }
             
@@ -99,7 +95,7 @@ extension PostDetailView {
             
             guard let userId = AuthViewModel.shared.currentUserId else { return }
             
-            guard let postId = post.id else { return }
+            guard let postId = post?.id else { return }
             
             COLLECTION_USERS.document(userId).collection("userPosts").document(postId).getDocument { snapshot, error in
                 if let error = error {
@@ -109,7 +105,7 @@ extension PostDetailView {
                 
                 guard let document = snapshot, document.exists else { return }
                 
-                self.post.didLike = try? document.data(as: Post.self)?.didLike ?? false
+                self.post?.didLike = try? document.data(as: Post.self)?.didLike ?? false
             }
         }
         
@@ -117,7 +113,7 @@ extension PostDetailView {
             
             guard let userId = AuthViewModel.shared.currentUserId else { return }
             
-            guard let postId = post.id else { return }
+            guard let postId = post?.id else { return }
             
             COLLECTION_USERS.document(userId).collection("userPosts").document(postId).addSnapshotListener { snapshot, error in
                 if let error = error {
@@ -128,7 +124,7 @@ extension PostDetailView {
                 guard let document = snapshot, document.exists else { return }
                 
                 do {
-                    self.post.notes = try document.data(as: Post.self)?.notes ?? ""
+                    self.notes = try document.data(as: Post.self)?.notes ?? ""
                 }catch {
                     print("DEBUG: \(error.localizedDescription)")
                     return
@@ -140,10 +136,10 @@ extension PostDetailView {
             
             guard let userId = AuthViewModel.shared.currentUserId else { return }
             
-            guard let postId = post.id else { return }
+            guard let postId = post?.id else { return }
             
             let data = [
-                "notes": post.notes
+                "notes": notes
             ]
             
             COLLECTION_USERS.document(userId).collection("userPosts").document(postId).setData(data, merge: true) { error in
@@ -168,201 +164,197 @@ struct PostDetailView: View {
         _viewModel = StateObject(wrappedValue: viewModel)
         UITextView.appearance().backgroundColor = .clear
         UITextView.appearance().textContainerInset =
-                 UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 5)
+        UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 5)
     }
     
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
+        
         VStack {
             
-            ScrollView(.vertical, showsIndicators: false) {
+            if let post = viewModel.post {
                 
-                VStack(spacing: 0) {
-                    ZStack(alignment: .bottom) {
-                        
-                        StretchingHeader(height: 275) {
-                            
-                            AnimatedImage(url: URL(string: viewModel.post.imageURL))
-                                .resizable()
-                                .aspectRatio(1, contentMode: .fill)
-                                .clipped()
-                        }
-                        .overlay(
-                            
-                            LinearGradient(colors: [.clear, .black.opacity(0.65)], startPoint: .top, endPoint: .bottom)
-                                .clipped()
-                            
-                            ,alignment: .bottom
-                            
-                        )// - Overlay
-                        
-                        
-                        HStack {
-                            VStack(alignment: .leading) {
-                                //MARK: Latin Name
-                                
-                                if let name = viewModel.post.latinName {
-                                    
-                                    Text(name)
-                                        .italic()
-                                        .kerning(1)
-                                        .font(.system(size: 14, weight: .semibold))
-                                        .foregroundColor(Color.init(red: 255/255, green: 96/255, blue: 96/255))
-                                        .shadow(color: .black.opacity(0.75), radius: 2, x: 0, y: 0)
-                                }
-                                
-                                //MARK: Name
-                                Text(viewModel.post.name)
-                                    .kerning(1)
-                                    .font(.system(size: 32, weight: .bold))
-                                    .foregroundColor(.white)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            
-                        }// - HStack
-                        .padding(.horizontal, 15)
-                        .padding(.vertical, 10)
-                        .frame(maxWidth: .infinity)
-                        
-                    }// - ZStack
+                ScrollView(.vertical, showsIndicators: false) {
                     
-                    VStack(alignment: .leading, spacing: 5) {
-                        HStack(alignment: .center, spacing: 5) {
+                    VStack(spacing: 0) {
+                        ZStack(alignment: .bottom) {
                             
-                            Text("Notes")
-                                .kerning(2)
-                                .font(.system(size: 18, weight: .semibold))
+                            StretchingHeader(height: 275) {
+                                
+                                AnimatedImage(url: URL(string: post.imageURL))
+                                    .resizable()
+                                    .aspectRatio(1, contentMode: .fill)
+                                    .clipped()
+                            }
+                            .overlay(
+                                
+                                LinearGradient(colors: [.clear, .black.opacity(0.65)], startPoint: .top, endPoint: .bottom)
+                                    .clipped()
+                                
+                                ,alignment: .bottom
+                                
+                            )// - Overlay
+                            
                             
                             HStack {
-                                
-                                if !viewModel.isEditing {
-                                    //MARK: Edit
-                                    Button {
-                                        DispatchQueue.main.async {
-                                            viewModel.isEditing.toggle()
-                                        }
-                                    } label: {
-                                        Image(systemName: "square.and.pencil")
-                                            .resizable()
-                                            .frame(width: 15, height: 15)
-                                            .aspectRatio(1, contentMode: .fill)
-                                            .foregroundColor(.black)
-                                            .padding(5)
-                                        
-                                    }// - Button
+                                VStack(alignment: .leading) {
                                     
-                                }else{
-                                    
-                                    Spacer()
-                                    
-                                    //MARK: Save
-                                    Button {
-                                        viewModel.saveNotes()
-                                    } label: {
-                                        Text("Save")
-                                            .font(.system(size: 14, weight: .bold))
-                                            .foregroundColor(.black)
-                                    }
-
+                                    //MARK: Name
+                                    Text(post.name)
+                                        .kerning(1)
+                                        .font(.system(size: 32, weight: .bold))
+                                        .foregroundColor(.white)
                                 }
-                            }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                
+                            }// - HStack
+                            .padding(.horizontal, 15)
+                            .padding(.vertical, 10)
+                            .frame(maxWidth: .infinity)
                             
-                        }// - HStack
-                        .padding(.horizontal, 10)
+                        }// - ZStack
                         
-                        //MARK: Notes
-                        
-                        if !viewModel.isEditing {
+                        VStack(alignment: .leading, spacing: 5) {
+                            HStack(alignment: .center, spacing: 5) {
+                                
+                                Text("Notes")
+                                    .kerning(2)
+                                    .font(.system(size: 18, weight: .semibold))
+                                
+                                HStack {
+                                    
+                                    if !viewModel.isEditing {
+                                        //MARK: Edit
+                                        Button {
+                                            DispatchQueue.main.async {
+                                                viewModel.isEditing.toggle()
+                                            }
+                                        } label: {
+                                            Image(systemName: "square.and.pencil")
+                                                .resizable()
+                                                .frame(width: 15, height: 15)
+                                                .aspectRatio(1, contentMode: .fill)
+                                                .foregroundColor(.black)
+                                                .padding(5)
+                                            
+                                        }// - Button
+                                        
+                                    }else{
+                                        
+                                        Spacer()
+                                        
+                                        //MARK: Save
+                                        Button {
+                                            viewModel.saveNotes()
+                                        } label: {
+                                            Text("Save")
+                                                .font(.system(size: 14, weight: .bold))
+                                                .foregroundColor(.black)
+                                        }
+                                        
+                                    }
+                                }
+                                
+                            }// - HStack
+                            .padding(.horizontal, 10)
                             
-                            Text(viewModel.post.notes)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                                .foregroundColor(Color.black.opacity(0.8))
-                                .font(.system(size: 17, weight: .light))
-                                .lineSpacing(8)
-                                .padding(10)
-                                .multilineTextAlignment(.leading)
-                        }else{
-                            ZStack {
-                                TextEditor(text: $viewModel.post.notes)
+                            //MARK: Notes
+                            
+                            if !viewModel.isEditing {
+                                
+                                Text(viewModel.notes)
                                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                                     .foregroundColor(Color.black.opacity(0.8))
                                     .font(.system(size: 17, weight: .light))
                                     .lineSpacing(8)
-                                    .background(Color.gray.opacity(0.1))
-                                    .cornerRadius(3)
+                                    .padding(10)
                                     .multilineTextAlignment(.leading)
-                                
-                                Text(viewModel.post.notes).opacity(0).padding(.all, 8)
+                            }else{
+                                ZStack {
+                                    TextEditor(text: $viewModel.notes)
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                                        .foregroundColor(Color.black.opacity(0.8))
+                                        .font(.system(size: 17, weight: .light))
+                                        .lineSpacing(8)
+                                        .background(Color.gray.opacity(0.1))
+                                        .cornerRadius(3)
+                                        .multilineTextAlignment(.leading)
+                                    
+                                    Text(viewModel.notes).opacity(0).padding(.all, 8)
+                                }
                             }
-                        }
-                        
-                    }// - VStack
-                    .padding(.vertical, 20)
-                    .padding(.horizontal, 10)
-                }
-                // - VStack
-            }
-            // - ScrollView
-            .overlay(
-                
-                HStack {
-                    
-                    ZStack {
-                        
-                        Circle()
-                            .opacity(0.5)
-                        
-                        Button {
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            Image(systemName: "arrow.left")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 17, height: 17)
-                                .font(.system(size: 1, weight: .medium))
-                                .foregroundColor(.white)
-                                .padding(13)
-                        }// - Button
-                        
+                            
+                        }// - VStack
+                        .padding(.vertical, 20)
+                        .padding(.horizontal, 10)
                     }
-                    // - ZStack
-                    .frame(width: 45, height: 45)
+                    // - VStack
+                }
+                // - ScrollView
+                .overlay(
                     
-                    Spacer()
-                    
-                    Button {
-                        viewModel.didLike ? viewModel.unLikePost() : viewModel.likePost()
-                    } label: {
+                    HStack {
+                        
                         ZStack {
                             
                             Circle()
-                                .foregroundColor(Color.black.opacity(0.5))
+                                .opacity(0.5)
                             
-                            Image(systemName: viewModel.didLike ? "heart.fill" : "heart")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .font(.system(size: 16, weight: .medium))
-                                .padding(13)
-                                .foregroundColor(viewModel.didLike ? .red : .white)
+                            Button {
+                                presentationMode.wrappedValue.dismiss()
+                            } label: {
+                                Image(systemName: "arrow.left")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 17, height: 17)
+                                    .font(.system(size: 1, weight: .medium))
+                                    .foregroundColor(.white)
+                                    .padding(13)
+                            }// - Button
                             
-                        }// - ZStack
+                        }
+                        // - ZStack
                         .frame(width: 45, height: 45)
                         
-                    }// - Button
-                    .buttonStyle(LikeButtonStyle())
+                        Spacer()
+                        
+                        Button {
+                            viewModel.didLike ? viewModel.unLikePost() : viewModel.likePost()
+                        } label: {
+                            ZStack {
+                                
+                                Circle()
+                                    .foregroundColor(Color.black.opacity(0.5))
+                                
+                                Image(systemName: viewModel.didLike ? "heart.fill" : "heart")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .font(.system(size: 16, weight: .medium))
+                                    .padding(13)
+                                    .foregroundColor(viewModel.didLike ? .red : .white)
+                                
+                            }// - ZStack
+                            .frame(width: 45, height: 45)
+                            
+                        }// - Button
+                        .buttonStyle(LikeButtonStyle())
+                        
+                    }
+                    // - HStack
+                        .padding(.top, 40)
+                        .padding(.horizontal, 15)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     
-                }
-                // - HStack
-                    .padding(.top, 40)
-                    .padding(.horizontal, 15)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                
-                ,alignment: .top
-            )// - Overlay
+                    ,alignment: .top
+                )// - Overlay
+            }//IF LET POST
+            else{
+                ProgressView()
+            }
         }
-        .frame(maxHeight: .infinity, alignment: .top)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .edgesIgnoringSafeArea(.top)
         .ignoresSafeArea(.all, edges: .top)
         .navigationTitle("")
@@ -377,4 +369,4 @@ struct PostDetailView_Previews: PreviewProvider {
     }
 }
 
-let DEFAULT_POST = Post(id: UUID().uuidString, latinName: "Sambucus Nigras", name: "", imageURL: "", didLike: true, notes: "", location: GeoPoint(latitude: 0, longitude: 0))
+let DEFAULT_POST = Post(id: UUID().uuidString, name: "", imageURL: "", didLike: true, notes: "", location: GeoPoint(latitude: 0, longitude: 0))

@@ -36,6 +36,7 @@ struct ForageNearMeApp: App {
             }
             .navigationTitle("")
             .navigationBarHidden(true)
+            .navigationViewStyle(.columns)
         }
     }
 }

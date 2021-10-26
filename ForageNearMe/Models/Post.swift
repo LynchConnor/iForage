@@ -13,7 +13,6 @@ import Foundation
 struct Post: Identifiable, Codable {
     @DocumentID var id: String?
     
-    var latinName: String?
     let name: String
     let imageURL: String
     

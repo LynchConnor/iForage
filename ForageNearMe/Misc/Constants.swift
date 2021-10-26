@@ -16,6 +16,39 @@ func fetchUserId() -> String {
 
 let COLLECTION_USERS = Firestore.firestore().collection("users")
 
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    }
+}
+
+struct FlatLinkStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+    }
+}
+
+struct RoundedCorner: Shape {
+
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
+
+struct LazyView<Content: View>: View {
+    let build: () -> Content
+    init(_ build: @autoclosure @escaping () -> Content) {
+        self.build = build
+    }
+    var body: Content {
+        build()
+    }
+}
+
 //MARK:- StrechingHeader
 struct StretchingHeader<Content: View>: View {
     let height: CGFloat

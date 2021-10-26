@@ -36,7 +36,10 @@
 		E0AE79B027179A8A00E32803 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AE79AF27179A8A00E32803 /* ImagePicker.swift */; };
 		E0AE79B42717A4C300E32803 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AE79B32717A4C300E32803 /* MapKit.framework */; };
 		E0AE79B62717AFF200E32803 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0AE79B52717AFF200E32803 /* GoogleService-Info.plist */; };
+		E0BA3FC12727548A00AC7663 /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BA3FC02727548A00AC7663 /* ExploreView.swift */; };
 		E0C399F7271F6174007726A1 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = E0C399F6271F6174007726A1 /* SDWebImageSwiftUI */; };
+		E0CD638527288ACC002F5065 /* ExplorePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CD638427288ACC002F5065 /* ExplorePostCell.swift */; };
+		E0CD638827288E30002F5065 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CD638727288E30002F5065 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +65,9 @@
 		E0AE79B12717A4C300E32803 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0AE79B32717A4C300E32803 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E0AE79B52717AFF200E32803 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E0BA3FC02727548A00AC7663 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
+		E0CD638427288ACC002F5065 /* ExplorePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorePostCell.swift; sourceTree = "<group>"; };
+		E0CD638727288E30002F5065 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,9 +105,11 @@
 		E0273A022711F2FE00C88885 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				E0CD638627288E29002F5065 /* Settings */,
 				E0AAA5B12714BB5C002C9996 /* MainTabBarView.swift */,
 				E0273A0927124DCC00C88885 /* Authentication */,
 				E0273A032711F30500C88885 /* Home */,
+				E0BA3FBF2727548100AC7663 /* Explore */,
 				E033040A2714DF85001D4CBF /* Create */,
 			);
 			path = App;
@@ -112,7 +120,7 @@
 			children = (
 				E0273A042711F31700C88885 /* HomeView.swift */,
 				E02BD66F2713AFE3006BD62D /* PostDetailView.swift */,
-				E02BD66727138F50006BD62D /* MapView */,
+				E02BD66727138F50006BD62D /* MapAnnotation */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -135,12 +143,12 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		E02BD66727138F50006BD62D /* MapView */ = {
+		E02BD66727138F50006BD62D /* MapAnnotation */ = {
 			isa = PBXGroup;
 			children = (
 				E02BD66827138F60006BD62D /* MapAnnotationCell.swift */,
 			);
-			path = MapView;
+			path = MapAnnotation;
 			sourceTree = "<group>";
 		};
 		E02BD66C27139580006BD62D /* Services */ = {
@@ -224,6 +232,23 @@
 				E0AE79B32717A4C300E32803 /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E0BA3FBF2727548100AC7663 /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				E0BA3FC02727548A00AC7663 /* ExploreView.swift */,
+				E0CD638427288ACC002F5065 /* ExplorePostCell.swift */,
+			);
+			path = Explore;
+			sourceTree = "<group>";
+		};
+		E0CD638627288E29002F5065 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				E0CD638727288E30002F5065 /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -319,6 +344,7 @@
 				E0477F33271B59B20023146B /* ImageUploader.swift in Sources */,
 				E06D9907270E4FBE00F7FE0E /* ContentView.swift in Sources */,
 				E0273A0B27124DDC00C88885 /* LoginView.swift in Sources */,
+				E0CD638527288ACC002F5065 /* ExplorePostCell.swift in Sources */,
 				E02BD6702713AFE3006BD62D /* PostDetailView.swift in Sources */,
 				E04A1775271A360500608254 /* AuthViewModel.swift in Sources */,
 				E02BD66E2713958B006BD62D /* LocationManager.swift in Sources */,
@@ -326,10 +352,12 @@
 				E06D9905270E4FBE00F7FE0E /* ForageNearMeApp.swift in Sources */,
 				E033040C2714DF96001D4CBF /* CreatePostView.swift in Sources */,
 				E04A1773271A2CA000608254 /* CreateAccountView.swift in Sources */,
+				E0BA3FC12727548A00AC7663 /* ExploreView.swift in Sources */,
 				E0273A35271269FC00C88885 /* Post.swift in Sources */,
 				E0477F31271B57A70023146B /* OnboardingView.swift in Sources */,
 				E02BD66927138F60006BD62D /* MapAnnotationCell.swift in Sources */,
 				E02BD6722713B5DC006BD62D /* Constants.swift in Sources */,
+				E0CD638827288E30002F5065 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
