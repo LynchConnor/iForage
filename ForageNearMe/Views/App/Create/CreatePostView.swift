@@ -75,11 +75,15 @@ extension CreatePostView {
 
 struct CreatePostView: View {
     
+    @State private var shouldPresentCamera = false
+    
     @Binding var isPresented: Bool
+    
+    @State var presentConfirmationSheet: Bool = false
     
     @StateObject var viewModel = CreatePostView.ViewModel()
     
-    @State var isShowPhotoLibrary: Bool = false
+    @State var isShowImagePicker: Bool = false
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -125,7 +129,7 @@ struct CreatePostView: View {
                     }
                     
                     Button {
-                        isShowPhotoLibrary = true
+                        presentConfirmationSheet = true
                     } label: {
                         
                         if let image = viewModel.selectedImage {
@@ -159,6 +163,22 @@ struct CreatePostView: View {
                         }
                         
                     }// - Button
+                    .confirmationDialog("Choose your preferred media", isPresented: $presentConfirmationSheet, titleVisibility: .visible) {
+                        Button {
+                            self.shouldPresentCamera = true
+                            self.isShowImagePicker = true
+                        } label: {
+                            Text("Camera")
+                        }
+                        
+                        Button {
+                            self.shouldPresentCamera = false
+                            self.isShowImagePicker = true
+                        } label: {
+                            Text("Photo Library")
+                        }
+
+                    }
                     .frame(maxWidth: .infinity)
                     .cornerRadius(5)
                     .clipped()
@@ -191,8 +211,8 @@ struct CreatePostView: View {
             
             
         }// - ScrollView
-        .sheet(isPresented: $isShowPhotoLibrary, content: {
-            ImagePicker(selectedImage: $viewModel.selectedImage)
+        .sheet(isPresented: $isShowImagePicker, content: {
+            ImagePicker(selectedImage: $viewModel.selectedImage, isPresented: $isShowImagePicker, sourceType: self.shouldPresentCamera ? .camera : .photoLibrary)
         })
         // - VStack
         .padding(.horizontal, 20)

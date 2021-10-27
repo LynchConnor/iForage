@@ -11,8 +11,9 @@ import SwiftUI
 struct ImagePicker: UIViewControllerRepresentable {
     
     @Binding var selectedImage: UIImage?
+    @Binding var isPresented: Bool
     
-    var sourceType: UIImagePickerController.SourceType = .photoLibrary
+    var sourceType: UIImagePickerController.SourceType
     
     func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
@@ -45,7 +46,12 @@ extension ImagePicker {
             DispatchQueue.main.async {
                 self.parent.selectedImage = image
                 picker.dismiss(animated: true)
+                self.parent.isPresented = false
             }
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.isPresented = false
         }
     }
 }

@@ -27,7 +27,7 @@ struct HomeView: View {
         ZStack(alignment: .top) {
             
             // - Map
-            Map(coordinateRegion: $locationManager.region, interactionModes: .all, showsUserLocation: true, annotationItems: $viewModel.posts) { $post in
+            Map(coordinateRegion: $locationManager.region, interactionModes: .all, showsUserLocation: true, userTrackingMode: .constant(MapUserTrackingMode.follow), annotationItems: $viewModel.posts) { $post in
                 
                 MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: post.location.latitude, longitude: post.location.longitude)) {
                     
@@ -38,13 +38,13 @@ struct HomeView: View {
                     }
                     .isDetailLink(false)
                     
-                    
                 }
             }
             .edgesIgnoringSafeArea(.all)
             
             //Create Post View
             .overlay (
+                
                 Button {
                     isPresented.toggle()
                 } label: {
