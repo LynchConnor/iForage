@@ -9,22 +9,36 @@ import SwiftUI
 
 struct OnboardingView: View {
     var body: some View {
-        VStack {
+        VStack(spacing: 15) {
             Spacer()
             
             NavigationLink {
                 LoginView()
             } label: {
-                Text("Log in")
+                Text("LOGIN")
+                    .font(.system(size: 18, weight: .bold))
+                    .padding(20)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .background(Color.theme.cardBackground)
             }
+            .cornerRadius(20)
+            .padding(.horizontal, 20)
             
             NavigationLink {
                 CreateAccountView()
             } label: {
-                Text("Create Account")
+                Text("CREATE ACCOUNT")
+                    .font(.system(size: 18, weight: .bold))
+                    .padding(20)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .background(Color.theme.cardBackground)
             }
-
+            .cornerRadius(20)
+            .padding(.horizontal, 20)
         }
+        .edgesIgnoringSafeArea(.all)
+        .padding(.bottom, 15)
+        .background(Color.theme.background)
     }
 }
 

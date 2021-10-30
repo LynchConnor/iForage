@@ -12,7 +12,11 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import SDWebImageSwiftUI
 
+var darkBlue: Color = Color.init(red: 36, green: 59, blue: 83)
+
 struct HomeView: View {
+    
+    @Environment(\.colorScheme) var colourScheme
     
     @State var isActive: Bool = false
     
@@ -55,7 +59,7 @@ struct HomeView: View {
                         .scaledToFit()
                         .frame(width: 25, height: 25)
                         .padding(18)
-                        .background(Color.black)
+                        .background(Color.theme.buttonBackgroundColor)
                         .clipShape(Circle())
                         .padding(5)
                 }
@@ -83,7 +87,7 @@ struct HomeView: View {
                         .frame(width: 25, height: 25)
                 }
                 .isDetailLink(false)
-                .foregroundColor(Color.black.opacity(0.75))
+                .foregroundColor(Color.theme.accent)
                 
                 Spacer()
                 
@@ -97,13 +101,13 @@ struct HomeView: View {
                         .frame(width: 20, height: 20)
                 }
                 .isDetailLink(false)
-                .foregroundColor(Color.black.opacity(0.75))
+                .foregroundColor(Color.theme.accent)
                 
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 15)
             .padding(.horizontal, 20)
-            .background(Color.white)
+            .background(Color.theme.navigationBackground)
         }
         .navigationBarHidden(true)
         .navigationTitle("")
@@ -126,5 +130,6 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView(viewModel: HomeView.ViewModel(posts: [Post(id: UUID().uuidString, name: "Elderflower", imageURL: "https://firebasestorage.googleapis.com:443/v0/b/foragenearme.appspot.com/o/post_images%2FF2A86825-BE3F-42D7-B631-1685D1795E74?alt=media&token=592b9723-be4a-44fc-a8d0-2ecfbb99b979", didLike: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0)), Post(id: UUID().uuidString, name: "Elderflower", imageURL: "https://firebasestorage.googleapis.com:443/v0/b/foragenearme.appspot.com/o/post_images%2FF2A86825-BE3F-42D7-B631-1685D1795E74?alt=media&token=592b9723-be4a-44fc-a8d0-2ecfbb99b979", didLike: false, notes: "", location: GeoPoint(latitude: 0, longitude: 0))], searchIsActive: true))
             .environmentObject(LocationManager())
+            .preferredColorScheme(.dark)
     }
 }

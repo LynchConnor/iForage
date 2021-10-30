@@ -109,6 +109,7 @@ struct CreatePostView: View {
                         } label: {
                             Text("Cancel")
                                 .font(.system(size: 17, weight: .semibold))
+                                .foregroundColor(Color.theme.accent)
                         }
                         .padding(.vertical, 15)
                         Spacer()
@@ -186,11 +187,13 @@ struct CreatePostView: View {
                     VStack(spacing: 5) {
                         
                         TextField("Name your plant here...", text: $viewModel.name)
-                            .font(.system(size: 21, weight: .semibold))
+                            .font(.system(size: 22, weight: .semibold))
                             .padding(.vertical, 15)
+                            .foregroundColor(Color.theme.accent)
                         
                         TextEditor(text: $viewModel.notes)
-                            .font(.system(size: 18, weight: .regular))
+                            .foregroundColor(Color.theme.accent)
+                            .font(.system(size: 19, weight: .regular))
                             .lineSpacing(8)
                             .frame(height: 150)
                             .cornerRadius(5)
@@ -213,13 +216,14 @@ struct CreatePostView: View {
         }// - ScrollView
         .sheet(isPresented: $isShowImagePicker, content: {
             ImagePicker(selectedImage: $viewModel.selectedImage, isPresented: $isShowImagePicker, sourceType: self.shouldPresentCamera ? .camera : .photoLibrary)
+                .edgesIgnoringSafeArea(.all)
         })
         // - VStack
         .padding(.horizontal, 20)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .navigationBarHidden(true)
         .navigationTitle("")
-        .background(Color.white)
+        .background(Color.theme.background)
     }
 }
 
@@ -227,5 +231,6 @@ struct CreatePostView_Previews: PreviewProvider {
     static var previews: some View {
         CreatePostView(isPresented: .constant(true))
             .environmentObject(LocationManager())
+            .preferredColorScheme(.dark)
     }
 }

@@ -267,7 +267,7 @@ struct PostDetailView: View {
                                 
                                 Text(viewModel.notes)
                                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                                    .foregroundColor(Color.black.opacity(0.8))
+                                    .foregroundColor(Color.theme.accent)
                                     .font(.system(size: 17, weight: .light))
                                     .lineSpacing(8)
                                     .padding(10)
@@ -276,7 +276,7 @@ struct PostDetailView: View {
                                 ZStack {
                                     TextEditor(text: $viewModel.notes)
                                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                                        .foregroundColor(Color.black.opacity(0.8))
+                                        .foregroundColor(Color.theme.accent)
                                         .font(.system(size: 17, weight: .light))
                                         .lineSpacing(8)
                                         .background(Color.gray.opacity(0.1))
@@ -287,12 +287,19 @@ struct PostDetailView: View {
                                 }
                             }
                             
+                            Spacer()
+                            
                         }// - VStack
                         .padding(.vertical, 20)
                         .padding(.horizontal, 10)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                     }
+                    
                     // - VStack
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .background(Color.theme.background)
                 // - ScrollView
                 .overlay(
                     
@@ -301,7 +308,7 @@ struct PostDetailView: View {
                         ZStack {
                             
                             Circle()
-                                .opacity(0.5)
+                                .foregroundColor(Color.black.opacity(0.5))
                             
                             Button {
                                 presentationMode.wrappedValue.dismiss()

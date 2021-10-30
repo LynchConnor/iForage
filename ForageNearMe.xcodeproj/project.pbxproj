@@ -39,6 +39,7 @@
 		E0C399F7271F6174007726A1 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = E0C399F6271F6174007726A1 /* SDWebImageSwiftUI */; };
 		E0CD638527288ACC002F5065 /* ExplorePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CD638427288ACC002F5065 /* ExplorePostCell.swift */; };
 		E0CD638827288E30002F5065 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CD638727288E30002F5065 /* SettingsView.swift */; };
+		E0DFB69C272AB11000315C4C /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DFB69B272AB11000315C4C /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		E0BA3FC02727548A00AC7663 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
 		E0CD638427288ACC002F5065 /* ExplorePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorePostCell.swift; sourceTree = "<group>"; };
 		E0CD638727288E30002F5065 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E0DFB69B272AB11000315C4C /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +247,7 @@
 			children = (
 				E02BD6712713B5DC006BD62D /* Constants.swift */,
 				E0AE79AF27179A8A00E32803 /* ImagePicker.swift */,
+				E0DFB69B272AB11000315C4C /* Color.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 			files = (
 				E0AE79B027179A8A00E32803 /* ImagePicker.swift in Sources */,
 				E0273A052711F31700C88885 /* HomeView.swift in Sources */,
+				E0DFB69C272AB11000315C4C /* Color.swift in Sources */,
 				E0477F33271B59B20023146B /* ImageUploader.swift in Sources */,
 				E06D9907270E4FBE00F7FE0E /* ContentView.swift in Sources */,
 				E0273A0B27124DDC00C88885 /* LoginView.swift in Sources */,

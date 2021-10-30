@@ -36,7 +36,7 @@ struct ExploreView: View {
                         .scaledToFit()
                         .frame(width: 21, height: 21)
                 }
-                .foregroundColor(Color.black.opacity(0.75))
+                .foregroundColor(Color.theme.accent)
                 
                 
                 HStack(spacing: 8) {
@@ -51,7 +51,7 @@ struct ExploreView: View {
                                         viewModel.searchText = ""
                                     }, label: {
                                         Image(systemName: "xmark.circle.fill")
-                                            .foregroundColor(.gray)
+                                            .foregroundColor(Color.theme.accent)
                                     })
                                 }
                             }
@@ -66,7 +66,7 @@ struct ExploreView: View {
                             } label: {
                                 Text("Cancel")
                             }
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.theme.accent)
                             .transition(.customCancelTransition)
                             .animation(.easeInOut, value: searchIsTapped)
                         }
@@ -84,7 +84,7 @@ struct ExploreView: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical, 15)
             .padding(.horizontal, 20)
-            .background(Color.white)
+            .background(Color.theme.navigationBackground)
             
             
             Rectangle()
@@ -99,9 +99,9 @@ struct ExploreView: View {
                             LazyView(PostDetailView(PostDetailView.ViewModel(post)))
                         } label: {
                             ExplorePostCell(viewModel: ExplorePostCell.ViewModel(post: post, location: locationManager.lastLocation))
-                                .cornerRadius(5)
+                                .cornerRadius(10)
                                 .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 0)
-                                .padding(.horizontal, 20)
+                                .padding(.horizontal, 15)
                         }
                         .isDetailLink(false)
                         .buttonStyle(FlatLinkStyle())
@@ -112,7 +112,7 @@ struct ExploreView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         }
-        .background(Color.gray.opacity(0.075))
+        .background(Color.theme.background)
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .onDisappear(perform: {
@@ -130,6 +130,8 @@ struct ExploreView_Previews: PreviewProvider {
             
             ExploreView()
                 .environmentObject(HomeView.ViewModel(posts: [Post(id: UUID().uuidString, name: "Elderflower", imageURL: "https://firebasestorage.googleapis.com:443/v0/b/foragenearme.appspot.com/o/post_images%2FF2A86825-BE3F-42D7-B631-1685D1795E74?alt=media&token=592b9723-be4a-44fc-a8d0-2ecfbb99b979", notes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", location: GeoPoint(latitude: 0, longitude: 0))], searchIsActive: true))
+                .environmentObject(LocationManager())
+                .preferredColorScheme(.dark)
         }
     }
 }

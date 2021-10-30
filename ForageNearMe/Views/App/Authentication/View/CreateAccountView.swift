@@ -23,10 +23,28 @@ extension CreateAccountView {
 
 struct CreateAccountView: View {
     
+    @Environment(\.dismiss) var dismiss
+    
     @StateObject var viewModel: CreateAccountView.ViewModel = CreateAccountView.ViewModel()
     
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
+            
+            HStack {
+                
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "arrow.left")
+                        .resizable()
+                        .font(.system(size: 18, weight: .semibold))
+                        .scaledToFit()
+                        .frame(width: 21, height: 21)
+                }
+                .foregroundColor(Color.theme.accent)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
             VStack(alignment: .leading) {
                 Text("Create Account")
                     .font(.system(size: 32, weight: .semibold))
@@ -72,57 +90,8 @@ struct CreateAccountView: View {
         
         .padding(.horizontal, 20)
         .padding(.top, 50)
-        
+        .background(Color.theme.background)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-    }
-    
-    
-    private struct CustomTextField: View {
-        
-        let text: String
-        let placeholder: String
-        @Binding var binding: String
-        @State var isSecure: Bool = false
-        
-        @State private var isActive: Bool = false
-        
-        var body: some View {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(text)
-                    .font(.system(size: 17, weight: .regular))
-                
-                ZStack {
-                    
-                    if !isSecure {
-                        TextField(placeholder, text: $binding)
-                    }else{
-                        SecureField(placeholder, text: $binding)
-                    }
-                }
-                .frame(height: 20)
-                .padding()
-                .background(Color.init(red: 247/255, green: 247/255, blue: 247/255))
-                .cornerRadius(5)
-                
-                .overlay(
-                    VStack {
-                        if isSecure || isActive {
-                            
-                            Button(action: {
-                                isActive.toggle()
-                                isSecure.toggle()
-                            }, label: {
-                                Image(systemName: isActive ? "eye.slash" : "eye")
-                                    .padding(5)
-                                    .foregroundColor(.black)
-                            })
-                                .padding(.horizontal, 10)
-                        }
-                    }
-                    ,alignment: .trailing
-                )
-            }
-        }
     }
 }
 

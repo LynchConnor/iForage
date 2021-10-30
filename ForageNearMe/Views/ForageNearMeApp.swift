@@ -22,6 +22,8 @@ struct ForageNearMeApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
+    @AppStorage("isDarkMode") private var isDarkMode = false
+    
     init(){
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -37,6 +39,7 @@ struct ForageNearMeApp: App {
             .navigationTitle("")
             .navigationBarHidden(true)
             .navigationViewStyle(.columns)
+            .environment(\.colorScheme, isDarkMode ? .dark : .light)
         }
     }
 }

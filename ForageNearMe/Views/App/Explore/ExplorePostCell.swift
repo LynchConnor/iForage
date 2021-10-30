@@ -60,12 +60,12 @@ struct ExplorePostCell: View {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(post.name)
                         .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.black.opacity(0.9))
+                        .foregroundColor(Color.theme.accent)
                     
                     Text(post.notes.prefix(50))
                         .lineLimit(2)
                         .font(.system(size: 15, weight: .regular))
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color.theme.accent)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
                         .frame(maxHeight: .infinity, alignment: .topLeading)
@@ -84,10 +84,11 @@ struct ExplorePostCell: View {
                     }
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
-                .padding(10)
+                .padding(.vertical, 10)
+                .padding(.horizontal, 12)
             }
             .frame(maxWidth: .infinity, maxHeight: 115, alignment: .leading)
-            .background(Color.white)
+            .background(Color.theme.cardBackground)
             .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 0)
         }
     }

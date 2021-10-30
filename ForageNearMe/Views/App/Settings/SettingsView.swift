@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @State var darkModeActive: Bool = false
+    @AppStorage("isDarkMode") private var isDarkMode = false
     
     @Environment(\.dismiss) var dismiss
     
@@ -29,32 +29,32 @@ struct SettingsView: View {
                         .scaledToFit()
                         .frame(width: 21, height: 21)
                 }
-                .foregroundColor(Color.black.opacity(0.75))
+                .foregroundColor(Color.theme.accent)
                 
                 Spacer()
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 15)
             .padding(.horizontal, 20)
-            .background(Color.white)
+            .background(Color.theme.navigationBackground)
             
             VStack(alignment: .leading, spacing: 40) {
                 
-//                HStack(spacing: 10) {
-//                    Image(systemName: "circle.righthalf.fill")
-//                    Text("Dark mode")
-//                        .frame(maxWidth: .infinity, alignment: .leading)
-//
-//                    Text(darkModeActive ? "On" : "Off")
-//                        .font(.system(size: 15, weight: .bold))
-//                        .foregroundColor(.gray)
-//                    Toggle(isOn: $darkModeActive) {
-//                        Text("")
-//                    }
-//                    .frame(width: 50)
-//                }
-//                .foregroundColor(.black)
-//                .font(.system(size: 23, weight: .semibold))
+                HStack(spacing: 10) {
+                    Image(systemName: "circle.righthalf.fill")
+                    Text("Dark mode")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Text(isDarkMode ? "On" : "Off")
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundColor(.gray)
+                    Toggle(isOn: $isDarkMode) {
+                        Text("")
+                    }
+                    .frame(width: 50)
+                }
+                .foregroundColor(Color.theme.accent)
+                .font(.system(size: 23, weight: .semibold))
                 
                 Button {
                     confirmationShown = true
@@ -64,13 +64,17 @@ struct SettingsView: View {
                         Image(systemName: "arrow.left.square.fill")
                         Text("Sign Out")
                     }
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.theme.accent)
                     .font(.system(size: 23, weight: .semibold))
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.horizontal, 20)
+            .padding(.top, 20)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background(Color.theme.background)
         .navigationBarHidden(true)
         .navigationTitle("")
         .confirmationDialog("Are you sure?", isPresented: $confirmationShown, titleVisibility: .visible) {
@@ -84,5 +88,6 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
+            .preferredColorScheme(.dark)
     }
 }
