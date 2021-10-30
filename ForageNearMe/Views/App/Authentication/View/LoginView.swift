@@ -84,14 +84,16 @@ struct LoginView: View {
                 .isDetailLink(true)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            .foregroundColor(Color.theme.accent)
             
         }
         
         .navigationBarHidden(true)
         .navigationBarTitle("")
         
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 15)
         .padding(.horizontal, 20)
-        .padding(.top, 50)
         .background(Color.theme.background)
         
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -123,7 +125,6 @@ struct CustomTextField: View {
                 
                 if !isSecure {
                     TextField(placeholder, text: $binding)
-                        .background(Color.theme.cardBackground)
                 }else{
                     SecureField(placeholder, text: $binding)
                 }
@@ -131,7 +132,7 @@ struct CustomTextField: View {
             .frame(height: 20)
             .padding()
             .tint(Color.theme.accent)
-            .background(Color.theme.cardBackground)
+            .background(Color.onboarding.textfield)
             .cornerRadius(5)
             
             .overlay(

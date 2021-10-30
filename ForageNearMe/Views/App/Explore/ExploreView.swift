@@ -92,27 +92,39 @@ struct ExploreView: View {
                 .foregroundColor(.gray.opacity(0.25))
             
             ScrollView(.vertical) {
-                LazyVGrid(columns: columns, spacing: 15) {
-                    ForEach(viewModel.filteredPosts){ post in
-                        
-                        NavigationLink {
-                            LazyView(PostDetailView(PostDetailView.ViewModel(post)))
-                        } label: {
-                            ExplorePostCell(viewModel: ExplorePostCell.ViewModel(post: post, location: locationManager.lastLocation))
-                                .cornerRadius(10)
-                                .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 0)
-                                .padding(.horizontal, 15)
-                        }
-                        .isDetailLink(false)
-                        .buttonStyle(FlatLinkStyle())
+                
+                if viewModel.filteredPosts.isEmpty {
+                    VStack(spacing: 10) {
+                        Text("'\(Text(viewModel.searchText).bold())' can't be found")
+                            .font(.system(size: 18))
+                        Text("┐(‘～`；)┌")
+                            .font(.system(size: 28, weight: .heavy))
                     }
+                    .padding(.top, 25)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                } else {
+                    LazyVGrid(columns: columns, spacing: 15) {
+                        ForEach(viewModel.filteredPosts){ post in
+                            
+                            NavigationLink {
+                                LazyView(PostDetailView(PostDetailView.ViewModel(post)))
+                            } label: {
+                                ExplorePostCell(viewModel: ExplorePostCell.ViewModel(post: post, location: locationManager.lastLocation))
+                                    .cornerRadius(10)
+                                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 0)
+                                    .padding(.horizontal, 15)
+                            }
+                            .isDetailLink(false)
+                            .buttonStyle(FlatLinkStyle())
+                        }
+                    }
+                    .padding(.top, 15)
                 }
-                .padding(.top, 15)
                 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         }
-        .background(Color.theme.background)
+        .background(Color.theme.exploreBackground)
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .onDisappear(perform: {

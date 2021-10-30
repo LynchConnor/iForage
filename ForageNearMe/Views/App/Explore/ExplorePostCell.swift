@@ -74,8 +74,10 @@ struct ExplorePostCell: View {
                         
                         Spacer()
                     
-                    HStack(spacing: 5) {
-                        Image(systemName: "map")
+                    HStack(spacing: 2) {
+                        Image("map.pin")
+                            .resizable()
+                            .frame(width: 18, height: 18)
                         Text(viewModel.distance)
                     }
                     .font(.system(size: 13, weight: .regular))

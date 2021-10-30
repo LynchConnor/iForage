@@ -22,16 +22,16 @@ struct MapAnnotationCell: View {
                 .padding(0)
                 .overlay(
                     Circle()
-                        .stroke(Color.white, lineWidth: 3)
+                        .stroke(Color.theme.cardBackground, lineWidth: 3)
                         .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 0)
                 )
             
             Text(post.name)
-                .foregroundColor(.black)
+                .foregroundColor(Color.theme.accent)
                 .font(.system(size: 13, weight: .semibold))
                 .padding(.horizontal, 10)
                 .padding(.vertical, 3)
-                .background(Color.white)
+                .background(Color.theme.cardBackground)
                 .cornerRadius(5)
         }
     }

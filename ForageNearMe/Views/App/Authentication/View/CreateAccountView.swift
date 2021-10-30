@@ -82,14 +82,16 @@ struct CreateAccountView: View {
                         .font(.system(size: 17, weight: .bold))
                 }
             }
+            .foregroundColor(Color.theme.accent)
             
         }
         
         .navigationBarHidden(true)
         .navigationBarTitle("")
         
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 15)
         .padding(.horizontal, 20)
-        .padding(.top, 50)
         .background(Color.theme.background)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
