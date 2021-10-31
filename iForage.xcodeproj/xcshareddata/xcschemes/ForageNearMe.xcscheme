@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E06D9900270E4FBE00F7FE0E"
-               BuildableName = "ForageNearMe.app"
+               BuildableName = "iForage.app"
                BlueprintName = "iForage"
                ReferencedContainer = "container:iForage.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E06D9900270E4FBE00F7FE0E"
-            BuildableName = "ForageNearMe.app"
+            BuildableName = "iForage.app"
             BlueprintName = "iForage"
             ReferencedContainer = "container:iForage.xcodeproj">
          </BuildableReference>
@@ -63,7 +63,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E06D9900270E4FBE00F7FE0E"
-            BuildableName = "ForageNearMe.app"
+            BuildableName = "iForage.app"
             BlueprintName = "iForage"
             ReferencedContainer = "container:iForage.xcodeproj">
          </BuildableReference>
