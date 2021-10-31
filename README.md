@@ -1,12 +1,12 @@
 # iForage
 ![twitter cover3](https://user-images.githubusercontent.com/91622555/138967460-19904389-e1c0-4321-9369-7e5255024ea8.png)
 
-## Introduction
+# Introduction
 ### Problem Domain
 - Limited apps assisting foragers track local foraging spots.
 - Existing apps are old fashioned and do not have a modern design.
 
-### Solution
+# Solution
 - Create an app which helps foragers track and manage foraging spots around them, with a clean and easy to use interface.
 
 ### Existing Product
