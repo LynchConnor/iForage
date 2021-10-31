@@ -47,4 +47,4 @@
 # Conclusion
 In comparison to iNaturalist, the home page provides a user enriched experience, showing the user an image and name of the plant. Providing the user with a modern design which they would be more familiar with than a map pin.
 
-[Back To The Top](#Introduction)
+[Back To The Top](#iForage)
