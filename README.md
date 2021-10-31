@@ -26,7 +26,7 @@
 - Firebase
 - SDWebImageSwiftUI
 
-### Screenshots
+### Screenshots & Description
 ![Simulator Screen Recording - iPhone 11 Pro - 2021-10-26 at 22 55 02](https://user-images.githubusercontent.com/91622555/138966668-f4e4c43e-d3b0-4b96-8ac6-f54eeb25fa24.gif)
 - The user can create posts which are linked with their current location.
 
