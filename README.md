@@ -11,10 +11,6 @@
 - Create an app which helps foragers track and manage foraging spots around them, with a clean and easy to use interface.
 - Develop a forum for local foragers to interact with eachother, sharing tips and tricks.
 
-### Dependencies
-- Firebase
-- SDWebImageSwiftUI
-
 ### Existing Products
 #### iNaturalist
 <img src="https://user-images.githubusercontent.com/91622555/137644818-bec5c761-a3cd-425f-bc4d-a33dc415ce50.PNG" width="200" />
@@ -24,6 +20,11 @@
 - Individuals on this forum also identified that they preferred a private account where they could mark a foraging spot on a map that only they can see.
 - This would be beneficial as greenland doesn't get destroyed and the forager can keep track of all their foraging spots.
 - In addition to this, the UI is not aestically pleasing, providing no useful information to the user besides a marker.
+
+
+### Dependencies
+- Firebase
+- SDWebImageSwiftUI
 
 ### Screenshots
 ![Simulator Screen Recording - iPhone 11 Pro - 2021-10-26 at 22 55 02](https://user-images.githubusercontent.com/91622555/138966668-f4e4c43e-d3b0-4b96-8ac6-f54eeb25fa24.gif)
