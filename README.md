@@ -1,6 +1,16 @@
 # iForage
 ![twitter cover3](https://user-images.githubusercontent.com/91622555/138967460-19904389-e1c0-4321-9369-7e5255024ea8.png)
 
+---
+
+### Table of Contents
+
+- [Introduction](#Introduction)
+- [Description](#Description)
+- [Screenshots](#Screenshots)
+
+---
+
 # Introduction
 ### Problem Domain
 - Limited apps assisting foragers track local foraging spots.
