@@ -11,7 +11,7 @@ struct OnboardingView: View {
     var body: some View {
         ZStack {
             
-            Image("plant")
+            Image("leaves")
                 .resizable()
                 .opacity(0.75)
                 .aspectRatio(contentMode: .fill)

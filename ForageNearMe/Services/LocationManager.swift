@@ -38,7 +38,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         super.init()
         self.manager.delegate = self
         self.manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        self.manager.startUpdatingLocation()
+        self.requestLocation()
         
         if locationIsDisabled { self.manager.requestAlwaysAuthorization() }
     }
