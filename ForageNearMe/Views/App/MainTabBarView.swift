@@ -32,7 +32,7 @@ struct LikeButtonStyle: ButtonStyle {
 struct MainTabBarView: View {
     
     // - Public
-    @StateObject var locationManager = LocationManager()
+    @EnvironmentObject var locationManager: LocationManager
     
     var body: some View {
         if locationManager.lastLocation != nil {

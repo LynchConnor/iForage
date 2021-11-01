@@ -20,8 +20,6 @@ extension CreatePostView {
     
     class ViewModel: ObservableObject {
         
-        @ObservedObject var locationManager = LocationManager()
-        
         @Published var postStatus: PostStatus = .complete
         
         @Published var name: String = ""
@@ -34,14 +32,14 @@ extension CreatePostView {
             
             DispatchQueue.main.async {
                 self.postStatus = .processing
-                self.locationManager.requestLocation()
+                LocationManager.shared.requestLocation()
             }
             
             guard let id = AuthViewModel.shared.currentUserId else { return }
             
             guard let image = selectedImage else { return }
             
-            guard let location = locationManager.lastLocation?.coordinate else { return }
+            guard let location = LocationManager.shared.lastLocation?.coordinate else { return }
             
             ImageUploader.uploadImage(image: image) { imageURL in
                 
@@ -200,6 +198,10 @@ struct CreatePostView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         
                     }// - VStack
+                    
+                    MapView()
+                        .frame(height: 150)
+
                     
                 }// - VStack
                 .disabled(viewModel.postStatus == .processing)

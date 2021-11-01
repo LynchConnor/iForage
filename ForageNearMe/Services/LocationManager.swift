@@ -15,13 +15,13 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     // - Private
     private let manager: CLLocationManager = CLLocationManager()
     
+    static var shared = LocationManager()
+    
     // - Public
     @Published var locationStatus: CLAuthorizationStatus?
     @Published var lastLocation: CLLocation? = nil
     
     @Published var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 250, longitudinalMeters: 250)
-    
-    @Published var region2: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 250, longitudinalMeters: 250)
     
     private var locationIsDisabled: Bool {
         switch locationStatus {
@@ -38,9 +38,15 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         super.init()
         self.manager.delegate = self
         self.manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        self.requestLocation()
         
-        if locationIsDisabled { self.manager.requestAlwaysAuthorization(); self.requestLocation() }
+        print("DEBUG: Locationmanager init...")
+        
+        if locationIsDisabled {
+            self.requestAuthorization()
+            self.requestLocation()
+        }else{
+            self.requestLocation()
+        }
     }
     
     func requestLocation(){
@@ -64,7 +70,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         DispatchQueue.main.async {
             self.lastLocation = location
             self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), latitudinalMeters: 250, longitudinalMeters: 250)
-            self.region2 = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), latitudinalMeters: 250, longitudinalMeters: 250)
         }
     }
     

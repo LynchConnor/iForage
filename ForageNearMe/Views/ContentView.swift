@@ -15,6 +15,7 @@ struct ContentView: View {
         switch authViewModel.authStatus {
         case .signedIn:
             MainTabBarView()
+                .environmentObject(LocationManager.shared)
         case .signedOut:
             OnboardingView()
         case .none:
