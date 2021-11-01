@@ -40,7 +40,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         self.manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         self.requestLocation()
         
-        if locationIsDisabled { self.manager.requestAlwaysAuthorization() }
+        if locationIsDisabled { self.manager.requestAlwaysAuthorization(); self.requestLocation() }
     }
     
     func requestLocation(){

@@ -520,9 +520,9 @@
 				INFOPLIST_FILE = ForageNearMe/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iForage;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location pls";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location pls";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location pls";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "For a reliable experience, iForage collects location data to pin point with accuracy, where your foraging spots are";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "For a reliable experience, iForage collects location data to pin point with accuracy, where your foraging spots are";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "For a reliable experience, iForage collects location data to pin point with accuracy, where your foraging spots are";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -535,7 +535,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.connorlynch.iForage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -559,9 +559,9 @@
 				INFOPLIST_FILE = ForageNearMe/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iForage;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location pls";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location pls";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location pls";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "For a reliable experience, iForage collects location data to pin point with accuracy, where your foraging spots are";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "For a reliable experience, iForage collects location data to pin point with accuracy, where your foraging spots are";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "For a reliable experience, iForage collects location data to pin point with accuracy, where your foraging spots are";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -574,7 +574,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.connorlynch.iForage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
