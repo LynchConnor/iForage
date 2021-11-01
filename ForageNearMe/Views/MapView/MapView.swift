@@ -10,9 +10,19 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
     
+    @Binding var centerCoordinate: CLLocationCoordinate2D
+    
     func makeUIView(context: Context) -> MKMapView {
+        
         let mapView = MKMapView()
-        mapView.region = LocationManager.shared.region
+        
+        mapView.delegate = context.coordinator
+        
+        let lat = LocationManager.shared.lastLocation?.coordinate.latitude ?? 0
+        let lng = LocationManager.shared.lastLocation?.coordinate.longitude ?? 0
+        
+        mapView.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: lng), latitudinalMeters: 200, longitudinalMeters: 200)
+        
         return mapView
     }
     
@@ -24,11 +34,15 @@ struct MapView: UIViewRepresentable {
         Coordinator(parent: self)
     }
     
-    class Coordinator: NSObject, MKMapViewDelegate {
+    class Coordinator: NSObject, ObservableObject, MKMapViewDelegate {
         var parent: MapView
         
         init(parent: MapView){
             self.parent = parent
+        }
+        
+        func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+            self.parent.centerCoordinate = mapView.centerCoordinate
         }
     }
 }

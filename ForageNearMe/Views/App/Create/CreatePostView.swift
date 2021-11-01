@@ -20,6 +20,8 @@ extension CreatePostView {
     
     class ViewModel: ObservableObject {
         
+        @Published var centerCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: LocationManager.shared.lastLocation?.coordinate.latitude ?? 0, longitude: LocationManager.shared.lastLocation?.coordinate.longitude ?? 0)
+        
         @Published var postStatus: PostStatus = .complete
         
         @Published var name: String = ""
@@ -39,11 +41,9 @@ extension CreatePostView {
             
             guard let image = selectedImage else { return }
             
-            guard let location = LocationManager.shared.lastLocation?.coordinate else { return }
-            
             ImageUploader.uploadImage(image: image) { imageURL in
                 
-                let post = Post(name: self.name, imageURL: imageURL, notes: self.notes, location: GeoPoint(latitude: location.latitude, longitude: location.longitude))
+                let post = Post(name: self.name, imageURL: imageURL, notes: self.notes, location: GeoPoint(latitude: self.centerCoordinate.latitude, longitude: self.centerCoordinate.longitude))
                 
                 do {
                     _ = try COLLECTION_USERS.document(id).collection("userPosts").addDocument(from: post)
@@ -199,8 +199,18 @@ struct CreatePostView: View {
                         
                     }// - VStack
                     
-                    MapView()
-                        .frame(height: 150)
+                    ZStack {
+                        
+                        MapView(centerCoordinate: $viewModel.centerCoordinate)
+                            .frame(height: 150)
+                        
+                        
+                        Circle()
+                            .foregroundColor(.blue)
+                            .frame(width: 25, height: 25, alignment: .center)
+                            .opacity(0.5)
+                        
+                    }
 
                     
                 }// - VStack

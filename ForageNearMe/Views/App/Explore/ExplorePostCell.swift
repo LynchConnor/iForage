@@ -113,7 +113,7 @@ extension ExplorePostCell {
             self.distance = fetchDistance()
         }
         
-        private let suffix = ["mi", "km", "mm", "gm"]
+        private let suffix = ["M", "Km", "Mm", "Gm"]
         
         private func formatNumber(_ number: Double) -> String{
             var index = 0
