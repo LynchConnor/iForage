@@ -20,6 +20,8 @@ extension CreatePostView {
     
     class ViewModel: ObservableObject {
         
+        @Published var shouldPresentMap = false
+        
         @Published var centerCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: LocationManager.shared.lastLocation?.coordinate.latitude ?? 0, longitude: LocationManager.shared.lastLocation?.coordinate.longitude ?? 0)
         
         @Published var postStatus: PostStatus = .complete
@@ -142,7 +144,7 @@ struct CreatePostView: View {
                             
                             ZStack {
                                 Rectangle()
-                                    .foregroundColor(Color.init(red: 239/255, green: 239/255, blue: 239/255))
+                                    .foregroundColor(Color.onboarding.textfield)
                                 
                                 ZStack {
                                     Circle()
@@ -185,11 +187,13 @@ struct CreatePostView: View {
                     VStack(spacing: 5) {
                         
                         TextField("Name your plant here...", text: $viewModel.name)
+                            .tint(Color.theme.accent)
                             .font(.system(size: 22, weight: .semibold))
                             .padding(.vertical, 15)
                             .foregroundColor(Color.theme.accent)
                         
                         TextEditor(text: $viewModel.notes)
+                            .tint(Color.theme.accent)
                             .foregroundColor(Color.theme.accent)
                             .font(.system(size: 19, weight: .regular))
                             .lineSpacing(8)
@@ -199,16 +203,41 @@ struct CreatePostView: View {
                         
                     }// - VStack
                     
-                    ZStack {
+                    VStack(spacing: 15) {
                         
-                        MapView(centerCoordinate: $viewModel.centerCoordinate)
-                            .frame(height: 150)
+                        HStack(spacing: 0) {
+                            Text("Use current location?")
+                                .font(.system(size: 18, weight: .semibold))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Text(viewModel.shouldPresentMap ? "No" : "Yes")
+                                .font(.system(size: 15, weight: .bold))
+                                .foregroundColor(.gray)
+                                
+                            Toggle(isOn: $viewModel.shouldPresentMap) {
+                                    Text("")
+                                }
+                                .frame(width: 60)
+                        }
+                        .padding(.horizontal, 10)
                         
-                        
-                        Circle()
-                            .foregroundColor(.blue)
-                            .frame(width: 25, height: 25, alignment: .center)
-                            .opacity(0.5)
+                            
+                        if viewModel.shouldPresentMap {
+                            
+                            ZStack {
+                                
+                                MapView(centerCoordinate: $viewModel.centerCoordinate)
+                                    .frame(height: 150)
+                                    .cornerRadius(10)
+                                
+                                
+                                Circle()
+                                    .foregroundColor(.blue)
+                                    .frame(width: 25, height: 25, alignment: .center)
+                                    .opacity(0.5)
+                                
+                            }
+                        }
                         
                     }
 

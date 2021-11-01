@@ -95,10 +95,19 @@ struct ExploreView: View {
                 
                 if viewModel.filteredPosts.isEmpty {
                     VStack(spacing: 10) {
-                        Text("'\(Text(viewModel.searchText).bold())' can't be found")
-                            .font(.system(size: 18))
-                        Text("┐(‘～`；)┌")
-                            .font(.system(size: 28, weight: .heavy))
+                        
+                        if viewModel.searchText != "" {
+                            
+                            Text("'\(Text(viewModel.searchText).bold())' can't be found")
+                                .font(.system(size: 18))
+                            Text("┐(‘～`；)┌")
+                                .font(.system(size: 28, weight: .heavy))
+                        }else{
+                            Text("It doesn't look like you have any posts yet.")
+                                .font(.system(size: 18))
+                            Text("┐(‘～`；)┌")
+                                .font(.system(size: 28, weight: .heavy))
+                        }
                     }
                     .padding(.top, 25)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
