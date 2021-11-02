@@ -18,19 +18,20 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     static var shared = LocationManager()
     
     // - Public
-    @Published var locationStatus: CLAuthorizationStatus?
     @Published var lastLocation: CLLocation? = nil
     
     @Published var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 250, longitudinalMeters: 250)
     
-    private var locationIsDisabled: Bool {
-        switch locationStatus {
+    private func validateLocation(status: CLAuthorizationStatus) {
+        switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            return false
-        case .denied, .notDetermined, .none, .restricted:
-            return true
-        case .some(_):
-            return false
+            manager.requestLocation()
+        case .denied, .notDetermined, .restricted:
+            manager.requestAlwaysAuthorization()
+            manager.requestWhenInUseAuthorization()
+            manager.requestLocation()
+        @unknown default:
+            fatalError()
         }
     }
     
@@ -40,13 +41,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         self.manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         
         print("DEBUG: Locationmanager init...")
-        
-        if locationIsDisabled {
-            self.requestAuthorization()
-            self.requestLocation()
-        }else{
-            self.requestLocation()
-        }
     }
     
     func requestLocation(){
@@ -55,12 +49,13 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func requestAuthorization(){
         self.manager.requestAlwaysAuthorization()
+        self.manager.requestWhenInUseAuthorization()
     }
     
     // - Delegate
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        self.locationStatus = manager.authorizationStatus
+        validateLocation(status: manager.authorizationStatus)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

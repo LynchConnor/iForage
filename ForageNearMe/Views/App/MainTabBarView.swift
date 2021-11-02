@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 extension View {
     func getRect() -> CGRect {
@@ -45,18 +46,19 @@ struct MainTabBarView: View {
             .background(Color.blue)
         }
         else{
+            
             VStack(spacing: 25) {
                 Text("To access the map you need to enable location services.")
+                    .foregroundColor(Color.theme.accent)
                     .font(.system(size: 22, weight: .bold))
                     .multilineTextAlignment(.center)
                 HStack {
                     Button {
                         locationManager.requestAuthorization()
-                        locationManager.requestLocation()
                     } label: {
                         Text("Enable location")
                     }
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.theme.accent)
                     .font(.system(size: 18, weight: .semibold))
                     .padding(.horizontal, 20)
                     .padding(.vertical, 15)
@@ -65,9 +67,9 @@ struct MainTabBarView: View {
                     
                     Text("☜(ˆ▿ˆc)")
                         .font(.system(size: 32, weight: .heavy))
+                        .foregroundColor(Color.theme.accent)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         }
     }
 }
