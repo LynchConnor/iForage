@@ -252,7 +252,7 @@ struct PostDetailView: View {
                                         } label: {
                                             Text("Save")
                                                 .font(.system(size: 14, weight: .bold))
-                                                .foregroundColor(.black)
+                                                .foregroundColor(Color.theme.accent)
                                         }
                                         
                                     }

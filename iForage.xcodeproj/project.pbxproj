@@ -97,7 +97,6 @@
 		E0273A012711F2F500C88885 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E03F698027300ACA002628A2 /* MapView */,
 				E06D9904270E4FBE00F7FE0E /* ForageNearMeApp.swift */,
 				E06D9906270E4FBE00F7FE0E /* ContentView.swift */,
 				E0273A022711F2FE00C88885 /* App */,
@@ -113,6 +112,7 @@
 				E0273A032711F30500C88885 /* Home */,
 				E0BA3FBF2727548100AC7663 /* Explore */,
 				E0CD638627288E29002F5065 /* Settings */,
+				E03F698027300ACA002628A2 /* MapView */,
 				E033040A2714DF85001D4CBF /* Create */,
 			);
 			path = App;
