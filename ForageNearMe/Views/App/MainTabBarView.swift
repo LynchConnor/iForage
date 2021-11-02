@@ -45,7 +45,7 @@ struct MainTabBarView: View {
             }
             .background(Color.blue)
         }
-        else{
+        else if !locationManager.isLocationAuthorized {
             
             VStack(spacing: 25) {
                 Text("To access the map you need to enable location services.")
@@ -70,6 +70,18 @@ struct MainTabBarView: View {
                         .foregroundColor(Color.theme.accent)
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        }
+        else{
+            
+            VStack {
+                ProgressView()
+                    .tint(Color.theme.accent)
+                Text("Loading Map...")
+                    .foregroundColor(Color.theme.accent)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            
         }
     }
 }
