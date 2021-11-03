@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var animationActive: Bool = false
+    @State var splashScreenActive: Bool = false
     
     @EnvironmentObject var authViewModel: AuthViewModel
     
@@ -28,42 +28,76 @@ struct ContentView: View {
                     ProgressView()
                 }
             }
-            .opacity(animationActive ? 1 : 0)
-            
-            
-            SplashScreen(animationActive: $animationActive)
         }
+        .overlay(
+            
+            
+            SplashScreen(isActive: $splashScreenActive, content: {
+                Image("logo")
+                    .resizable()
+                    .renderingMode(.template)
+            }, background: {
+                Color.theme.cardBackground
+            })
+        )
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                withAnimation(.easeInOut(duration: 0.4)) {
-                    animationActive.toggle()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                withAnimation(.easeInOut(duration: 0.6)) {
+                    splashScreenActive = true
                 }
             }
         }
     }
 }
 
-
-struct SplashScreen: View {
+struct SplashScreen<Content: View, Background: View>: View {
     
-    @Binding var animationActive: Bool
+    @Binding var isActive: Bool
+    
+    private var content: () -> (Content)
+    private var background: () -> (Background)
+    
+    init(isActive: Binding<Bool>,
+         @ViewBuilder content: @escaping () -> Content,
+         @ViewBuilder background: @escaping () -> Background){
+        self._isActive = isActive
+        self.content = content
+        self.background = background
+    }
     
     var body: some View {
-        
-        Color.theme.background
-            .mask {
-                Rectangle()
-                    .overlay(
+        ZStack {
+            
+            background()
+                .mask({
+                    Rectangle()
+                        .overlay(
+                            
+                            ZStack {
+
+                                content()
+                                    .scaledToFit()
+                                    .frame(width: 200, height: 200, alignment: .center)
+                                        .foregroundColor(.white)
+                                        .blendMode(.destinationOut)
+                                        .scaleEffect(isActive ? 20 : 1, anchor: .center)
                     
-                    Image("logo-ai")
-                        .resizable()
+                                
+                            }
+                        )
+                })
+                .overlay(
+                    
+                    content()
                         .scaledToFit()
-                        .frame(width: 200, height: 200)
-                        .scaleEffect(animationActive ? 10 : 1, anchor: .center)
-                        .blendMode(.destinationOut)
+                        .frame(width: 200, height: 200, alignment: .center)
+                            .foregroundColor(.white)
+                        .scaleEffect(isActive ? 20 : 1, anchor: .center)
+                        .opacity(isActive ? 0 : 1)
                 )
-            }
-            .ignoresSafeArea()
+                .opacity(isActive ? 0 : 1)
+                .ignoresSafeArea()
+        }
     }
 }
 

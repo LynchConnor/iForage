@@ -157,7 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				E02BD66D2713958B006BD62D /* LocationManager.swift */,
-				E0477F32271B59B20023146B /* ImageUploader.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -238,6 +237,7 @@
 				E0AE79AE27179A7D00E32803 /* Misc */,
 				E02BD66C27139580006BD62D /* Services */,
 				E0273A33271269F500C88885 /* Models */,
+				E0477F32271B59B20023146B /* ImageUploader.swift */,
 				E0273A012711F2F500C88885 /* Views */,
 				E06D9908270E4FBE00F7FE0E /* Assets.xcassets */,
 				E06D990A270E4FBE00F7FE0E /* Preview Content */,
