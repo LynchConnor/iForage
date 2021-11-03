@@ -15,6 +15,19 @@ struct SettingsView: View {
     
     @State var confirmationShown: Bool = false
     
+    @State var isShareSheetVisible: Bool = false
+    
+    func shareButton() {
+        guard let url = URL(string: "https://apps.apple.com/gb/app/iforage/id1592190038") else { return }
+            let activityController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        
+        UIApplication
+        .shared
+        .connectedScenes
+        .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+        .first { $0.isKeyWindow }?.rootViewController?.present(activityController, animated: true, completion: nil)
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
             
@@ -38,7 +51,7 @@ struct SettingsView: View {
             .padding(.horizontal, 20)
             .background(Color.theme.navigationBackground)
             
-            VStack(alignment: .leading, spacing: 40) {
+            VStack(alignment: .leading, spacing: 30) {
                 
                 HStack(spacing: 10) {
                     Image(systemName: "circle.righthalf.fill")
@@ -55,6 +68,34 @@ struct SettingsView: View {
                 }
                 .foregroundColor(Color.theme.accent)
                 .font(.system(size: 23, weight: .semibold))
+                
+                Button {
+                    guard let url = URL(string: "https://apps.apple.com/app/iforage/id1592190038") else { return }
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } label: {
+                    
+                        HStack(spacing: 10) {
+                            Image(systemName: "hand.thumbsup.circle.fill")
+                            Text("Rate the app")
+                        }
+                        .foregroundColor(Color.theme.accent)
+                        .font(.system(size: 23, weight: .semibold))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                
+                Button {
+                    shareButton()
+                } label: {
+                    
+                        HStack(spacing: 10) {
+                            Image(systemName: "square.and.arrow.up")
+                            Text("Share")
+                        }
+                        .foregroundColor(Color.theme.accent)
+                        .font(.system(size: 23, weight: .semibold))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+
                 
                 Button {
                     confirmationShown = true

@@ -33,8 +33,8 @@ struct ForageNearMeApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                ContentView()
-                    .environmentObject(AuthViewModel.shared)
+                    ContentView()
+                        .environmentObject(AuthViewModel.shared)
             }
             .navigationTitle("")
             .navigationBarHidden(true)
