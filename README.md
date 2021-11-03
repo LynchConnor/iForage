@@ -52,6 +52,11 @@
 - The post can be liked, edited and deleted completely from the database.
 - The user can search for posts they've posted, with all actions the user performing occuring live, for example, if the user likes the post from the explore page, the like is visible on the post. Therefore, all actions are in real-time.
 
+---
+
+#Additional Features
+- 
+
 # Conclusion
 In comparison to iNaturalist, the home page provides a user enriched experience, showing the user an image and name of the plant. Providing the user with a modern design which they would be more familiar with than a map pin.
 
