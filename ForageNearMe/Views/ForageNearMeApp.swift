@@ -15,6 +15,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         return true
       }
+    
+    static var orientationLock = UIInterfaceOrientationMask.portrait //By default you want all your views to rotate freely
+
+        func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+            return AppDelegate.orientationLock
+        }
 }
 
 @main
@@ -28,6 +34,7 @@ struct ForageNearMeApp: App {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
             UITabBar.appearance().scrollEdgeAppearance = appearance
+        var restrictRotation:UIInterfaceOrientationMask = .portrait
     }
     
     var body: some Scene {
