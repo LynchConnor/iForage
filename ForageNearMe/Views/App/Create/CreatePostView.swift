@@ -75,6 +75,11 @@ extension CreatePostView {
 
 struct CreatePostView: View {
     
+    enum Field {
+        case title
+        case notes
+    }
+    
     @State private var shouldPresentCamera = false
     
     @Binding var isPresented: Bool
@@ -87,7 +92,11 @@ struct CreatePostView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    @FocusState private var focusField: Field?
+    
     @FocusState private var editorIsFocused: Bool
+    
+    @State var containerHeight: CGFloat = 200
     
     init(isPresented: Binding<Bool>) {
         self._isPresented = isPresented
@@ -106,6 +115,7 @@ struct CreatePostView: View {
                     HStack {
                         Button {
                             isPresented.toggle()
+                            hideKeyboard()
                         } label: {
                             Text("Cancel")
                                 .font(.system(size: 17, weight: .semibold))
@@ -127,12 +137,14 @@ struct CreatePostView: View {
                                 .background(Color.blue)
                         }
                         .cornerRadius(5)
+                        .disabled(viewModel.selectedImage == nil || viewModel.name == "" || viewModel.notes == "" || viewModel.notes ==  "What do you want to say about your find? Tap to write...")
+                        .opacity(viewModel.selectedImage == nil || viewModel.name == "" || viewModel.notes == "" || viewModel.notes ==  "What do you want to say about your find? Tap to write..." ? 0.6 : 1)
                     }
+                    .padding(.vertical, 10)
                     
                     Button {
                         presentConfirmationSheet = true
                     } label: {
-                        
                         if let image = viewModel.selectedImage {
                             Image(uiImage: image)
                                 .resizable()
@@ -187,21 +199,35 @@ struct CreatePostView: View {
                     VStack(spacing: 5) {
                         
                         TextField("Name your plant here...", text: $viewModel.name)
+                            .focused($focusField, equals: .title)
+                            .submitLabel(.continue)
                             .tint(Color.theme.accent)
                             .font(.system(size: 22, weight: .semibold))
                             .padding(.vertical, 15)
                             .foregroundColor(Color.theme.accent)
+                            .accentColor(Color.theme.accent)
                         
-                        TextEditor(text: $viewModel.notes)
+                        AutoSizeTextField(text: $viewModel.notes, hint: "What do you want to say about your find? Tap to write...", containerHeight: $containerHeight) {
+                            hideKeyboard()
+                        }
+                        .accentColor(Color.theme.accent)
+                            .frame(height: containerHeight)
+                            .focused($focusField, equals: .notes)
+                            .submitLabel(.continue)
                             .tint(Color.theme.accent)
-                            .foregroundColor(Color.theme.accent)
-                            .font(.system(size: 19, weight: .regular))
                             .lineSpacing(8)
-                            .frame(height: 150)
                             .cornerRadius(5)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .frame(maxWidth: .infinity, minHeight: 200, alignment: .topLeading)
                         
                     }// - VStack
+                    .onSubmit {
+                        switch focusField {
+                            case .title:
+                                focusField = .notes
+                            default:
+                                return
+                        }
+                    }
                     
                     VStack(spacing: 15) {
                         
@@ -219,7 +245,7 @@ struct CreatePostView: View {
                                 }
                                 .frame(width: 60)
                         }
-                        .padding(.horizontal, 10)
+                        .padding(.trailing, 10)
                         
                             
                         if viewModel.shouldPresentMap {
@@ -256,7 +282,9 @@ struct CreatePostView: View {
             
         }// - ScrollView
         .sheet(isPresented: $isShowImagePicker, content: {
-            ImagePicker(selectedImage: $viewModel.selectedImage, isPresented: $isShowImagePicker, sourceType: self.shouldPresentCamera ? .camera : .photoLibrary)
+            ImagePicker(selectedImage: $viewModel.selectedImage, isPresented: $isShowImagePicker, sourceType: self.shouldPresentCamera ? .camera : .photoLibrary) {
+                focusField = .title
+            }
                 .edgesIgnoringSafeArea(.all)
         })
         // - VStack

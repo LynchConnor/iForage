@@ -15,6 +15,8 @@ struct ImagePicker: UIViewControllerRepresentable {
     
     var sourceType: UIImagePickerController.SourceType
     
+    var onCompletion: () -> ()
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
     }
@@ -47,11 +49,13 @@ extension ImagePicker {
                 self.parent.selectedImage = image
                 picker.dismiss(animated: true)
                 self.parent.isPresented = false
+                self.parent.onCompletion()
             }
         }
         
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.isPresented = false
+            self.parent.onCompletion()
         }
     }
 }

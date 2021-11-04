@@ -42,6 +42,9 @@ struct ExploreView: View {
                 HStack(spacing: 8) {
                     
                     TextField("Search", text: $viewModel.searchText)
+                        .accentColor(Color.theme.accent)
+                        .submitLabel(.search)
+                        .tint(.white)
                         .font(.system(size: 20))
                         .frame(maxWidth: .infinity)
                         .overlay(
@@ -63,6 +66,7 @@ struct ExploreView: View {
                             Button {
                                 searchIsTapped = false
                                 viewModel.searchText = ""
+                                hideKeyboard()
                             } label: {
                                 Text("Cancel")
                             }

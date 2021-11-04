@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E00A68D72734730A000624EC /* AutosizeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00A68D62734730A000624EC /* AutosizeTextField.swift */; };
 		E02739ED2711B3F100C88885 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E02739EC2711B3F100C88885 /* FirebaseAuth */; };
 		E02739EF2711B3F100C88885 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = E02739EE2711B3F100C88885 /* FirebaseDatabase */; };
 		E02739F12711B3F100C88885 /* FirebaseDatabaseSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = E02739F02711B3F100C88885 /* FirebaseDatabaseSwift-Beta */; };
@@ -44,6 +45,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E00A68D62734730A000624EC /* AutosizeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutosizeTextField.swift; sourceTree = "<group>"; };
 		E0273A042711F31700C88885 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		E0273A0A27124DDC00C88885 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		E0273A34271269FC00C88885 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				E02BD6712713B5DC006BD62D /* Constants.swift */,
 				E0AE79AF27179A8A00E32803 /* ImagePicker.swift */,
 				E0DFB69B272AB11000315C4C /* Color.swift */,
+				E00A68D62734730A000624EC /* AutosizeTextField.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 				E0273A35271269FC00C88885 /* Post.swift in Sources */,
 				E0477F31271B57A70023146B /* OnboardingView.swift in Sources */,
 				E02BD66927138F60006BD62D /* MapAnnotationCell.swift in Sources */,
+				E00A68D72734730A000624EC /* AutosizeTextField.swift in Sources */,
 				E02BD6722713B5DC006BD62D /* Constants.swift in Sources */,
 				E0CD638827288E30002F5065 /* SettingsView.swift in Sources */,
 			);
