@@ -34,7 +34,6 @@ struct ForageNearMeApp: App {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
             UITabBar.appearance().scrollEdgeAppearance = appearance
-        var restrictRotation:UIInterfaceOrientationMask = .portrait
     }
     
     var body: some Scene {

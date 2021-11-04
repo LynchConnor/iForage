@@ -21,7 +21,7 @@ struct AutoSizeTextField: UIViewRepresentable {
         let textView = UITextView()
         textView.backgroundColor = .clear
         textView.textColor = UIColor(Color.theme.accent)
-        textView.font = .systemFont(ofSize: 21)
+        textView.font = .systemFont(ofSize: 19)
         textView.delegate = context.coordinator
         
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)

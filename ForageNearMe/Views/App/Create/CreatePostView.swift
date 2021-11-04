@@ -96,7 +96,7 @@ struct CreatePostView: View {
     
     @FocusState private var editorIsFocused: Bool
     
-    @State var containerHeight: CGFloat = 200
+    @State var containerHeight: CGFloat = 100
     
     init(isPresented: Binding<Bool>) {
         self._isPresented = isPresented
@@ -211,13 +211,15 @@ struct CreatePostView: View {
                             hideKeyboard()
                         }
                         .accentColor(Color.theme.accent)
-                            .frame(height: containerHeight)
+                        .frame(height: containerHeight <= 200 ? containerHeight : 200)
                             .focused($focusField, equals: .notes)
                             .submitLabel(.continue)
                             .tint(Color.theme.accent)
                             .lineSpacing(8)
                             .cornerRadius(5)
-                            .frame(maxWidth: .infinity, minHeight: 200, alignment: .topLeading)
+                            .frame(maxWidth: .infinity, minHeight: 100, alignment: .topLeading)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.bottom, 20)
                         
                     }// - VStack
                     .onSubmit {
@@ -289,6 +291,7 @@ struct CreatePostView: View {
         })
         // - VStack
         .padding(.horizontal, 20)
+        .padding(.bottom, 20)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .navigationBarHidden(true)
         .navigationTitle("")
