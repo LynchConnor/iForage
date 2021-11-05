@@ -110,6 +110,22 @@ struct SettingsView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Button {
+                    Task.init(priority: .userInitiated) {
+                        await AuthViewModel.shared.deleteUser()
+                    }
+                } label: {
+                
+                    HStack(spacing: 10) {
+                        Image(systemName: "xmark.bin")
+                        Text("Delete Account")
+                    }
+                    .foregroundColor(Color.theme.accent)
+                    .font(.system(size: 23, weight: .semibold))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.horizontal, 20)
             .padding(.top, 20)

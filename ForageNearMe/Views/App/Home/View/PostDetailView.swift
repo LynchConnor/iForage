@@ -8,22 +8,19 @@
 import SwiftUI
 import Firebase
 import SDWebImageSwiftUI
+import Combine
 
 extension PostDetailView {
     class DataService {
         
         static let shared = DataService()
         
-        static func likePost(id postId: String, completion: @escaping (Error?) -> ()){
-            
+        static func likePost(id postId: String) async {
             guard let userId = AuthViewModel.shared.currentUserId else { return }
-            
-            COLLECTION_USERS.document(userId).collection("userPosts").document(postId).setData(["didLike": true], merge: true) { error in
-                if let error = error {
-                    print("DEBUG: \(error.localizedDescription)")
-                    completion(error)
-                    return
-                }
+            do {
+                try await COLLECTION_USERS.document(userId).collection("userPosts").document(postId).setData(["didLike": true], merge: true)
+            }catch {
+                print("DEBUG: \(error.localizedDescription)")
             }
         }
         
@@ -46,6 +43,8 @@ extension PostDetailView {
     class ViewModel: ObservableObject {
         
         // - Public
+        
+        var cancellables = Set<AnyCancellable>()
         
         @Published var notes: String = ""
         
@@ -70,10 +69,8 @@ extension PostDetailView {
             
             post?.didLike = true
             
-            PostDetailView.DataService.likePost(id: postId) { [weak self] error in
-                if let _ = error {
-                    self?.post?.didLike = false
-                }
+            Task.init(priority: .userInitiated) {
+                await PostDetailView.DataService.likePost(id: postId)
             }
         }
         
@@ -367,7 +364,7 @@ struct PostDetailView: View {
                                 
                             } label: {
                                 HStack {
-                                    Image(systemName: "xmark")
+                                    Image(systemName: "xmark.bin")
                                     Text("Delete")
                                 }
                             }

@@ -37,39 +37,37 @@ class AuthViewModel: ObservableObject {
         return Auth.auth().currentUser != nil
     }
     
-    func signIn(email: String, password: String, completion: @escaping () -> ()) {
-        Auth.auth().signIn(withEmail: email, password: password) { dataResult, error in
-            if let error = error {
-                print("DEBUG: \(error.localizedDescription)")
-                return
-            }
+    func signIn(email: String, password: String) async {
+        do {
+            let (result) = try await Auth.auth().signIn(withEmail: email, password: password)
+            let id = result.user.uid
             
-            guard let id = dataResult?.user.uid else { return }
-            self.currentUserId = id
-            self.authStatus = .signedIn
-        }
-    }
-    
-    func createAccount(email: String, password: String, completion: @escaping () -> ()){
-        print("DEBUG: Password \(password)")
-        Auth.auth().createUser(withEmail: email, password: password) { dataResult, error in
-            if let error = error {
-                print("DEBUG: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let id = dataResult?.user.uid else { return }
-            
-            COLLECTION_USERS.document(id).setData([:]) { error in
-                if let error = error {
-                    print("DEBUG: \(error.localizedDescription)")
-                    return
-                }
-                
+            DispatchQueue.main.async {
                 self.currentUserId = id
                 self.authStatus = .signedIn
             }
+        }catch {
+            print("DEBUG: \(error.localizedDescription)")
         }
+    }
+    
+    func createAccount(email: String, password: String) async {
+        do {
+            let (result) = try await Auth.auth().createUser(withEmail: email, password: password)
+            let id = result.user.uid
+            
+            try await COLLECTION_USERS.document(id).setData([:])
+            
+            DispatchQueue.main.async {
+                self.currentUserId = id
+                self.authStatus = .signedIn
+            }
+        }catch {print("DEBUG: \(error.localizedDescription)")}
+    }
+    
+    func deleteUser() async {
+        do { try await Auth.auth().currentUser?.delete() }
+        catch { print("DEBUG: \(error.localizedDescription)") }
     }
     
     func signOut(){
@@ -78,12 +76,10 @@ class AuthViewModel: ObservableObject {
         self.authStatus = .signedOut
     }
     
-    func resetPassword(withEmail email: String){
-        Auth.auth().sendPasswordReset(withEmail: email) { error in
-            if let error = error {
-                print("DEBUG: \(error.localizedDescription)")
-                return
-            }
+    func resetPassword(withEmail email: String) async {
+        do { try await Auth.auth().sendPasswordReset(withEmail: email) }
+        catch {
+            print("DEBUG: \(error.localizedDescription)")
         }
     }
     

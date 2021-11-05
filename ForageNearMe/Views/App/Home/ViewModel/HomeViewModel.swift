@@ -32,6 +32,7 @@ enum DataError: Error {
 extension HomeView {
     
     class DataService {
+        
         static func fetchPosts(completion: @escaping (Result<[Post], DataError>) -> ()){
             
             //Fetch all posts by the currently signed in user

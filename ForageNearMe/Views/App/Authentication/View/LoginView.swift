@@ -14,7 +14,9 @@ extension LoginView {
         @Published var password: String = ""
         
         func signIn(){
-            AuthViewModel.shared.signIn(email: email, password: password) {}
+            Task.init(priority: .userInitiated) {
+                await AuthViewModel.shared.signIn(email: email, password: password)
+            }
         }
     }
 }

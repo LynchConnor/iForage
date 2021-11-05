@@ -14,8 +14,8 @@ extension CreateAccountView {
         @Published var password: String = ""
         
         func createAccount(){
-            AuthViewModel.shared.createAccount(email: email, password: password) {
-                //
+            Task.init(priority: .userInitiated) {
+                await AuthViewModel.shared.createAccount(email: email, password: password)
             }
         }
     }
