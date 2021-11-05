@@ -42,7 +42,7 @@
 - Project was made using SwiftUI
 - MVVM Design Pattern
 - Dark/Light Mode Feature
-- Firebase Authentication
+- Async/Await
 
 # Screenshots
 <img src="https://user-images.githubusercontent.com/91622555/138966668-f4e4c43e-d3b0-4b96-8ac6-f54eeb25fa24.gif" width="200" />.
