@@ -26,7 +26,7 @@ struct MapAnnotationCell: View {
                         .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 0)
                 )
             
-            Text(post.name)
+            Text(post.name.suffix(40))
                 .foregroundColor(Color.theme.accent)
                 .font(.system(size: 13, weight: .semibold))
                 .padding(.horizontal, 10)

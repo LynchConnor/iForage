@@ -76,7 +76,7 @@ struct SettingsView: View {
                     
                         HStack(spacing: 10) {
                             Image(systemName: "hand.thumbsup.circle.fill")
-                            Text("Rate the app")
+                            Text("Rate Us")
                         }
                         .foregroundColor(Color.theme.accent)
                         .font(.system(size: 23, weight: .semibold))

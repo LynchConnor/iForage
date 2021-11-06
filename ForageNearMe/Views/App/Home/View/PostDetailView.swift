@@ -5,22 +5,26 @@
 //  Created by Connor A Lynch on 11/10/2021.
 //
 
+import CoreLocation
 import SwiftUI
 import Firebase
 import SDWebImageSwiftUI
-import Combine
 
 extension PostDetailView {
     class DataService {
         
         static let shared = DataService()
         
-        static func likePost(id postId: String) async {
+        static func likePost(id postId: String, completion: @escaping (Error?) -> ()){
+            
             guard let userId = AuthViewModel.shared.currentUserId else { return }
-            do {
-                try await COLLECTION_USERS.document(userId).collection("userPosts").document(postId).setData(["didLike": true], merge: true)
-            }catch {
-                print("DEBUG: \(error.localizedDescription)")
+            
+            COLLECTION_USERS.document(userId).collection("userPosts").document(postId).setData(["didLike": true], merge: true) { error in
+                if let error = error {
+                    print("DEBUG: \(error.localizedDescription)")
+                    completion(error)
+                    return
+                }
             }
         }
         
@@ -44,16 +48,17 @@ extension PostDetailView {
         
         // - Public
         
-        var cancellables = Set<AnyCancellable>()
-        
         @Published var notes: String = ""
         
         @Published var post: Post?
         
         @Published var isEditing: Bool = false
         
-        init(_ post: Post) {
+        @Published var centerCoordinate: CLLocationCoordinate2D
+        
+        init(_ post: Post, centerCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)) {
             self.post = post
+            self.centerCoordinate = centerCoordinate
             checkIfUserDidLike()
             updateNotes()
         }
@@ -69,8 +74,10 @@ extension PostDetailView {
             
             post?.didLike = true
             
-            Task.init(priority: .userInitiated) {
-                await PostDetailView.DataService.likePost(id: postId)
+            PostDetailView.DataService.likePost(id: postId) { [weak self] error in
+                if let _ = error {
+                    self?.post?.didLike = false
+                }
             }
         }
         
@@ -256,7 +263,6 @@ struct PostDetailView: View {
                                 }
                                 
                             }// - HStack
-                            .padding(.horizontal, 10)
                             
                             //MARK: Notes
                             
@@ -267,7 +273,6 @@ struct PostDetailView: View {
                                     .foregroundColor(Color.theme.accent)
                                     .font(.system(size: 17, weight: .light))
                                     .lineSpacing(8)
-                                    .padding(10)
                                     .multilineTextAlignment(.leading)
                             }else{
                                 ZStack {
@@ -284,11 +289,27 @@ struct PostDetailView: View {
                                 }
                             }
                             
+                            
+                            ZStack {
+                                
+                                MapView(centerCoordinate: $viewModel.centerCoordinate, isZoomEnabled: false, isRotateEnabled: false, isScrollEnabled: false)
+                                    .frame(height: 200)
+                                    .cornerRadius(10)
+                                
+                                if let post = viewModel.post {
+                                
+                                    MapAnnotationCell(post: post)
+                                        .frame(height: 50)
+                                }
+                                
+                            }
+                            .padding(.vertical, 20)
+                            
                             Spacer()
                             
                         }// - VStack
                         .padding(.vertical, 20)
-                        .padding(.horizontal, 10)
+                        .padding(.horizontal, 20)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                     }
                     
@@ -425,7 +446,7 @@ struct PostDetailView: View {
 
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView(PostDetailView.ViewModel(DEFAULT_POST))
+        PostDetailView(PostDetailView.ViewModel(DEFAULT_POST, centerCoordinate: CLLocationCoordinate2D(latitude: 0, longitude: 0)))
     }
 }
 

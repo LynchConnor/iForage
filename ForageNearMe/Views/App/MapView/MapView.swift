@@ -11,6 +11,9 @@ import MapKit
 struct MapView: UIViewRepresentable {
     
     @Binding var centerCoordinate: CLLocationCoordinate2D
+    var isZoomEnabled: Bool = true
+    var isRotateEnabled: Bool = true
+    var isScrollEnabled: Bool = true
     
     func makeUIView(context: Context) -> MKMapView {
         
@@ -18,10 +21,11 @@ struct MapView: UIViewRepresentable {
         
         mapView.delegate = context.coordinator
         
-        let lat = LocationManager.shared.lastLocation?.coordinate.latitude ?? 0
-        let lng = LocationManager.shared.lastLocation?.coordinate.longitude ?? 0
-        
-        mapView.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: lng), latitudinalMeters: 200, longitudinalMeters: 200)
+        mapView.region = MKCoordinateRegion(center: centerCoordinate, latitudinalMeters: 200, longitudinalMeters: 200)
+        mapView.showsUserLocation = true
+        mapView.isZoomEnabled = isZoomEnabled
+        mapView.isScrollEnabled = isScrollEnabled
+        mapView.isRotateEnabled = isRotateEnabled
         
         return mapView
     }

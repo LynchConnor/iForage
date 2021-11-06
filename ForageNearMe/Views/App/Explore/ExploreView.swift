@@ -6,13 +6,12 @@
 //
 
 import SwiftUI
+import CoreLocation
 import FirebaseFirestore
 
 struct ExploreView: View {
     
     @EnvironmentObject var viewModel: HomeView.ViewModel
-    
-    @EnvironmentObject var locationManager: LocationManager
     
     @Environment(\.dismiss) var dismiss
     
@@ -120,9 +119,9 @@ struct ExploreView: View {
                         ForEach(viewModel.filteredPosts){ post in
                             
                             NavigationLink {
-                                LazyView(PostDetailView(PostDetailView.ViewModel(post)))
+                                LazyView(PostDetailView(PostDetailView.ViewModel(post, centerCoordinate: CLLocationCoordinate2D(latitude: post.coordinates.latitude, longitude: post.coordinates.longitude))))
                             } label: {
-                                ExplorePostCell(viewModel: ExplorePostCell.ViewModel(post: post, location: locationManager.lastLocation))
+                                ExplorePostCell(viewModel: ExplorePostCell.ViewModel(post: post, location: LocationManager.shared.lastLocation))
                                     .cornerRadius(10)
                                     .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 0)
                                     .padding(.horizontal, 15)

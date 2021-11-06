@@ -40,7 +40,6 @@ struct MainTabBarView: View {
             ZStack {
                 
                 HomeView()
-                    .environmentObject(locationManager)
                 
             }
             .background(Color.blue)

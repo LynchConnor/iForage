@@ -27,7 +27,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             manager.requestLocation()
         case .denied, .notDetermined, .restricted:
-            manager.requestAlwaysAuthorization()
             manager.requestWhenInUseAuthorization()
             manager.requestLocation()
         @unknown default:
@@ -50,6 +49,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         super.init()
         self.manager.delegate = self
         self.manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        self.manager.activityType = .other
         
         print("DEBUG: Locationmanager init...")
     }
@@ -59,7 +59,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func requestAuthorization(){
-        self.manager.requestAlwaysAuthorization()
         self.manager.requestWhenInUseAuthorization()
     }
     

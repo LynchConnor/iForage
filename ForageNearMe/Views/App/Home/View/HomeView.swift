@@ -16,6 +16,8 @@ var darkBlue: Color = Color.init(red: 36, green: 59, blue: 83)
 
 struct HomeView: View {
     
+    @State var region = LocationManager.shared.region
+    
     @Environment(\.colorScheme) var colourScheme
     
     @State var isActive: Bool = false
@@ -24,19 +26,17 @@ struct HomeView: View {
     
     @StateObject var viewModel: HomeView.ViewModel = HomeView.ViewModel()
     
-    @EnvironmentObject var locationManager: LocationManager
-    
     var body: some View {
         
         ZStack(alignment: .top) {
             
             // - Map
-            Map(coordinateRegion: $locationManager.region, interactionModes: .all, showsUserLocation: true, userTrackingMode: .constant(MapUserTrackingMode.follow), annotationItems: $viewModel.posts) { $post in
+            Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, userTrackingMode: .constant(MapUserTrackingMode.follow), annotationItems: $viewModel.posts) { $post in
                 
                 MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: post.location.latitude, longitude: post.location.longitude)) {
                     
                     NavigationLink{
-                        LazyView(PostDetailView(PostDetailView.ViewModel(post)))
+                        LazyView(PostDetailView(PostDetailView.ViewModel(post, centerCoordinate: CLLocationCoordinate2D(latitude: post.coordinates.latitude, longitude: post.coordinates.longitude))))
                     } label: {
                         MapAnnotationCell(post: post)
                     }
@@ -77,7 +77,6 @@ struct HomeView: View {
                 NavigationLink {
                     ExploreView()
                         .environmentObject(viewModel)
-                        .environmentObject(locationManager)
                         .transition(.fade(duration: 0.25))
                         .animation(.easeInOut, value: viewModel.searchIsActive)
                 } label: {

@@ -9,6 +9,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Foundation
+import CoreLocation
 
 struct Post: Identifiable, Codable {
     @DocumentID var id: String?
@@ -19,6 +20,10 @@ struct Post: Identifiable, Codable {
     var didLike: Bool?
     
     var notes: String
+    
+    var coordinates: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+    }
     
     var location: GeoPoint
 }
