@@ -237,7 +237,7 @@ struct PostDetailView: View {
                             
                         }// - ZStack
                         
-                        VStack(alignment: .leading, spacing: 5) {
+                        VStack(alignment: .leading, spacing: 15) {
                             HStack(alignment: .center, spacing: 5) {
                                 
                                 Text("Notes")
@@ -289,8 +289,12 @@ struct PostDetailView: View {
                                 }
                             }
                             
-                            VStack(alignment: .leading) {
+                            Rectangle()
+                                .frame(height: 1)
+                                .foregroundColor(Color.theme.accent.opacity(0.1))
+                                .padding(.vertical, 5)
                             
+                            VStack(alignment: .leading) {
                             
                                 Text("Map")
                                     .kerning(2)
@@ -311,7 +315,6 @@ struct PostDetailView: View {
                                     
                                 }
                             }
-                            .padding(.vertical, 20)
                             
                             Spacer()
                             
