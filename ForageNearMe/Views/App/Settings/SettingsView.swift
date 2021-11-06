@@ -17,6 +17,8 @@ struct SettingsView: View {
     
     @State var isShareSheetVisible: Bool = false
     
+    @State var isSigningOut: Bool = false
+    
     func shareButton() {
         guard let url = URL(string: "https://apps.apple.com/gb/app/iforage/id1592190038") else { return }
             let activityController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
@@ -98,6 +100,7 @@ struct SettingsView: View {
 
                 
                 Button {
+                    isSigningOut = true
                     confirmationShown = true
                 } label: {
                 
@@ -111,10 +114,11 @@ struct SettingsView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
+                Spacer()
+                
                 Button {
-                    Task.init(priority: .userInitiated) {
-                        await AuthViewModel.shared.deleteUser()
-                    }
+                    isSigningOut = false
+                    confirmationShown = true
                 } label: {
                 
                     HStack(spacing: 10) {
@@ -128,7 +132,7 @@ struct SettingsView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.horizontal, 20)
-            .padding(.top, 20)
+            .padding(.vertical, 20)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(Color.theme.background)
@@ -136,7 +140,13 @@ struct SettingsView: View {
         .navigationTitle("")
         .confirmationDialog("Are you sure?", isPresented: $confirmationShown, titleVisibility: .visible) {
             Button("Yes") {
-                AuthViewModel.shared.signOut()
+                if isSigningOut {
+                    AuthViewModel.shared.signOut()
+                }else{
+                    Task.init(priority: .userInitiated) {
+                        await AuthViewModel.shared.deleteUser()
+                    }
+                }
             }
         }
     }

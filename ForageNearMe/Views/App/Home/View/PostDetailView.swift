@@ -289,19 +289,27 @@ struct PostDetailView: View {
                                 }
                             }
                             
+                            VStack(alignment: .leading) {
                             
-                            ZStack {
+                            
+                                Text("Map")
+                                    .kerning(2)
+                                    .font(.system(size: 18, weight: .semibold))
                                 
-                                MapView(centerCoordinate: $viewModel.centerCoordinate, isZoomEnabled: false, isRotateEnabled: false, isScrollEnabled: false)
-                                    .frame(height: 200)
-                                    .cornerRadius(10)
                                 
-                                if let post = viewModel.post {
-                                
-                                    MapAnnotationCell(post: post)
-                                        .frame(height: 50)
+                                ZStack {
+                                    
+                                    MapView(centerCoordinate: $viewModel.centerCoordinate, isZoomEnabled: false, isRotateEnabled: false, isScrollEnabled: false)
+                                        .frame(height: 200)
+                                        .cornerRadius(10)
+                                    
+                                    if let post = viewModel.post {
+                                    
+                                        MapAnnotationCell(post: post)
+                                            .frame(height: 50)
+                                    }
+                                    
                                 }
-                                
                             }
                             .padding(.vertical, 20)
                             

@@ -68,6 +68,8 @@ class AuthViewModel: ObservableObject {
     func deleteUser() async {
         do { try await Auth.auth().currentUser?.delete() }
         catch { print("DEBUG: \(error.localizedDescription)") }
+        self.currentUserId = nil
+        self.authStatus = .signedOut
     }
     
     func signOut(){
