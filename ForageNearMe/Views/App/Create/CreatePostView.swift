@@ -255,13 +255,13 @@ struct CreatePostView: View {
                             ZStack {
                                 
                                 MapView(centerCoordinate: $viewModel.centerCoordinate)
-                                    .frame(height: 150)
+                                    .frame(height: 250)
                                     .cornerRadius(10)
                                 
                                 
                                 Circle()
                                     .foregroundColor(.blue)
-                                    .frame(width: 25, height: 25, alignment: .center)
+                                    .frame(width: 35, height: 35, alignment: .center)
                                     .opacity(0.5)
                                 
                             }

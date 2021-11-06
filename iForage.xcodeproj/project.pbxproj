@@ -239,7 +239,6 @@
 				E0AE79AE27179A7D00E32803 /* Misc */,
 				E02BD66C27139580006BD62D /* Services */,
 				E0273A33271269F500C88885 /* Models */,
-				E0477F32271B59B20023146B /* ImageUploader.swift */,
 				E0273A012711F2F500C88885 /* Views */,
 				E06D9908270E4FBE00F7FE0E /* Assets.xcassets */,
 				E06D990A270E4FBE00F7FE0E /* Preview Content */,
@@ -262,6 +261,7 @@
 				E0AE79AF27179A8A00E32803 /* ImagePicker.swift */,
 				E0DFB69B272AB11000315C4C /* Color.swift */,
 				E00A68D62734730A000624EC /* AutosizeTextField.swift */,
+				E0477F32271B59B20023146B /* ImageUploader.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";

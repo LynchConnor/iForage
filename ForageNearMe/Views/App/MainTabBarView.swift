@@ -37,14 +37,9 @@ struct MainTabBarView: View {
     
     var body: some View {
         if locationManager.lastLocation != nil {
-            ZStack {
-                
-                HomeView()
-                
-            }
-            .background(Color.blue)
+            HomeView()
         }
-        else if !locationManager.isLocationAuthorized {
+        else if !(locationManager.isLocationAuthorized) {
             
             VStack(spacing: 25) {
                 Text("To access the map you need to enable location services.")
