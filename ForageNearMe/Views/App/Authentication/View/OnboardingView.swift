@@ -19,7 +19,16 @@ struct OnboardingView: View {
                 .clipped()
             
             VStack(spacing: 15) {
-                VStack(alignment: .center, spacing: 15) {
+                VStack(alignment: .center, spacing: 5) {
+                    
+                    Image("logo")
+                        .renderingMode(.template)
+                        .resizable()
+                        .foregroundColor(.green)
+                        .scaledToFill()
+                        .frame(width: 100, height: 100, alignment: .center)
+                        .shadow(color: Color.black, radius: 5, x: 0, y: 0)
+                    
                     Text("iForage")
                         .foregroundColor(.white)
                         .font(.system(size: 60, weight: .heavy))

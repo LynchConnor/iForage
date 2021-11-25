@@ -31,7 +31,7 @@ struct HomeView: View {
         ZStack(alignment: .top) {
             
             // - Map
-            Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, userTrackingMode: .constant(MapUserTrackingMode.follow), annotationItems: $viewModel.posts) { $post in
+            Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, userTrackingMode: .constant(MapUserTrackingMode.none), annotationItems: $viewModel.posts) { $post in
                 
                 MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: post.location.latitude, longitude: post.location.longitude)) {
                     

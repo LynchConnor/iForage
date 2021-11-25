@@ -131,6 +131,7 @@ struct CustomTextField: View {
             }
             .frame(height: 20)
             .padding()
+            .accentColor(Color.theme.accent)
             .tint(Color.theme.accent)
             .background(Color.onboarding.textfield)
             .cornerRadius(5)
